@@ -1,0 +1,84 @@
+name: Unzip update
+
+# Manual workflow. Upload a zip (for example PyPath-full-batch1.zip) to the root of this repo,
+# then run this workflow. It unzips the file over the repo (overwriting files with the same
+# name, never deleting other files), removes the zip and commits the result as github-actions[bot].
+#
+# Files inside .github/ in the zip are SKIPPED: GitHub does not let the built-in token change
+# workflow files. Add new workflow files (like regenerate-course.yml) by hand on GitHub.
+# This file contains NO backslashes, so it survives copy and paste on a phone.
+
+on:
+  workflow_dispatch:
+    inputs:
+      zip_path:
+        description: "Path of the zip file in this repo"
+        type: string
+        default: "PyPath-google-signin.zip"
+      delete_zip:
+        description: "Delete the zip from the repo after unzipping"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unzip-update-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  unzip:
+    name: Unzip and commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Unzip over the repo
+        env:
+          ZIP_PATH: ${{ inputs.zip_path }}
+        run: |
+          set -euo pipefail
+          [ -f "$ZIP_PATH" ] || { echo "::error::Zip not found: $ZIP_PATH (upload it to the repo first)"; exit 1; }
+          rm -rf /tmp/unzipped && mkdir -p /tmp/unzipped
+          unzip -q -o "$ZIP_PATH" -d /tmp/unzipped
+          # If the zip has one top folder that wraps everything (and it is not PyPath), step into it.
+          root=/tmp/unzipped
+          entries=$(ls -A "$root")
+          if [ "$(echo "$entries" | wc -l)" = "1" ] && [ -d "$root/$entries" ] && [ "$entries" != "PyPath" ] && [ "$entries" != ".github" ]; then
+            root="$root/$entries"
+          fi
+          echo "Unzipping from: $root"
+          rm -rf "$root/.git" "$root/.github"
+          find "$root" -type d -name __pycache__ -prune -exec rm -rf {} +
+          count=$(find "$root" -type f | wc -l)
+          cp -a "$root/." .
+          echo "Copied $count files from $ZIP_PATH"
+          echo "Unzipped $count files from $ZIP_PATH (files in .github were skipped)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove the zip
+        if: ${{ inputs.delete_zip }}
+        env:
+          ZIP_PATH: ${{ inputs.zip_path }}
+        run: git rm -q --cached --ignore-unmatch -- "$ZIP_PATH" && rm -f -- "$ZIP_PATH"
+
+      - name: Commit
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- . ':!.github'
+          if git diff --cached --quiet; then
+            echo "Nothing changed; no commit."
+            exit 0
+          fi
+          git diff --cached --stat
+          git commit -m "Unzip update: ${{ inputs.zip_path }}"
+          git push

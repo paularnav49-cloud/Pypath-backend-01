@@ -1,0 +1,662 @@
+name: Build APK
+
+# ONE workflow that does everything (no other workflow is needed):
+#   1. Signing key: uses the secret DEBUG_KEYSTORE_BASE64 if you set it; otherwise reuses the key
+#      saved by an earlier run; otherwise makes a new key and shows it in the run Summary, so you
+#      can save it once as the secret DEBUG_KEYSTORE_BASE64 (then every build has the same key).
+#   2. Builds the debug APK (universal: arm64-v8a, armeabi-v7a, x86_64, x86 by default).
+#   3. Publishes the raw .apk to a GitHub Release.
+#   4. Hosts a download page for the project on GitHub Pages and prints the link.
+#      One-time setting: Settings > Pages > Build and deployment > Source: GitHub Actions.
+#   5. Reads the package name (applicationId) and the signing certificate SHA-1 from the built
+#      APK itself, prints them in the log and the run Summary, and uploads them (apk-info.txt)
+#      together with the APK as a workflow artifact.
+#
+# This file contains NO backslashes, so it survives copy and paste on a phone.
+# This repo (Pypath0) only holds the PyPath update files. If it has no complete Gradle project
+# (no gradlew), the full project is taken from base_repo and this repo's files are copied on top.
+
+on:
+  workflow_dispatch:
+    inputs:
+      arm64_only:
+        description: "Build only arm64-v8a (smaller, but will NOT install on 32-bit phones)"
+        type: boolean
+        default: false
+      publish_site:
+        description: "Host the download page on GitHub Pages"
+        type: boolean
+        default: true
+      base_repo:
+        description: "Repo with the full PyPath project (used only if this repo has no gradlew)"
+        type: string
+        default: "paularnav49-cloud/Pypath4"
+      base_ref:
+        description: "Branch/tag/commit of the base repo"
+        type: string
+        default: "main"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build-apk-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  TAG: build-${{ github.run_number }}
+  ARM64_ONLY: ${{ inputs.arm64_only }}
+
+jobs:
+  build:
+    name: Build debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      name: ${{ steps.apk.outputs.name }}
+      release_url: ${{ steps.links.outputs.release_url }}
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          path: self
+          # Full history, so PyPath files that were deleted by mistake can be restored below.
+          fetch-depth: 0
+
+      - name: Restore PyPath files missing from this repo
+        run: |
+          set -euo pipefail
+          # Brings back older PyPath files that are missing now (for example after "Delete PyPath
+          # directory"). Files that exist now are never overwritten.
+          cd self
+          rm -rf /tmp/hist && mkdir -p /tmp/hist
+          git rev-list --reverse HEAD -- PyPath > /tmp/commits.txt || true
+          while IFS= read -r c; do
+            if git archive --format=tar -o /tmp/snap.tar "$c" PyPath 2> /dev/null; then
+              tar -xf /tmp/snap.tar -C /tmp/hist
+            fi
+          done < /tmp/commits.txt
+          restored=0
+          if [ -d /tmp/hist/PyPath ]; then
+            mkdir -p PyPath
+            (cd /tmp/hist/PyPath && find . -type f | cut -c3- | sort) > /tmp/hist_files.txt
+            while IFS= read -r f; do
+              if [ ! -e "PyPath/$f" ]; then
+                mkdir -p "$(dirname "PyPath/$f")"
+                cp -p "/tmp/hist/PyPath/$f" "PyPath/$f"
+                echo "Restored from history: PyPath/$f"
+                restored=$((restored + 1))
+              fi
+            done < /tmp/hist_files.txt
+          fi
+          echo "Restored $restored file(s) from git history."
+
+      - name: Checkout base project
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.base_repo }}
+          ref: ${{ inputs.base_ref }}
+          path: base
+
+      - name: Find the project folder (gradlew) and assemble it
+        run: |
+          set -euo pipefail
+          # Folder that contains gradlew + settings.gradle(.kts) + app/build.gradle.kts, or "".
+          find_gradlew_project() {
+            local top="$1" g d
+            while IFS= read -r g; do
+              d=$(dirname "$g")
+              if [ -f "$d/app/build.gradle.kts" ] && { [ -f "$d/settings.gradle.kts" ] || [ -f "$d/settings.gradle" ]; } && [ -f "$d/gradle/wrapper/gradle-wrapper.jar" ]; then
+                echo "$d"; return 0
+              fi
+            done < <(find "$top" -maxdepth 4 -path '*/.git' -prune -o -type f -name gradlew -print | sort)
+            return 0
+          }
+          # Folder in this repo that holds the update files (has content/build_course.py), or "".
+          find_update() {
+            local f
+            f=$(find "$1" -maxdepth 4 -path '*/.git' -prune -o -type f -path '*/content/build_course.py' -print -quit)
+            if [ -n "$f" ]; then dirname "$(dirname "$f")"; fi
+            return 0
+          }
+
+          rm -rf project && mkdir -p project
+          self_proj=$(find_gradlew_project self)
+          if [ -n "$self_proj" ]; then
+            echo "This repo has the complete project: $self_proj"
+            cp -a "$self_proj/." project/
+          else
+            base_proj=$(find_gradlew_project base)
+            [ -n "$base_proj" ] || { echo "::error::No gradlew project in this repo or in ${{ inputs.base_repo }}"; exit 1; }
+            echo "gradlew found in the base repo: $base_proj"
+            cp -a "$base_proj/." project/
+            upd=$(find_update self)
+            [ -n "$upd" ] || { echo "::error::No PyPath update files (content/build_course.py) in this repo"; exit 1; }
+            echo "Copying update files from this repo ($upd) on top of the base project"
+            cp -a "$upd/." project/
+          fi
+          rm -rf project/.git project/build project/app/build project/.gradle
+          for f in gradlew gradle/wrapper/gradle-wrapper.jar settings.gradle.kts app/build.gradle.kts app/src/main/AndroidManifest.xml; do
+            [ -f "project/$f" ] || { echo "::error::Assembled project is missing $f"; exit 1; }
+          done
+          chmod +x project/gradlew
+          echo "Project folder: $GITHUB_WORKSPACE/project"
+
+      - name: Check and repair Google Sign-In client ID (google_auth.xml)
+        working-directory: project
+        run: |
+          set -euo pipefail
+          # The app reads the Web client ID from the string google_web_client_id. If the file was
+          # edited by hand on a phone (ID pasted into name="...", line breaks or spaces inside the ID),
+          # the Android build fails. This step finds the ID anywhere in the file, ignoring spaces and
+          # line breaks, and rewrites the file in the correct form. Only this runner's copy is changed.
+          # NO BACKSLASHES on purpose (copy/paste on a phone deletes them).
+          f=app/src/main/res/values/google_auth.xml
+          mkdir -p "$(dirname "$f")"
+          [ -f "$f" ] || echo "google_auth.xml not found; creating it with the placeholder (sign-in shows 'not set up')."
+          touch "$f"
+          python3 - "$f" <<'PYEOF'
+          import re, sys
+          path = sys.argv[1]
+          raw = open(path, encoding="utf-8", errors="replace").read()
+          # Ignore XML comments (they contain an example ID), then drop all spaces and line breaks.
+          no_comments = re.sub("<!--.*?-->", "", raw, flags=re.S)
+          squeezed = "".join(ch for ch in no_comments if not ch.isspace())
+          ids = re.findall("[0-9]+-[0-9a-zA-Z]+[.]apps[.]googleusercontent[.]com", squeezed)
+          placeholder = "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com"
+          if ids:
+              client_id = ids[0]
+              if len(set(ids)) > 1:
+                  print("::warning::More than one client ID in google_auth.xml; using the first: " + client_id)
+          else:
+              client_id = placeholder
+              print("::warning::No Google Web client ID found in google_auth.xml. The app builds, but Sign in with Google says it is not set up.")
+          nl = chr(10)
+          lines = [
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<resources>",
+              "    <!-- Google Sign-In: WEB application OAuth client ID (Google Cloud Console). -->",
+              '    <string name="google_web_client_id" translatable="false">' + client_id + "</string>",
+              "</resources>",
+          ]
+          fixed = nl.join(lines) + nl
+          if fixed != raw:
+              print("google_auth.xml was rewritten in the correct form.")
+          open(path, "w", encoding="utf-8").write(fixed)
+          print("Google Web client ID used for this build: " + client_id)
+          PYEOF
+          echo "--- google_auth.xml used for this build:"
+          cat "$f"
+          grep -q 'name="google_web_client_id"' "$f" || { echo "::error::google_auth.xml has no google_web_client_id string"; exit 1; }
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate course JSON and sounds (if the scripts exist)
+        working-directory: project
+        run: |
+          set -euo pipefail
+          if [ -f content/build_course.py ]; then python content/build_course.py; fi
+          if [ -f content/build_sounds.py ]; then python content/build_sounds.py; fi
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: ABI filters
+        working-directory: project
+        run: |
+          set -euo pipefail
+          f=app/build.gradle.kts
+          echo "Before:"; grep -n 'abiFilters' "$f" || { echo "::error::No abiFilters line in $f"; exit 1; }
+          if [ "$ARM64_ONLY" = "true" ]; then
+            # Rewrites: ndk { abiFilters += listOf(...) }  ->  ndk { abiFilters.clear(); abiFilters += listOf("arm64-v8a") }
+            # Only this runner's copy is changed; nothing is committed.
+            # NO BACKSLASHES on purpose (copy/paste on a phone deletes them). The characters { } ( ) +
+            # are matched literally with [{] [}] [(] [)] [+]. The indentation before "ndk" is not part
+            # of the match, so it stays as it is without a capture group.
+            sed -i -E 's/ndk[[:space:]]*[{][[:space:]]*abiFilters[[:space:]]*[+]=[[:space:]]*listOf[(].*[)][[:space:]]*[}][[:space:]]*$/ndk { abiFilters.clear(); abiFilters += listOf("arm64-v8a") }/' "$f"
+            echo "After:"; grep -n 'abiFilters' "$f"
+            grep -qF 'ndk { abiFilters.clear(); abiFilters += listOf("arm64-v8a") }' "$f" || { echo "::error::The abiFilters rewrite did not happen"; exit 1; }
+            echo "EXPECTED_ABIS=arm64-v8a" >> "$GITHUB_ENV"
+            echo "::warning::arm64-v8a only: this APK will NOT install on 32-bit (armeabi-v7a) phones."
+          else
+            q='"'
+            for abi in arm64-v8a armeabi-v7a x86_64 x86; do
+              grep 'abiFilters' "$f" | grep -qF "${q}${abi}${q}" || { echo "::error::abiFilters is missing $abi"; exit 1; }
+            done
+            echo "EXPECTED_ABIS=arm64-v8a armeabi-v7a x86 x86_64" >> "$GITHUB_ENV"
+            echo "Universal APK: arm64-v8a, armeabi-v7a, x86_64, x86"
+          fi
+
+      - name: Print build config
+        working-directory: project
+        run: |
+          grep -nE 'applicationId|minSdk|targetSdk|compileSdk|versionCode|versionName|abiFilters' app/build.gradle.kts
+          echo "--- manifest: uses-feature / uses-permission / extractNativeLibs / isolatedProcess"
+          grep -nE 'uses-feature|uses-permission|extractNativeLibs|isolatedProcess|android:process' app/src/main/AndroidManifest.xml || echo "(none)"
+
+      # ---------- Signing key (same key every build = updates install over the old app) ----------
+      - name: Restore saved signing key (from an earlier run)
+        id: kcache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: pypath-debug-keystore-v1
+
+      - name: Signing key
+        id: key
+        env:
+          DEBUG_KEYSTORE_BASE64: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
+          CACHE_HIT: ${{ steps.kcache.outputs.cache-hit }}
+        run: |
+          set -euo pipefail
+          KS="$HOME/.android/debug.keystore"
+          mkdir -p "$HOME/.android"
+          if [ -n "$DEBUG_KEYSTORE_BASE64" ]; then
+            printf '%s' "$DEBUG_KEYSTORE_BASE64" | base64 -d > "$KS"
+            echo "source=secret" >> "$GITHUB_OUTPUT"
+            echo "Using the signing key from the secret DEBUG_KEYSTORE_BASE64."
+          elif [ "$CACHE_HIT" = "true" ] && [ -s "$KS" ]; then
+            echo "source=saved" >> "$GITHUB_OUTPUT"
+            echo "Using the signing key saved by an earlier run."
+          else
+            rm -f "$KS"
+            keytool -genkeypair -keystore "$KS" -storetype PKCS12 -storepass android -keypass android -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+            echo "source=new" >> "$GITHUB_OUTPUT"
+            echo "::warning::Made a NEW signing key. Uninstall the old PyPath app once, then save the key as the secret DEBUG_KEYSTORE_BASE64 (see the run Summary)."
+            {
+              echo "## Save your signing key (one time)"
+              echo
+              echo "1. Copy the whole line in the box below."
+              echo "2. Settings > Secrets and variables > Actions > New repository secret. Name: DEBUG_KEYSTORE_BASE64. Paste. Add secret."
+              echo "3. Then delete this run (... > Delete workflow run), because this repo is public."
+              echo
+              echo '```'
+              base64 -w0 "$KS"
+              echo
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          keytool -list -keystore "$KS" -storepass android -alias androiddebugkey > /dev/null || { echo "::error::The signing key is not a valid debug keystore (alias androiddebugkey, password android)"; exit 1; }
+          keytool -list -v -keystore "$KS" -storepass android -alias androiddebugkey | grep -E "SHA256:" || true
+
+      - name: Save the new signing key for the next runs
+        if: ${{ steps.key.outputs.source == 'new' }}
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: pypath-debug-keystore-v1
+
+      - name: Build debug APK
+        working-directory: project
+        # Sign with the key from the "Signing key" step (your secret DEBUG_KEYSTORE_BASE64), named
+        # explicitly, so Gradle cannot fall back to a new random debug key on the runner.
+        run: ./gradlew assembleDebug --no-daemon --stacktrace "-Pandroid.injected.signing.store.file=$HOME/.android/debug.keystore" -Pandroid.injected.signing.store.password=android -Pandroid.injected.signing.key.alias=androiddebugkey -Pandroid.injected.signing.key.password=android
+
+      - name: Verify APK and print install requirements
+        id: apk
+        run: |
+          set -euo pipefail
+          APK="project/app/build/outputs/apk/debug/app-debug.apk"
+          [ -f "$APK" ] || { echo "::error::No APK at $APK"; find project -name '*.apk'; exit 1; }
+          echo "APK size: $(stat -c %s "$APK") bytes ($(du -h "$APK" | cut -f1))"
+          unzip -tq "$APK" || { echo "::error::APK is not a valid zip"; exit 1; }
+          unzip -Z1 "$APK" > apk-files.txt
+
+          echo "ABIs inside the APK:"
+          awk -F/ '$1 == "lib" && NF > 2 { print $2 }' apk-files.txt | sort -u | tee apk-abis.txt
+          echo "Native libraries:"
+          grep '^lib/' apk-files.txt || true
+
+          for p in AndroidManifest.xml classes.dex; do
+            grep -qx "$p" apk-files.txt || { echo "::error::$p is missing from the APK"; exit 1; }
+          done
+          for abi in $EXPECTED_ABIS; do
+            grep -qx "lib/$abi/libpython3.11.so" apk-files.txt || { echo "::error::lib/$abi/libpython3.11.so is missing from the APK"; exit 1; }
+            echo "OK: lib/$abi/libpython3.11.so"
+          done
+
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          BT="$SDK/build-tools/$(ls "$SDK/build-tools" | sort -V | tail -n 1)"
+          echo "Using build-tools: $BT"
+          echo "===== aapt2 dump badging (send these lines back if the APK still does not install) ====="
+          "$BT/aapt2" dump badging "$APK" > badging.txt
+          grep -E "^(package:|sdkVersion:|targetSdkVersion:|native-code:|alt-native-code:|uses-feature|uses-implied-feature|uses-permission:)" badging.txt || true
+          echo "===== end of aapt2 output ====="
+          grep -q "^sdkVersion:'26'" badging.txt || echo "::warning::minSdk is not 26: $(grep '^sdkVersion' badging.txt)"
+          for abi in $EXPECTED_ABIS; do
+            grep '^native-code:' badging.txt | grep -qF "'$abi'" || { echo "::error::native-code does not list $abi"; exit 1; }
+          done
+          if grep -E "^uses-feature:" badging.txt | grep -vq "required='false'"; then
+            echo "::warning::The APK has required hardware features (see uses-feature lines above)."
+          fi
+
+          echo "===== signature ====="
+          "$BT/apksigner" verify --print-certs -v "$APK" > signing.txt
+          grep -E "Verified using v[123] scheme|certificate SHA-256" signing.txt
+          grep -q "Verified using v2 scheme (APK Signature Scheme v2): true" signing.txt || { echo "::error::APK has no v2 signature"; exit 1; }
+          CERT=$(grep -m1 "certificate SHA-256" signing.txt | awk '{print $NF}')
+
+          if [ "$ARM64_ONLY" = "true" ]; then ABI=arm64-v8a; else ABI=universal; fi
+          NAME="PyPath-debug-${ABI}-build${{ github.run_number }}.apk"
+          mkdir -p dist
+          cp "$APK" "dist/$NAME"
+          sha256sum "dist/$NAME" | tee "dist/$NAME.sha256"
+          {
+            echo "name=$NAME"
+            echo "path=dist/$NAME"
+            echo "abi=$ABI"
+            echo "cert=$CERT"
+            echo "abis=$(paste -sd ' ' apk-abis.txt)"
+            echo "size=$(du -h "$APK" | cut -f1)"
+          } >> "$GITHUB_OUTPUT"
+
+      # ---------- Package name and signing certificate SHA-1, read from the built APK ----------
+      - name: Read package name and SHA-1 from the APK
+        id: meta
+        # A problem here is reported as an error, but the Release and the download page still run.
+        continue-on-error: true
+        env:
+          APK_PATH: ${{ steps.apk.outputs.path }}
+        run: |
+          set -uo pipefail
+          INFO="dist/apk-info.txt"
+          mkdir -p dist
+          : > "$INFO"
+          fail() {
+            echo "::error title=APK package name / SHA-1::$1"
+            echo "ERROR: $1" >> "$INFO"
+            {
+              echo "## APK package name and SHA-1"
+              echo
+              echo "Could not read them: $1"
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          }
+          short() { head -c 400 "$1" 2> /dev/null | tr -s '[:space:]' ' '; }
+
+          # 1. The APK made by this run (the copy in dist/, else the Gradle output).
+          APK="${APK_PATH:-}"
+          if [ -z "$APK" ] || [ ! -f "$APK" ]; then
+            APK="project/app/build/outputs/apk/debug/app-debug.apk"
+          fi
+          if [ ! -f "$APK" ]; then
+            echo "APK files found in the workspace:"
+            find . -name '*.apk' -not -path './self/*' -not -path './base/*' || true
+            fail "No APK found (looked for '${APK_PATH:-dist copy}' and '$APK'). The build did not produce an APK."
+          fi
+          [ -s "$APK" ] || fail "The APK '$APK' is empty."
+          unzip -tq "$APK" > /dev/null 2>&1 || fail "'$APK' is not a valid APK (zip check failed)."
+
+          # 2. Android build-tools (aapt2 reads the manifest, apksigner reads the signature).
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          [ -d "$SDK/build-tools" ] || fail "Android build-tools not found under '$SDK'."
+          BT=$(ls -d "${ANDROID_HOME:-/usr/local/lib/android/sdk}"/build-tools/* | sort -V | tail -n 1)
+          [ -x "$BT/aapt" ] || fail "aapt not found in '$BT'."
+          [ -x "$BT/aapt2" ] || fail "aapt2 not found in '$BT'."
+          [ -x "$BT/apksigner" ] || fail "apksigner not found in '$BT'."
+          echo "Reading $APK with build-tools $BT"
+
+          # 3. Package name (applicationId) from the APK's compiled AndroidManifest.xml.
+          if ! "$BT/aapt2" dump badging "$APK" > meta-badging.txt 2> meta-badging.err; then
+            fail "aapt2 could not read the APK manifest: $(short meta-badging.err)"
+          fi
+          PKG=$("$BT/aapt" dump badging "$APK" | sed -n "s/^package: name='\([^']*\)'.*/\1/p")
+          VCODE=$(awk -F"'" '/^package: name=/ { print $4; exit }' meta-badging.txt)
+          VNAME=$(awk -F"'" '/^package: name=/ { print $6; exit }' meta-badging.txt)
+          [ -n "$PKG" ] || fail "The APK manifest has no package name (aapt2 badging: $(short meta-badging.txt))."
+          # Cross-check with the raw manifest tree of the same APK.
+          XPKG=$("$BT/aapt2" dump xmltree "$APK" --file AndroidManifest.xml 2> /dev/null | awk -F'"' '/A: package=/ { print $2; exit }')
+          if [ -n "$XPKG" ] && [ "$XPKG" != "$PKG" ]; then
+            fail "Package name mismatch inside the APK: badging says '$PKG', manifest tree says '$XPKG'."
+          fi
+
+          # 4. SHA-1 of the certificate that actually signed this APK.
+          if ! "$BT/apksigner" verify --print-certs "$APK" > meta-certs.txt 2> meta-certs.err; then
+            fail "apksigner could not verify the APK signature: $(short meta-certs.err) $(short meta-certs.txt)"
+          fi
+          sed -n 's/.*certificate SHA-1 digest: //p' meta-certs.txt > meta-sha1.txt
+          sed -n 's/.*certificate SHA-256 digest: //p' meta-certs.txt > meta-sha256.txt
+          SIGNERS=$(grep -c . meta-sha1.txt || true)
+          [ "${SIGNERS:-0}" -ge 1 ] || fail "apksigner printed no signing certificate SHA-1 for this APK."
+          [ "$SIGNERS" -eq 1 ] || echo "::warning::The APK has $SIGNERS signers; the first one is shown."
+          SHA1_HEX=$(head -n 1 meta-sha1.txt | tr -d '[:space:]' | tr 'a-f' 'A-F')
+          printf '%s' "$SHA1_HEX" | grep -Eq '^[0-9A-F]{40}$' || fail "Unexpected SHA-1 value from apksigner: '$SHA1_HEX'."
+          SHA1=$(printf '%s' "$SHA1_HEX" | sed 's/../&:/g; s/:$//')
+          SHA256_HEX=$(head -n 1 meta-sha256.txt | tr -d '[:space:]' | tr 'a-f' 'A-F')
+          SHA256=$(printf '%s' "$SHA256_HEX" | sed 's/../&:/g; s/:$//')
+
+          # 5. Information only: does it match the debug key this run signed with? (no secrets printed)
+          KS_NOTE="not checked"
+          KS="$HOME/.android/debug.keystore"
+          if [ -f "$KS" ]; then
+            KS_SHA1=$(keytool -list -v -keystore "$KS" -storepass android -alias androiddebugkey 2> /dev/null | awk '$1 == "SHA1:" { print $2; exit }')
+            if [ -z "$KS_SHA1" ]; then
+              KS_NOTE="could not read the keystore fingerprint"
+            elif [ "$KS_SHA1" = "$SHA1" ]; then
+              KS_NOTE="matches the signing key used by this run"
+            else
+              KS_NOTE="DIFFERENT from ~/.android/debug.keystore (the APK value above is the real one)"
+              echo "::warning::The APK certificate SHA-1 differs from the keystore on the runner. The value read from the APK is reported."
+            fi
+          fi
+
+          NAME=$(basename "$APK")
+          {
+            echo "PyPath APK info (read from the built APK)"
+            echo "APK file: $NAME"
+            echo "Package name (applicationId): $PKG"
+            echo "Version: ${VNAME:-?} (versionCode ${VCODE:-?})"
+            echo "Signing certificate SHA-1: $SHA1"
+            echo "Signing certificate SHA-256: $SHA256"
+            echo "Source: aapt2 dump badging (manifest) and apksigner verify --print-certs (signature)"
+            echo "Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          } > "$INFO"
+
+          echo "================ APK package name and signing certificate ================"
+          echo "Package name (applicationId): $PKG"
+          echo "Signing certificate SHA-1:    $SHA1"
+          echo "SHA-1 (apksigner, no colons): $SHA1_HEX"
+          echo "Signing certificate SHA-256:  $SHA256"
+          echo "Keystore check:               $KS_NOTE"
+          echo "=========================================================================="
+          echo "Saved to $INFO:"
+          cat "$INFO"
+          {
+            echo "## APK package name and SHA-1"
+            echo
+            echo "| | |"
+            echo "|---|---|"
+            echo '| Package name (applicationId) | `'"$PKG"'` |'
+            echo '| Signing certificate SHA-1 | `'"$SHA1"'` |'
+            echo '| SHA-1 (no colons) | `'"$SHA1_HEX"'` |'
+            echo '| Signing certificate SHA-256 | `'"$SHA256"'` |'
+            echo
+            echo "Read from the built APK. Also in apk-info.txt in the artifact PyPath-apk-build${GITHUB_RUN_NUMBER}."
+          } >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "package=$PKG"
+            echo "sha1=$SHA1"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload APK and apk-info.txt as a workflow artifact
+        if: ${{ steps.apk.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PyPath-apk-build${{ github.run_number }}
+          path: |
+            ${{ steps.apk.outputs.path }}
+            ${{ steps.apk.outputs.path }}.sha256
+            dist/apk-info.txt
+          if-no-files-found: error
+
+      - name: Publish APK to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          target_commitish: ${{ github.sha }}
+          name: PyPath debug build ${{ github.run_number }} (${{ steps.apk.outputs.abi }})
+          body: |
+            Debug APK built from ${{ github.sha }}.
+            ABIs: ${{ steps.apk.outputs.abis }}
+            Signing key: ${{ steps.key.outputs.source }}
+            Signing certificate SHA-256: ${{ steps.apk.outputs.cert }}
+            If this certificate differs from the build you have installed, uninstall PyPath first.
+            Install: open the .apk from your browser's Downloads (allow "Install unknown apps").
+          files: |
+            ${{ steps.apk.outputs.path }}
+            ${{ steps.apk.outputs.path }}.sha256
+          fail_on_unmatched_files: true
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release link
+        id: links
+        env:
+          NAME: ${{ steps.apk.outputs.name }}
+        run: |
+          URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$NAME"
+          echo "release_url=$URL" >> "$GITHUB_OUTPUT"
+          echo "APK download (Release): $URL"
+          {
+            echo "## APK"
+            echo "Download: $URL"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ---------- Download page for GitHub Pages ----------
+      - name: Make the download page
+        if: ${{ inputs.publish_site }}
+        env:
+          NAME: ${{ steps.apk.outputs.name }}
+          ABIS: ${{ steps.apk.outputs.abis }}
+          SIZE: ${{ steps.apk.outputs.size }}
+          CERT: ${{ steps.apk.outputs.cert }}
+          RELEASE_URL: ${{ steps.links.outputs.release_url }}
+          RUN_NO: ${{ github.run_number }}
+        run: |
+          set -euo pipefail
+          mkdir -p site
+          cp "dist/$NAME" site/PyPath.apk
+          SHA=$(sha256sum site/PyPath.apk | cut -d' ' -f1)
+          VERSION=$(grep -m1 -oE 'versionName = "[^"]*"' project/app/build.gradle.kts | cut -d'"' -f2 || true)
+          LEVELS=$(ls project/app/src/main/assets/course/levels 2> /dev/null | grep -c 'json$' || true)
+          BUILT=$(date -u '+%Y-%m-%d %H:%M UTC')
+          REPO_URL="https://github.com/$GITHUB_REPOSITORY"
+          cat > site/index.html <<EOF
+          <!doctype html>
+          <html lang="en">
+          <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>PyPath - Learn Python offline</title>
+          <style>
+          body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.5}
+          main{max-width:640px;margin:0 auto;padding:32px 20px}
+          h1{font-size:2rem;margin:0 0 4px}
+          .sub{color:#94a3b8;margin:0 0 24px}
+          .card{background:#1e293b;border-radius:14px;padding:20px;margin:16px 0}
+          a.btn{display:block;text-align:center;background:#22c55e;color:#052e16;font-weight:700;font-size:1.1rem;padding:16px;border-radius:12px;text-decoration:none}
+          a{color:#7dd3fc}
+          dt{color:#94a3b8;font-size:.85rem;margin-top:10px}
+          dd{margin:0;word-break:break-all}
+          ol{padding-left:20px}
+          code{font-size:.8rem}
+          </style>
+          </head>
+          <body>
+          <main>
+          <h1>PyPath</h1>
+          <p class="sub">Learn Python on your phone. Works fully offline. $LEVELS levels, quizzes, projects and a Practical tab that runs real Python 3.11.</p>
+          <a class="btn" href="PyPath.apk" download="$NAME">Download APK ($SIZE)</a>
+          <div class="card">
+          <strong>How to install</strong>
+          <ol>
+          <li>Tap Download APK, then open the file from your browser's Downloads.</li>
+          <li>If asked, allow "Install unknown apps" for your browser.</li>
+          <li>If an older PyPath with a different signing certificate is installed, uninstall it first.</li>
+          </ol>
+          </div>
+          <div class="card">
+          <dl>
+          <dt>Version</dt><dd>$VERSION (build $RUN_NO)</dd>
+          <dt>Built</dt><dd>$BUILT</dd>
+          <dt>Works on</dt><dd>Android 8.0 or newer. CPU types: $ABIS</dd>
+          <dt>File</dt><dd>$NAME</dd>
+          <dt>SHA-256 of the APK</dt><dd><code>$SHA</code></dd>
+          <dt>Signing certificate SHA-256</dt><dd><code>$CERT</code></dd>
+          </dl>
+          </div>
+          <p><a href="$RELEASE_URL">Same APK on GitHub Releases</a> &middot; <a href="$REPO_URL">Project on GitHub</a></p>
+          </main>
+          </body>
+          </html>
+          EOF
+          touch site/.nojekyll
+          ls -la site
+
+      - name: Upload the page for GitHub Pages
+        if: ${{ inputs.publish_site }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  pages:
+    name: Host on GitHub Pages
+    needs: build
+    if: ${{ inputs.publish_site }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # If Pages is not switched on yet, the APK release above still succeeds.
+    continue-on-error: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Check that GitHub Pages is switched on
+        id: cfg
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Site link
+        env:
+          PAGE_URL: ${{ steps.deploy.outputs.page_url }}
+          RELEASE_URL: ${{ needs.build.outputs.release_url }}
+        run: |
+          echo "Website: $PAGE_URL"
+          echo "Direct APK (always the latest build): ${PAGE_URL}PyPath.apk"
+          {
+            echo "## Website"
+            echo "Download page: $PAGE_URL"
+            echo
+            echo "Direct APK (always the latest build): ${PAGE_URL}PyPath.apk"
+            echo
+            echo "Release APK: $RELEASE_URL"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: How to switch on GitHub Pages
+        if: ${{ failure() }}
+        run: |
+          echo "::error::GitHub Pages is not switched on. Open Settings > Pages > Build and deployment > Source and choose GitHub Actions, then run this workflow again. The APK Release was still published."
+          {
+            echo "## Website not published yet"
+            echo "Open Settings > Pages > Build and deployment > Source and choose GitHub Actions, then run Build APK again."
+            echo "The APK Release was still published (see the build job Summary)."
+          } >> "$GITHUB_STEP_SUMMARY"
