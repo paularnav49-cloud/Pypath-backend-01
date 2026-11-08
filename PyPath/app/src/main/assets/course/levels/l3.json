@@ -1,0 +1,1374 @@
+{
+  "id": "l3",
+  "number": 3,
+  "title": "Loops",
+  "description": "Repeat actions with for and while loops, control them with break and continue, and draw patterns.",
+  "subLevels": [
+    {
+      "id": "l3s1",
+      "code": "3.1",
+      "title": "for loops",
+      "summary": "Repeat code a set number of times with for and range().",
+      "estimatedMinutes": 6,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Why loops?",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Imagine printing \"Hello\" five times. You could write print five times, but that gets boring fast, and what if you needed it 500 times?"
+              },
+              {
+                "type": "text",
+                "text": "A loop tells Python to repeat some lines for you."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Less typing, fewer mistakes",
+                  "Change one number to repeat more or fewer times",
+                  "Loops are used in almost every real program"
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "A loop repeats the indented lines underneath it."
+              }
+            ]
+          },
+          {
+            "title": "Your first for loop",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "for i in range(5):\n    print(\"Hello\")",
+                "output": "Hello\nHello\nHello\nHello\nHello",
+                "explanation": [
+                  "range(5) means \"do this 5 times\".",
+                  "i is the loop variable. Python gives it a new value on each repeat.",
+                  "The line ends with a colon : and the repeated line is indented, just like if."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Counting with range()",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The loop variable holds the current number. range() can start and stop where you choose."
+              },
+              {
+                "type": "code",
+                "code": "for n in range(1, 6):\n    print(n)",
+                "output": "1\n2\n3\n4\n5",
+                "explanation": [
+                  "range(1, 6) starts at 1 and stops before 6.",
+                  "So n is 1, then 2, 3, 4 and finally 5."
+                ]
+              },
+              {
+                "type": "code",
+                "code": "for n in range(0, 10, 2):\n    print(n)",
+                "output": "0\n2\n4\n6\n8",
+                "explanation": [
+                  "The third number is the step: jump by 2 each time.",
+                  "10 is never printed because range stops before the end number."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "A times table",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "You can use the loop variable in calculations. The * symbol multiplies."
+              },
+              {
+                "type": "code",
+                "code": "num = 3\nfor i in range(1, 6):\n    print(f\"{num} x {i} = {num * i}\")",
+                "output": "3 x 1 = 3\n3 x 2 = 6\n3 x 3 = 9\n3 x 4 = 12\n3 x 5 = 15",
+                "explanation": [
+                  "num stays 3 the whole time.",
+                  "i changes: 1, 2, 3, 4, 5.",
+                  "The f-string works out num * i on every repeat."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Change num to 7 and you get the 7 times table. One change, five new lines."
+              }
+            ]
+          },
+          {
+            "title": "Adding up with a loop",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A very common pattern: start a total at 0 and add to it on every repeat. total += n is a short way to write total = total + n."
+              },
+              {
+                "type": "code",
+                "code": "total = 0\nfor n in range(1, 5):\n    total += n\nprint(total)",
+                "output": "10",
+                "explanation": [
+                  "total starts at 0.",
+                  "The loop adds 1, then 2, then 3, then 4.",
+                  "print(total) is not indented, so it runs once, after the loop."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "range(1, 5) gives 1, 2, 3, 4 — it stops BEFORE 5. If you want to include 5, write range(1, 6)."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l3s1q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "0\n3\n6\n9",
+              "3\n6\n9",
+              "0\n1\n2",
+              "0\n3\n6"
+            ],
+            "correctIndex": 3,
+            "explanation": "range(0, 9, 3) starts at 0 and jumps by 3: 0, 3, 6. 9 is the stop number and range always stops before it, so 9 is not printed. The third number is the step, so it does not count 0, 1, 2.",
+            "code": "for n in range(0, 9, 3):\n    print(n)",
+            "hint": "Remember what each of the three numbers in range means, especially the stop number.",
+            "optionFeedback": [
+              "This includes 9, but range always stops before the stop number, so 9 is left out.",
+              "range starts at the first number, which is 0 here, and it also stops before 9.",
+              "The third number is the step, so the loop jumps by 3 instead of counting by 1.",
+              "Right: it starts at 0, jumps by 3, and stops before 9, giving 0, 3, 6."
+            ]
+          },
+          {
+            "id": "l3s1q2",
+            "prompt": "Which numbers does range(2, 6) produce?",
+            "options": [
+              "2, 3, 4, 5",
+              "2, 3, 4, 5, 6",
+              "3, 4, 5, 6",
+              "Only 2 and 6"
+            ],
+            "correctIndex": 0,
+            "explanation": "range(start, stop) includes the start but stops before the stop number, so 6 is not included.",
+            "hint": "Think about which end of range() is included and which end is left out.",
+            "optionFeedback": [
+              "Right: range includes the start, 2, and stops just before 6.",
+              "This includes 6, but range stops before the stop number.",
+              "range includes the start number, so the sequence begins at 2, not 3.",
+              "range gives every whole number from the start up to (but not including) the stop, not just the two ends."
+            ]
+          },
+          {
+            "id": "l3s1q3",
+            "prompt": "Find the bug in this loop.",
+            "options": [
+              "range needs square brackets",
+              "The colon : is missing after range(3)",
+              "The loop variable must be called n",
+              "print must not be indented"
+            ],
+            "correctIndex": 1,
+            "explanation": "Every for line ends with a colon, exactly like an if line. The name i is fine, and the body must be indented.",
+            "code": "for i in range(3)\n    print(i)",
+            "hint": "Compare this for line with the if lines you wrote in Level 2: how do they end?",
+            "optionFeedback": [
+              "range() uses round brackets, exactly as in range(3); square brackets are not needed.",
+              "Right: every for line must end with a colon, just like an if line.",
+              "The loop variable can have any valid name; the lesson used i, n and others.",
+              "The body of a loop must be indented; removing the indent would break the code."
+            ]
+          },
+          {
+            "id": "l3s1q4",
+            "prompt": "Fill in the blank so the loop prints the numbers 1 to 10.",
+            "options": [
+              "1, 11",
+              "1, 10",
+              "0, 10",
+              "10"
+            ],
+            "correctIndex": 0,
+            "explanation": "The stop number is never included, so to reach 10 you stop at 11. range(1, 10) would stop at 9.",
+            "code": "for n in range(____):\n    print(n)",
+            "hint": "Remember the common mistake tip about where range stops counting.",
+            "optionFeedback": [
+              "Right: start at 1 and stop at 11, so the last number printed is 10.",
+              "range(1, 10) stops before 10, so it prints only 1 to 9.",
+              "range(0, 10) starts at 0 and stops before 10, so it adds 0 and misses 10.",
+              "range(10) also stops before 10, so 10 is never printed."
+            ]
+          },
+          {
+            "id": "l3s1q5",
+            "prompt": "What does this code print?",
+            "options": [
+              "10",
+              "3",
+              "6",
+              "0"
+            ],
+            "correctIndex": 2,
+            "explanation": "total becomes 1, then 3, then 6. range(1, 4) gives 1, 2, 3 — it does not include 4, so the answer is not 10.",
+            "code": "total = 0\nfor n in range(1, 4):\n    total += n\nprint(total)",
+            "hint": "Track the value of total after each repeat, and list the numbers range(1, 4) gives.",
+            "optionFeedback": [
+              "10 would need 4 to be added too, but range(1, 4) stops before 4.",
+              "3 is only the last number the loop sees; total keeps adding every number, not just the last one.",
+              "Right: total goes 1, then 3, then 6.",
+              "total += n runs inside the loop on every repeat, so total does not stay at 0."
+            ]
+          },
+          {
+            "id": "l3s1q6",
+            "type": "fill",
+            "prompt": "Fill the blanks so the loop prints 1, 2 and 3.",
+            "code": "for n in {{1}}(1, {{2}}):\n    print(n)",
+            "blanks": [
+              "range",
+              "4"
+            ],
+            "distractors": [
+              "len",
+              "3"
+            ],
+            "output": "1\n2\n3",
+            "explanation": "range(1, 4) counts 1, 2, 3: it starts at the first number and stops just before the second.",
+            "hint": "The stop number of a range is never included in the numbers it gives."
+          },
+          {
+            "id": "l3s1q7",
+            "type": "order",
+            "prompt": "Put the lines in order so the program prints the sum of 1, 2 and 3.",
+            "lines": [
+              "total = 0",
+              "for n in range(1, 4):",
+              "    total += n",
+              "print(total)"
+            ],
+            "output": "6",
+            "explanation": "total starts at 0 before the loop, the indented line adds each number, and the total is printed once after the loop.",
+            "hint": "Set up the running total before the loop and print it after the loop ends."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l3s2",
+      "code": "3.2",
+      "title": "while loops",
+      "summary": "Keep repeating while a condition is True.",
+      "estimatedMinutes": 6,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Repeat while something is true",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A while loop keeps going as long as its condition is True. It checks the condition before every repeat."
+              },
+              {
+                "type": "code",
+                "code": "count = 1\nwhile count <= 3:\n    print(count)\n    count += 1",
+                "output": "1\n2\n3",
+                "explanation": [
+                  "count starts at 1.",
+                  "Each repeat prints count and then adds 1 to it.",
+                  "When count becomes 4, count <= 3 is False and the loop stops."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "A countdown",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "You can count down too. n -= 1 is short for n = n - 1."
+              },
+              {
+                "type": "code",
+                "code": "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1\nprint(\"Lift off!\")",
+                "output": "3\n2\n1\nLift off!",
+                "explanation": [
+                  "The loop runs while n is bigger than 0.",
+                  "n goes 3, 2, 1, then 0 — and the loop stops.",
+                  "The last print is not indented, so it runs after the loop."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "When you don't know how many times",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Use while when you can't say in advance how many repeats you need. Here we double some savings until they reach 1000."
+              },
+              {
+                "type": "code",
+                "code": "savings = 100\nyears = 0\nwhile savings < 1000:\n    savings = savings * 2\n    years += 1\nprint(f\"{years} years, savings: {savings}\")",
+                "output": "4 years, savings: 1600",
+                "explanation": [
+                  "100 becomes 200, 400, 800 and then 1600.",
+                  "years counts how many times the loop ran."
+                ]
+              },
+              {
+                "type": "text",
+                "text": "A while loop is also great for asking again until the answer is right:"
+              },
+              {
+                "type": "code",
+                "code": "password = \"\"\nwhile password != \"python\":\n    password = input(\"Password: \")\nprint(\"Welcome!\")",
+                "output": "Password: cat\nPassword: python\nWelcome!",
+                "explanation": [
+                  "The loop keeps asking while the answer is not \"python\".",
+                  "When the user types python, the condition is False and the loop ends."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Infinite loops",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "If the condition never becomes False, the loop runs forever. This is called an infinite loop."
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Forgetting to change the variable, for example leaving out count += 1, makes the condition stay True forever. In the Practical tab, press Stop if this happens."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Use for when you know how many repeats you need",
+                  "Use while when you repeat until something changes"
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Every while loop needs something inside it that eventually makes the condition False."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l3s2q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "1\n2\n3\n4",
+              "1\n2\n3",
+              "0\n1\n2\n3",
+              "4"
+            ],
+            "correctIndex": 1,
+            "explanation": "x is printed while it is less than 4: 1, 2, 3. When x becomes 4 the condition is False, so 4 is never printed.",
+            "code": "x = 1\nwhile x < 4:\n    print(x)\n    x += 1",
+            "hint": "Check the condition just before each repeat, especially when x has become 4.",
+            "optionFeedback": [
+              "When x becomes 4, x < 4 is False, so the loop ends before printing 4.",
+              "Right: 1, 2 and 3 are printed, then x is 4 and the condition fails.",
+              "x starts at 1, and print runs before x += 1, so the first number shown is 1.",
+              "print is inside the loop, so it runs on every repeat, not only once at the end."
+            ]
+          },
+          {
+            "id": "l3s2q2",
+            "prompt": "When does a while loop stop?",
+            "options": [
+              "After exactly 10 repeats",
+              "When the condition becomes True",
+              "When it reaches the last line of the file",
+              "When its condition becomes False"
+            ],
+            "correctIndex": 3,
+            "explanation": "A while loop repeats as long as the condition is True and stops as soon as it is False. There is no built-in repeat limit.",
+            "hint": "Recall what a while loop checks before every single repeat.",
+            "optionFeedback": [
+              "A while loop has no built-in repeat limit; it depends only on its condition.",
+              "It's the other way round: the loop keeps going while the condition is True.",
+              "Reaching the end of the loop body only sends Python back to check the condition again.",
+              "Right: the loop repeats while the condition is True and stops as soon as it is False."
+            ]
+          },
+          {
+            "id": "l3s2q3",
+            "prompt": "What is wrong with this code?",
+            "options": [
+              "while loops need range()",
+              "The condition should use =",
+              "n never changes, so the loop runs forever",
+              "print can't be inside a while loop"
+            ],
+            "correctIndex": 2,
+            "explanation": "n stays 5, so n > 0 is always True. Adding n -= 1 inside the loop fixes it. range() is only used with for.",
+            "code": "n = 5\nwhile n > 0:\n    print(n)",
+            "hint": "Follow the value of n through a few repeats and see whether it ever changes.",
+            "optionFeedback": [
+              "range() is used with for loops; a while loop only needs a condition.",
+              "A single = stores a value; a condition needs a comparison such as >.",
+              "Right: nothing inside the loop changes n, so n > 0 stays True forever.",
+              "Any lines can go inside a while loop, including print; the lesson's countdown prints inside its loop."
+            ]
+          },
+          {
+            "id": "l3s2q4",
+            "prompt": "Which line, placed inside the loop, makes this countdown finish?",
+            "options": [
+              "n -= 1",
+              "n += 1",
+              "n = 3",
+              "n == n - 1"
+            ],
+            "correctIndex": 0,
+            "explanation": "n -= 1 makes n smaller each time until n > 0 is False. n += 1 counts up, so the loop would never end.",
+            "code": "n = 3\nwhile n > 0:\n    print(n)\n    ____",
+            "hint": "The condition is n > 0, so think about which direction n must move.",
+            "optionFeedback": [
+              "Right: n -= 1 makes n smaller each time until n > 0 is False.",
+              "n += 1 makes n bigger, so n > 0 stays True and the loop never ends.",
+              "n = 3 resets n to the same value each time, so the loop never finishes.",
+              "== only compares and gives True or False; it does not change n."
+            ]
+          },
+          {
+            "id": "l3s2q5",
+            "prompt": "What does this code print?",
+            "options": [
+              "1",
+              "4",
+              "3",
+              "7"
+            ],
+            "correctIndex": 0,
+            "explanation": "n goes 10, 7, 4, 1. At 1 the condition n > 3 is False, so the loop stops and prints 1. It does not stop at 4 because 4 > 3 is still True.",
+            "code": "n = 10\nwhile n > 3:\n    n -= 3\nprint(n)",
+            "hint": "Write down n after each subtraction and check n > 3 every time.",
+            "optionFeedback": [
+              "Right: n goes 10, 7, 4, 1, and only at 1 is n > 3 False.",
+              "At 4, the condition n > 3 is still True, so the loop subtracts 3 once more.",
+              "n never equals 3 here: it jumps from 4 straight down to 1.",
+              "7 is n after only the first repeat; 7 > 3 is True, so the loop keeps going."
+            ]
+          },
+          {
+            "id": "l3s2q6",
+            "prompt": "Which statement is true?",
+            "options": [
+              "A while loop always runs at least once",
+              "A while loop may run zero times if its condition starts False",
+              "while loops can only count upwards",
+              "You must know the number of repeats before using while"
+            ],
+            "correctIndex": 1,
+            "explanation": "The condition is checked before the first repeat, so a False condition means the body never runs.",
+            "hint": "Think about when the condition is checked: before or after the first repeat?",
+            "optionFeedback": [
+              "The condition is checked before the first repeat, so a False start means the body never runs.",
+              "Right: if the condition is False at the start, the indented lines are skipped completely.",
+              "While loops can count down too, like the countdown that printed 3, 2, 1.",
+              "while is the loop to use when you don't know the number of repeats in advance."
+            ]
+          },
+          {
+            "id": "l3s2q7",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "count = 2\nwhile count <= 8:\n    print(count)\n    count = count * 2",
+            "answer": "2\n4\n8",
+            "explanation": "count goes 2, 4, 8 and each is printed. Then it becomes 16, the condition 16 <= 8 is False and the loop stops.",
+            "hint": "Follow the variable through each pass and stop as soon as the condition becomes false."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l3s3",
+      "code": "3.3",
+      "title": "break and continue",
+      "summary": "Stop a loop early or skip a single repeat.",
+      "estimatedMinutes": 5,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Stopping early with break",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "break jumps out of the loop straight away, even if there are repeats left."
+              },
+              {
+                "type": "code",
+                "code": "for n in range(1, 10):\n    if n == 4:\n        break\n    print(n)\nprint(\"Done\")",
+                "output": "1\n2\n3\nDone",
+                "explanation": [
+                  "The loop would normally run up to 9.",
+                  "When n is 4, break ends the loop before print(n).",
+                  "Python carries on with the line after the loop."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Skipping with continue",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "continue skips the rest of the current repeat and moves to the next one. The % symbol gives the remainder of a division: 7 % 2 is 1, 8 % 2 is 0. So n % 2 == 0 means n is even."
+              },
+              {
+                "type": "code",
+                "code": "for n in range(1, 7):\n    if n % 2 == 0:\n        continue\n    print(n)",
+                "output": "1\n3\n5",
+                "explanation": [
+                  "For even numbers, continue skips print(n).",
+                  "The loop does not stop — it just moves on."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "break = leave the loop. continue = skip to the next repeat."
+              }
+            ]
+          },
+          {
+            "title": "break in a while True loop",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "while True: repeats forever, so you use break to get out. This is handy when the stopping point is decided in the middle of the loop."
+              },
+              {
+                "type": "code",
+                "code": "total = 0\nwhile True:\n    total += 5\n    if total >= 20:\n        break\nprint(total)",
+                "output": "20",
+                "explanation": [
+                  "total grows 5, 10, 15, 20.",
+                  "When it reaches 20, break ends the loop."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "A while True loop with no break inside runs forever. Also make sure break is indented inside the if, otherwise the loop stops on the very first repeat."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l3s3q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "1\n2",
+              "1\n2\n3",
+              "3",
+              "1\n2\n4\n5"
+            ],
+            "correctIndex": 0,
+            "explanation": "When n is 3, break ends the loop before print runs, so only 1 and 2 are shown. break does not skip just one number — it stops the loop.",
+            "code": "for n in range(1, 6):\n    if n == 3:\n        break\n    print(n)",
+            "hint": "Notice that the if with break comes before print inside the loop.",
+            "optionFeedback": [
+              "Right: when n is 3, break ends the loop before print runs.",
+              "break runs before print(n) when n is 3, so 3 is never shown.",
+              "The numbers before 3 are printed first; break only stops what comes after.",
+              "Skipping one number and carrying on is what continue does; break leaves the loop entirely."
+            ]
+          },
+          {
+            "id": "l3s3q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "1\n2\n3\n4",
+              "1",
+              "3\n4",
+              "1\n3\n4"
+            ],
+            "correctIndex": 3,
+            "explanation": "continue skips only the repeat where n is 2. The loop keeps going, so 3 and 4 are still printed. Stopping after 1 is what break would do.",
+            "code": "for n in range(1, 5):\n    if n == 2:\n        continue\n    print(n)",
+            "hint": "Remember the key point: one keyword leaves the loop, the other skips a repeat.",
+            "optionFeedback": [
+              "When n is 2, continue jumps past print, so 2 is not shown.",
+              "Stopping after 1 is what break would do; continue lets the loop keep going.",
+              "n is 1 on the first repeat and the if is False, so 1 is printed.",
+              "Right: only the repeat where n is 2 is skipped."
+            ]
+          },
+          {
+            "id": "l3s3q3",
+            "prompt": "What does continue do?",
+            "options": [
+              "Stops the loop completely",
+              "Restarts the loop from the very first number",
+              "Skips the rest of this repeat and moves on to the next one",
+              "Pauses until Enter is pressed"
+            ],
+            "correctIndex": 2,
+            "explanation": "continue only skips the current repeat. Stopping the loop completely is what break does.",
+            "hint": "Look at the odd numbers example and notice which numbers were missing.",
+            "optionFeedback": [
+              "Stopping the loop completely is what break does.",
+              "continue moves on to the next number; it never goes back to the start.",
+              "Right: continue skips the rest of the current repeat and moves to the next one.",
+              "Waiting for the user is what input() does; continue doesn't wait for anything."
+            ]
+          },
+          {
+            "id": "l3s3q4",
+            "prompt": "What does this code print?",
+            "options": [
+              "2",
+              "1",
+              "2.33",
+              "21"
+            ],
+            "correctIndex": 1,
+            "explanation": "% gives the remainder: 7 divided by 3 is 2 with 1 left over. 2 is how many times 3 fits, not the remainder.",
+            "code": "print(7 % 3)",
+            "hint": "Think of the leftover after sharing seven sweets equally between three friends.",
+            "optionFeedback": [
+              "2 is how many times 3 fits into 7; % gives what is left over instead.",
+              "Right: 3 fits into 7 twice (6), leaving a remainder of 1.",
+              "% does not give a decimal answer; it gives the whole-number remainder.",
+              "21 is 7 times 3; the % symbol means remainder, not multiply."
+            ]
+          },
+          {
+            "id": "l3s3q5",
+            "type": "fill",
+            "prompt": "Fill the blanks so the program prints only 1 and 3.",
+            "code": "for n in range(1, 8):\n    if n == 5:\n        {{1}}\n    if n % 2 == 0:\n        {{2}}\n    print(n)",
+            "blanks": [
+              "break",
+              "continue"
+            ],
+            "distractors": [
+              "stop"
+            ],
+            "output": "1\n3",
+            "explanation": "continue skips the print for even numbers, and break ends the whole loop when n reaches 5, before 5 is printed.",
+            "hint": "One keyword ends the loop completely, the other only skips the rest of one pass."
+          },
+          {
+            "id": "l3s3q6",
+            "type": "order",
+            "prompt": "Put the lines in order so the program prints 1, 2 and then end.",
+            "lines": [
+              "for n in range(1, 10):",
+              "    if n == 3:",
+              "        break",
+              "    print(n)",
+              "print(\"end\")"
+            ],
+            "output": "1\n2\nend",
+            "explanation": "The check for 3 comes before the print, so break stops the loop before 3 is printed. The unindented print(\"end\") runs after the loop.",
+            "hint": "The loop must stop before printing three, and the last message comes after the loop."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l3s4",
+      "code": "3.4",
+      "title": "Nested loops and patterns",
+      "summary": "Put a loop inside a loop to make grids and shapes.",
+      "estimatedMinutes": 8,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "A loop inside a loop",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A nested loop is a loop inside another loop. For every single repeat of the outer loop, the inner loop runs all the way through."
+              },
+              {
+                "type": "code",
+                "code": "for row in range(2):\n    for col in range(3):\n        print(row, col)",
+                "output": "0 0\n0 1\n0 2\n1 0\n1 1\n1 2",
+                "explanation": [
+                  "The outer loop runs 2 times (row 0 and row 1).",
+                  "Each time, the inner loop runs 3 times (col 0, 1, 2).",
+                  "2 x 3 = 6 lines in total."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Staying on one line",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "print normally moves to a new line. Add end=\" \" to print a space instead. An empty print() just moves to the next line."
+              },
+              {
+                "type": "code",
+                "code": "for i in range(3):\n    print(i, end=\" \")\nprint()\nprint(\"next line\")",
+                "output": "0 1 2\nnext line",
+                "explanation": [
+                  "end=\" \" keeps all three numbers on the same line.",
+                  "print() on its own finishes that line."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Repeating text with *",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Multiplying a string by a number repeats it."
+              },
+              {
+                "type": "code",
+                "code": "print(\"*\" * 4)\nprint(\"ab\" * 3)",
+                "output": "****\nababab"
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "This only works with a whole number: \"ab\" * 3 is fine, \"ab\" * \"3\" is an error."
+              }
+            ]
+          },
+          {
+            "title": "Drawing a triangle",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "for row in range(1, 5):\n    print(\"*\" * row)",
+                "output": "*\n**\n***\n****",
+                "explanation": [
+                  "row goes 1, 2, 3, 4.",
+                  "Each line prints that many stars."
+                ]
+              },
+              {
+                "type": "text",
+                "text": "The same shape with numbers, using a real nested loop:"
+              },
+              {
+                "type": "code",
+                "code": "for row in range(1, 4):\n    for col in range(row):\n        print(col + 1, end=\" \")\n    print()",
+                "output": "1\n1 2\n1 2 3",
+                "explanation": [
+                  "The inner loop runs row times.",
+                  "print() after the inner loop starts the next line."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "A multiplication grid",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "for a in range(1, 4):\n    for b in range(1, 4):\n        print(a * b, end=\" \")\n    print()",
+                "output": "1 2 3\n2 4 6\n3 6 9",
+                "explanation": [
+                  "a picks the row, b picks the column.",
+                  "Each cell is a * b."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Total repeats of the inner body = outer repeats x inner repeats."
+              }
+            ]
+          },
+          {
+            "title": "Indentation decides everything",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "With nested loops, the indentation of each line decides which loop it belongs to. Move a line left or right and the output changes completely."
+              },
+              {
+                "type": "code",
+                "code": "for row in range(3):\n    for col in range(3):\n        print(\"*\", end=\"\")\nprint()",
+                "output": "*********",
+                "explanation": [
+                  "print() is not indented, so it runs only once, after both loops.",
+                  "All 9 stars end up on one line."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "To get 3 rows of ***, the final print() must be indented one level, inside the outer loop but outside the inner loop."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l3s4q1",
+            "prompt": "How many times is hi printed?",
+            "options": [
+              "7",
+              "12",
+              "4",
+              "3"
+            ],
+            "correctIndex": 1,
+            "explanation": "The inner loop runs 4 times for each of the 3 outer repeats: 3 x 4 = 12. Adding them (7) is a common mix-up.",
+            "code": "for a in range(3):\n    for b in range(4):\n        print(\"hi\")",
+            "hint": "Count how many times the inner loop runs for each single outer repeat.",
+            "optionFeedback": [
+              "7 adds the two counts, but the inner loop runs fully for every outer repeat, so you multiply.",
+              "Right: 4 inner repeats for each of 3 outer repeats is 3 x 4 = 12.",
+              "4 is just one pass of the inner loop; it runs again for every outer repeat.",
+              "3 counts only the outer repeats, but print is inside the inner loop."
+            ]
+          },
+          {
+            "id": "l3s4q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "###\n##\n#",
+              "#\n##\n###",
+              "#\n#\n#",
+              "###"
+            ],
+            "correctIndex": 1,
+            "explanation": "r goes 1, 2, 3 and each line prints r hashes, so the triangle grows downward.",
+            "code": "for r in range(1, 4):\n    print(\"#\" * r)",
+            "hint": "Work out what r is on each repeat, then how many hashes that line gets.",
+            "optionFeedback": [
+              "r starts at 1 and grows, so the first line is the shortest.",
+              "Right: r is 1, 2, 3, so each line has one more # than the last.",
+              "\"#\" * r repeats the hash r times, so the lines grow longer.",
+              "print runs inside the loop, once per repeat, so there are three lines, not one."
+            ]
+          },
+          {
+            "id": "l3s4q3",
+            "prompt": "What does end=\" \" do in print(x, end=\" \")?",
+            "options": [
+              "Prints a space instead of moving to a new line",
+              "Ends the program after printing",
+              "Adds a blank line after the value",
+              "Prints the word end"
+            ],
+            "correctIndex": 0,
+            "explanation": "end sets what is printed after the value. By default it's a new line; end=\" \" swaps it for a space.",
+            "hint": "Recall what print normally does straight after it shows a value.",
+            "optionFeedback": [
+              "Right: end=\" \" puts a space after the value instead of a new line.",
+              "end is a setting of print, not a command to stop the program.",
+              "end=\" \" removes the move to a new line; it does not add an extra blank line.",
+              "end is a setting name, not text in quotes, so the word end is never printed."
+            ]
+          },
+          {
+            "id": "l3s4q4",
+            "prompt": "What does this code print?",
+            "options": [
+              "ab3",
+              "ab ab ab",
+              "Error",
+              "ababab"
+            ],
+            "correctIndex": 3,
+            "explanation": "A string times a whole number repeats the string, with no spaces added.",
+            "code": "print(\"ab\" * 3)",
+            "hint": "Recall what multiplying a string by a whole number does.",
+            "optionFeedback": [
+              "* with a string repeats it; it does not stick the number on the end.",
+              "Repeating a string adds no spaces between the copies.",
+              "A string times a whole number is allowed; only a string times a string causes an error.",
+              "Right: \"ab\" is repeated 3 times with nothing in between."
+            ]
+          },
+          {
+            "id": "l3s4q5",
+            "prompt": "This should draw 3 rows of ***, but prints all stars on one line. Why?",
+            "options": [
+              "end=\"\" is not allowed in a loop",
+              "The inner loop must use a different range",
+              "print() is not indented inside the outer loop",
+              "range(3) should be range(4)"
+            ],
+            "correctIndex": 2,
+            "explanation": "print() runs only once, after both loops. Indent it inside the outer loop so each row ends with a new line.",
+            "code": "for row in range(3):\n    for col in range(3):\n        print(\"*\", end=\"\")\nprint()",
+            "hint": "Look at how far the final print() is indented compared with each loop.",
+            "optionFeedback": [
+              "end=\"\" is allowed anywhere; it just keeps the stars on the same line.",
+              "Both ranges are fine; the problem is where the new line is printed, not how many stars there are.",
+              "Right: print() runs only once after both loops, so indent it inside the outer loop.",
+              "Changing to range(4) would just print more stars, still all on one line."
+            ]
+          },
+          {
+            "id": "l3s4q6",
+            "prompt": "What does this code print?",
+            "options": [
+              "0\n1\n2\n3",
+              "0\n2",
+              "0\n1\n1\n2",
+              "1\n2\n2\n3"
+            ],
+            "correctIndex": 2,
+            "explanation": "The pairs are (0,0), (0,1), (1,0), (1,1), and their sums are 0, 1, 1, 2.",
+            "code": "for i in range(2):\n    for j in range(2):\n        print(i + j)",
+            "hint": "List every pair of i and j in order, then add each pair.",
+            "optionFeedback": [
+              "This counts up by one, but i and j only go up to 1, so the biggest sum is 1 + 1.",
+              "That only covers pairs where i and j are equal; the inner loop runs fully for each i.",
+              "Right: the pairs are (0,0), (0,1), (1,0), (1,1), giving 0, 1, 1, 2.",
+              "Both loops start at 0, so the first sum is 0 + 0, not 1."
+            ]
+          },
+          {
+            "id": "l3s4q7",
+            "prompt": "To print 1 2 3 on one line, what goes in the blank? print(n, ____)",
+            "options": [
+              "end=\" \"",
+              "space=\" \"",
+              "\" \"",
+              "line=False"
+            ],
+            "correctIndex": 0,
+            "explanation": "end=\" \" replaces the new line with a space. Writing just \" \" prints a space as a second value but still moves to a new line every time, and print has no space or line setting.",
+            "code": "for n in range(1, 4):\n    print(n, ____)",
+            "hint": "Think about the print setting that replaces the usual move to a new line.",
+            "optionFeedback": [
+              "Right: end=\" \" replaces the new line with a space, so 1 2 3 stay on one line.",
+              "print has no space setting; the setting that controls what comes after the value is end.",
+              "A plain \" \" is printed as a second value, but print still moves to a new line each time.",
+              "print has no line setting, so this would cause an error."
+            ]
+          },
+          {
+            "id": "l3s4q8",
+            "prompt": "Which statement about nested loops is true?",
+            "options": [
+              "The outer loop finishes before the inner loop starts",
+              "Both loops always run the same number of times",
+              "The inner loop can't use the outer loop's variable",
+              "The inner loop runs completely for every repeat of the outer loop"
+            ],
+            "correctIndex": 3,
+            "explanation": "For each outer repeat, the inner loop starts again and runs to the end. The inner loop can use the outer variable, as in range(row).",
+            "hint": "Remember how 0 0, 0 1, 0 2 all printed before row changed to 1.",
+            "optionFeedback": [
+              "The inner loop runs inside each outer repeat, so the outer loop can't finish first.",
+              "Each loop has its own range, so they can repeat different numbers of times, like 2 and 3 in the example.",
+              "The inner loop can use the outer variable, as in for col in range(row).",
+              "Right: for each outer repeat, the inner loop starts again and runs to the end."
+            ]
+          },
+          {
+            "id": "l3s4q9",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "for i in range(3):\n    print(i, end=\"-\")\nprint()\nprint(\"ok\")",
+            "answer": "0-1-2-\nok",
+            "explanation": "end=\"-\" prints a dash instead of a new line, so 0-1-2- stays on one line. print() then ends that line.",
+            "hint": "Each print inside the loop ends with a dash instead of starting a new line."
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "available": true,
+  "projects": [
+    {
+      "id": "l3p1",
+      "code": "3.P",
+      "title": "Number Guessing Game",
+      "summary": "Give the player five tries to guess a secret number, with hints and stars.",
+      "estimatedMinutes": 10,
+      "type": "project",
+      "steps": [
+        "project"
+      ],
+      "briefing": {
+        "title": "Build a Number Guessing Game",
+        "text": [
+          "The computer thinks of a number from 1 to 10. The player has five tries and gets a hint after each wrong guess.",
+          "Fewer guesses earn more stars. A for loop counts the tries and break stops it early."
+        ],
+        "why": [
+          "Games are a fun way to see loops in action",
+          "It combines for, range(), break, conditions and repeating text with *"
+        ],
+        "concepts": [
+          {
+            "subLevelId": "l1s3",
+            "label": "True and False"
+          },
+          {
+            "subLevelId": "l2s3",
+            "label": "elif"
+          },
+          {
+            "subLevelId": "l3s1",
+            "label": "for and range()"
+          },
+          {
+            "subLevelId": "l3s3",
+            "label": "break"
+          },
+          {
+            "subLevelId": "l3s4",
+            "label": "Repeating text with *"
+          }
+        ],
+        "sampleOutput": "I'm thinking of a number from 1 to 10.\nGuess 1: 4\nToo low!\nGuess 2: 9\nToo high!\nGuess 3: 7\nCorrect! You got it in 3 tries.\nStars: ***",
+        "usesInput": true,
+        "fileName": "guessing_game.py",
+        "sampleInputs": [
+          "4",
+          "9",
+          "7"
+        ]
+      },
+      "finalCode": [
+        "# Number Guessing Game",
+        "secret = 7",
+        "max_tries = 5",
+        "won = False",
+        "print(\"I'm thinking of a number from 1 to 10.\")",
+        "for attempt in range(1, max_tries + 1):",
+        "    guess = int(input(f\"Guess {attempt}: \"))",
+        "    if guess == secret:",
+        "        won = True",
+        "        break",
+        "    elif guess < secret:",
+        "        print(\"Too low!\")",
+        "    else:",
+        "        print(\"Too high!\")",
+        "if won:",
+        "    print(f\"Correct! You got it in {attempt} tries.\")",
+        "    print(\"Stars: \" + \"*\" * (max_tries - attempt + 1))",
+        "else:",
+        "    print(f\"Out of tries! It was {secret}.\")"
+      ],
+      "stages": [
+        {
+          "id": "l3p1st1",
+          "title": "Set up the game",
+          "instruction": "The secret number and the number of tries are ready. Add a variable that remembers whether the player has won yet.",
+          "revealsLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l3p1st1q",
+            "prompt": "Which line sets up the 'has won' flag?",
+            "options": [
+              "won = \"False\"",
+              "won = False",
+              "won == False",
+              "won = True"
+            ],
+            "correctIndex": 1,
+            "explanation": "A Boolean flag starts as False and is switched to True when something happens (1.3)."
+          },
+          "optionFeedback": [
+            "\"False\" in quotes is text, and any non-empty text counts as True in an if.",
+            "A Boolean flag starts as False and is switched to True when something happens (1.3).",
+            "== compares instead of storing, and won doesn't exist yet: a NameError.",
+            "The player hasn't won before the game even starts."
+          ]
+        },
+        {
+          "id": "l3p1st2",
+          "title": "Count the tries",
+          "instruction": "Repeat the guessing once for each try, numbering the tries 1 to 5.",
+          "revealsLines": [
+            6
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l3p1st2q",
+            "prompt": "Which loop gives attempt the values 1, 2, 3, 4, 5?",
+            "options": [
+              "for attempt in range(max_tries):",
+              "for attempt in range(1, max_tries + 1):",
+              "for attempt in range(1, max_tries):",
+              "while attempt in range(1, max_tries + 1):"
+            ],
+            "correctIndex": 1,
+            "explanation": "range(1, 6) starts at 1 and stops before 6, so it gives 1 to 5 (3.1)."
+          },
+          "optionFeedback": [
+            "range(5) gives 0 to 4, so the first guess would be called Guess 0.",
+            "range(1, 6) starts at 1 and stops before 6, so it gives 1 to 5 (3.1).",
+            "range(1, 5) stops before 5: only four tries.",
+            "attempt doesn't exist before the loop, so this is a NameError."
+          ]
+        },
+        {
+          "id": "l3p1st3",
+          "title": "Read a guess",
+          "instruction": "Inside the loop, ask for a guess, showing which try it is, and turn it into a number.",
+          "revealsLines": [
+            7
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l3p1st3q",
+            "prompt": "Which line reads the guess?",
+            "options": [
+              "    guess = int(input(f\"Guess {attempt}: \"))",
+              "    guess = input(f\"Guess {attempt}: \")",
+              "    guess = int(input(\"Guess {attempt}: \"))",
+              "    guess = int(input(f\"Guess {attempt}: \")"
+            ],
+            "correctIndex": 0,
+            "explanation": "The f-string shows the try number, and int() makes the answer a number (1.4)."
+          },
+          "optionFeedback": [
+            "The f-string shows the try number, and int() makes the answer a number (1.4).",
+            "The guess stays text, so guess == secret would never be True.",
+            "Without the f, the prompt literally shows {attempt}.",
+            "One closing bracket is missing. This is a SyntaxError."
+          ]
+        },
+        {
+          "id": "l3p1st4",
+          "title": "A correct guess",
+          "instruction": "If the guess matches the secret, remember the win and stop asking.",
+          "revealsLines": [
+            8,
+            9,
+            10
+          ],
+          "optionsAreCode": false,
+          "question": {
+            "id": "l3p1st4q",
+            "prompt": "What should happen when the guess is right?",
+            "options": [
+              "Use continue to go to the next guess",
+              "Set won to True and keep looping",
+              "Set won to False, then break out of the loop",
+              "Set won to True, then break out of the loop"
+            ],
+            "correctIndex": 3,
+            "explanation": "break ends the loop at once, so no more guesses are asked for (3.3)."
+          },
+          "optionFeedback": [
+            "continue skips to the next try, so the player keeps guessing after winning.",
+            "The player would be asked again even after getting it right.",
+            "won would stay False, so the program would say they lost.",
+            "break ends the loop at once, so no more guesses are asked for (3.3)."
+          ]
+        },
+        {
+          "id": "l3p1st5",
+          "title": "Give a hint",
+          "instruction": "For a wrong guess, tell the player whether to go higher or lower.",
+          "revealsLines": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l3p1st5q",
+            "prompt": "Which line checks for a guess that is too low?",
+            "options": [
+              "    elif guess > secret:",
+              "    elif guess < secret",
+              "    elif guess < secret:",
+              "    elif guess =< secret:"
+            ],
+            "correctIndex": 2,
+            "explanation": "If the guess is smaller than the secret, it's too low (2.1, 2.3)."
+          },
+          "optionFeedback": [
+            "This checks for too high, but prints Too low!",
+            "The colon is missing. This is a SyntaxError.",
+            "If the guess is smaller than the secret, it's too low (2.1, 2.3).",
+            "The operator is <=, not =<. This is a SyntaxError."
+          ]
+        },
+        {
+          "id": "l3p1st6",
+          "title": "Award stars",
+          "instruction": "After the loop, if the player won, print how many tries it took and one star for every try left, plus one.",
+          "revealsLines": [
+            15,
+            16,
+            17
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l3p1st6q",
+            "prompt": "Which line prints the stars?",
+            "options": [
+              "    print(\"Stars: \" + \"*\" * (max_tries - attempt + 1))",
+              "    print(\"Stars: \" + \"*\" + (max_tries - attempt + 1))",
+              "    print(\"Stars: \" * (max_tries - attempt + 1))",
+              "    print(\"Stars: \" + \"*\" * max_tries - attempt + 1)"
+            ],
+            "correctIndex": 0,
+            "explanation": "\"*\" * 3 repeats the star three times (3.4). The brackets do the maths first."
+          },
+          "optionFeedback": [
+            "\"*\" * 3 repeats the star three times (3.4). The brackets do the maths first.",
+            "You can't + text and a number. This is a TypeError.",
+            "This repeats the word Stars: three times instead.",
+            "Without brackets, \"*\" * 5 runs first, then text minus a number is a TypeError."
+          ]
+        },
+        {
+          "id": "l3p1st7",
+          "title": "Out of tries",
+          "instruction": "Finish with an else that runs when the player didn't win.",
+          "revealsLines": [
+            18,
+            19
+          ],
+          "optionsAreCode": false,
+          "question": {
+            "id": "l3p1st7q",
+            "prompt": "When does the else part run?",
+            "options": [
+              "After every wrong guess",
+              "Only when the first guess is right",
+              "When all five tries were used without guessing the number",
+              "Never, because break always runs"
+            ],
+            "correctIndex": 2,
+            "explanation": "won stays False only if the loop ran out without a correct guess (2.2)."
+          },
+          "optionFeedback": [
+            "This else belongs to if won after the loop, not to the hints inside it.",
+            "A right guess sets won to True, so the if part runs instead.",
+            "won stays False only if the loop ran out without a correct guess (2.2).",
+            "break only runs after a correct guess. Five wrong guesses never reach it."
+          ]
+        }
+      ],
+      "walkthrough": [
+        "won starts as False. The for loop gives attempt the values 1 to 5.",
+        "Each try reads a number. A correct guess sets won to True and break stops the loop.",
+        "Wrong guesses get a hint from elif / else.",
+        "After the loop, if won prints the result and \"*\" * 3 draws three stars for a 3rd-try win."
+      ]
+    }
+  ],
+  "cheatSheet": {
+    "title": "Loops",
+    "sections": [
+      {
+        "heading": "for and range()",
+        "items": [
+          {
+            "code": "for i in range(3):\n    print(i)",
+            "note": "range(3) gives 0, 1, 2.",
+            "output": "0\n1\n2"
+          },
+          {
+            "code": "print(list(range(2, 10, 3)))",
+            "note": "range(start, stop, step). stop is never included.",
+            "output": "[2, 5, 8]"
+          },
+          {
+            "code": "total = 0\nfor n in range(1, 5):\n    total += n\nprint(total)",
+            "note": "Add up with a running total.",
+            "output": "10"
+          }
+        ]
+      },
+      {
+        "heading": "while",
+        "items": [
+          {
+            "code": "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1",
+            "note": "Repeats while the condition is True. Change the variable!",
+            "output": "3\n2\n1"
+          }
+        ]
+      },
+      {
+        "heading": "break and continue",
+        "items": [
+          {
+            "code": "for n in range(10):\n    if n == 3:\n        break\n    print(n)",
+            "note": "break stops the loop at once.",
+            "output": "0\n1\n2"
+          },
+          {
+            "code": "for n in range(5):\n    if n % 2 == 0:\n        continue\n    print(n)",
+            "note": "continue skips to the next repeat.",
+            "output": "1\n3"
+          }
+        ]
+      },
+      {
+        "heading": "Patterns",
+        "items": [
+          {
+            "code": "for row in range(1, 4):\n    print(\"*\" * row)",
+            "note": "Text * number repeats the text.",
+            "output": "*\n**\n***"
+          },
+          {
+            "code": "print(1, end=\" \")\nprint(2)",
+            "note": "end=\" \" stays on the same line.",
+            "output": "1 2"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "The loop body is indented.",
+      "A while loop must change something, or it never ends.",
+      "range(1, 6) gives 1 to 5."
+    ]
+  }
+}
