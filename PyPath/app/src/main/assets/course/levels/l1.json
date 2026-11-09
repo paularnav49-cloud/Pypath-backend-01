@@ -1,0 +1,1076 @@
+{
+  "id": "l1",
+  "number": 1,
+  "title": "Python Basics",
+  "description": "Meet Python, store values in variables, explore data types and talk to the user.",
+  "subLevels": [
+    {
+      "id": "l1s1",
+      "code": "1.1",
+      "title": "What is Python?",
+      "summary": "Your first look at Python and your very first line of code.",
+      "estimatedMinutes": 4,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Meet Python",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Python is a programming language — a way to give instructions to a computer using words that are close to plain English."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Easy to read and write",
+                  "Free and works on every computer",
+                  "Used by Google, Netflix, NASA and millions of developers"
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "A program is just a list of instructions the computer follows from top to bottom."
+              }
+            ]
+          },
+          {
+            "title": "Your first program",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The classic first program prints a message on the screen."
+              },
+              {
+                "type": "code",
+                "code": "print(\"Hello, World!\")",
+                "output": "Hello, World!",
+                "explanation": [
+                  "print is a built-in function that shows something on the screen.",
+                  "The text inside the quotes is what gets shown.",
+                  "The parentheses ( ) hold what you want to print."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Printing more",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "You can call print as many times as you like. Each call starts on a new line."
+              },
+              {
+                "type": "code",
+                "code": "print(\"I am learning Python\")\nprint(2 + 3)",
+                "output": "I am learning Python\n5",
+                "explanation": [
+                  "Text needs quotes.",
+                  "Numbers and maths don't — Python works out 2 + 3 for you."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Python reads your code line by line, starting at the top."
+              }
+            ]
+          },
+          {
+            "title": "Comments",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Lines starting with # are comments. Python ignores them — they are notes for humans."
+              },
+              {
+                "type": "code",
+                "code": "# This line is a comment\nprint(\"Comments are ignored\")  # notes can go here too",
+                "output": "Comments are ignored",
+                "explanation": [
+                  "Use comments to explain why your code does something."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l1s1q1",
+            "prompt": "What does print() do in Python?",
+            "options": [
+              "Runs the program again",
+              "Shows something on the screen",
+              "Turns text into a comment",
+              "Ends the program"
+            ],
+            "correctIndex": 1,
+            "explanation": "print() shows whatever you put inside the parentheses on the screen. It does not restart or end the program, and only # makes a comment.",
+            "hint": "Think about what you saw appear after running print(\"Hello, World!\").",
+            "optionFeedback": [
+              "print() does not restart anything; Python runs each line once, from top to bottom.",
+              "Right: print() displays whatever is inside its parentheses on the screen.",
+              "Only the # symbol makes a comment; print() does the opposite and shows text to the user.",
+              "print() does not stop the program; the lines after it still run, one after another."
+            ]
+          },
+          {
+            "id": "l1s1q2",
+            "prompt": "What will this code display?",
+            "options": [
+              "2 + 3",
+              "\"5\"",
+              "5",
+              "Error"
+            ],
+            "correctIndex": 2,
+            "explanation": "Without quotes, 2 + 3 is maths, so Python works it out and prints 5. print shows the value without quotes, so it is not \"5\", and you would only see 2 + 3 if it were inside quotes.",
+            "code": "print(2 + 3)",
+            "hint": "Notice there are no quotes inside the parentheses, so Python treats it as maths.",
+            "optionFeedback": [
+              "You would only see 2 + 3 if it were text inside quotes, like print(\"2 + 3\").",
+              "print shows the value itself without quotes, so the quotes would not appear on screen.",
+              "Right: without quotes, 2 + 3 is maths, so Python works it out and prints the answer.",
+              "This is valid code: print can show the result of a sum, so nothing goes wrong."
+            ]
+          },
+          {
+            "id": "l1s1q3",
+            "prompt": "Which symbol starts a comment in Python?",
+            "options": [
+              "//",
+              "#",
+              "--",
+              "/*"
+            ],
+            "correctIndex": 1,
+            "explanation": "In Python, everything after # on a line is a comment that Python ignores. //, -- and /* are used in other languages, not in Python.",
+            "hint": "Recall the Comments page: which symbol did those ignored lines begin with?",
+            "optionFeedback": [
+              "// starts comments in some other languages, but Python does not use it for comments.",
+              "Right: Python ignores everything after # on a line.",
+              "-- is used for comments in some other languages, not in Python.",
+              "/* comes from other languages; Python does not treat it as the start of a comment."
+            ]
+          },
+          {
+            "id": "l1s1q4",
+            "prompt": "In what order does Python run your lines of code?",
+            "options": [
+              "Random order",
+              "Bottom to top",
+              "Top to bottom",
+              "Shortest line first"
+            ],
+            "correctIndex": 2,
+            "explanation": "Python reads your code line by line, starting at the top, so the first line runs first. It never picks lines at random or starts from the bottom.",
+            "hint": "Remember the key point about a program being a list of instructions.",
+            "optionFeedback": [
+              "Python is predictable: it never picks lines at random, so the same code runs the same way each time.",
+              "Python starts with the first line you wrote, not the last one.",
+              "Right: Python reads your code line by line, starting with the first line.",
+              "Line length doesn't matter; Python follows the order the lines are written in."
+            ]
+          },
+          {
+            "id": "l1s1q5",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "# print(\"A\")\nprint(\"B\")  # print(\"C\")\nprint(1 + 2)",
+            "answer": "B\n3",
+            "explanation": "The first line is only a comment, and everything after # on the second line is ignored. print(1 + 2) works out the sum first.",
+            "hint": "Python ignores everything that comes after a hash sign on a line."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l1s2",
+      "code": "1.2",
+      "title": "Variables",
+      "summary": "Give names to values so you can reuse them.",
+      "estimatedMinutes": 5,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "What is a variable?",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A variable is a named box that stores a value. You create one with the equals sign ="
+              },
+              {
+                "type": "code",
+                "code": "name = \"Asha\"\nage = 21\nprint(name)\nprint(age)",
+                "output": "Asha\n21",
+                "explanation": [
+                  "name stores the text \"Asha\".",
+                  "age stores the number 21.",
+                  "print(name) shows the value inside the box, not the word name."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Changing a value",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Variables can change. The newest value replaces the old one."
+              },
+              {
+                "type": "code",
+                "code": "score = 10\nscore = 15\nprint(score)",
+                "output": "15",
+                "explanation": [
+                  "The second line overwrites the first value.",
+                  "Only the latest value is kept."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "= means \"store this value\", not \"is equal to\"."
+              }
+            ]
+          },
+          {
+            "title": "Naming rules",
+            "blocks": [
+              {
+                "type": "bullets",
+                "items": [
+                  "Use letters, numbers and underscores: user_name, level2",
+                  "Can't start with a number: 2name is not allowed",
+                  "No spaces: use first_name, not first name",
+                  "Names are case-sensitive: Age and age are different"
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Pick names that describe the value, like total_price instead of x."
+              }
+            ]
+          },
+          {
+            "title": "Using variables together",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "apples = 4\noranges = 3\ntotal = apples + oranges\nprint(total)",
+                "output": "7",
+                "explanation": [
+                  "Python looks up the values of apples and oranges.",
+                  "It adds them and stores the result in total."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l1s2q1",
+            "prompt": "Which line correctly creates a variable?",
+            "options": [
+              "city = \"Pune\"",
+              "\"Pune\" = city",
+              "city \"Pune\"",
+              "var city = \"Pune\""
+            ],
+            "correctIndex": 0,
+            "explanation": "The variable name goes on the left, then a single =, then the value. Putting the value on the left is backwards, leaving out = stores nothing, and Python does not use the word var.",
+            "hint": "Recall which side of the = sign the variable name goes on.",
+            "optionFeedback": [
+              "Right: the name goes on the left, then =, then the value to store.",
+              "This is backwards: the name must be on the left of = and the value on the right.",
+              "Without the = sign, Python is never told to store the value, so this is an error.",
+              "Python does not use the word var; you just write the name, =, and the value."
+            ]
+          },
+          {
+            "id": "l1s2q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "10",
+              "15",
+              "25",
+              "score"
+            ],
+            "correctIndex": 1,
+            "explanation": "The second assignment replaces 10 with 15.",
+            "code": "score = 10\nscore = 15\nprint(score)",
+            "hint": "Think about what happens to the old value when you store a new one.",
+            "optionFeedback": [
+              "10 was the first value, but the second line replaces it before print runs.",
+              "Right: the newest value replaces the old one, so score holds 15.",
+              "Storing a new value replaces the old one; Python does not add them together.",
+              "score has no quotes in print(score), so Python shows the value stored in it, not the name."
+            ]
+          },
+          {
+            "id": "l1s2q3",
+            "prompt": "Which is a valid variable name?",
+            "options": [
+              "2fast",
+              "my name",
+              "user_age",
+              "class-1"
+            ],
+            "correctIndex": 2,
+            "explanation": "Names can use letters, digits and underscores but can't start with a digit or contain spaces/hyphens.",
+            "hint": "Go through the naming rules page and test each name against every rule.",
+            "optionFeedback": [
+              "Variable names can't start with a number, so 2fast is not allowed.",
+              "Names can't contain spaces; Python would see two separate words.",
+              "Right: user_age uses only letters and an underscore, and starts with a letter.",
+              "A hyphen is not allowed in a name; only letters, numbers and underscores are."
+            ]
+          },
+          {
+            "id": "l1s2q4",
+            "prompt": "What is printed?",
+            "options": [
+              "a + b",
+              "34",
+              "7",
+              "Error"
+            ],
+            "correctIndex": 2,
+            "explanation": "a is 3 and b is 4, so a + b is 7. print shows the values, not the words a + b, and numbers are added, so the answer is not 34.",
+            "code": "a = 3\nb = 4\nprint(a + b)",
+            "hint": "Replace each variable with the number stored in it, then work out the sum.",
+            "optionFeedback": [
+              "a and b have no quotes, so print shows the result of the sum, not the letters.",
+              "3 and 4 are numbers, so + does real maths with them; it does not write them side by side.",
+              "Right: a is 3 and b is 4, so a + b is 7.",
+              "Both variables are created before print uses them, so the code runs fine."
+            ]
+          },
+          {
+            "id": "l1s2q5",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "x = 5\nx = x + 2\nprint(x)",
+            "answer": "7",
+            "explanation": "The right side is worked out first using the old value (5 + 2), then the result is stored back in x.",
+            "hint": "A variable can be updated using its own old value on the right side."
+          },
+          {
+            "id": "l1s2q6",
+            "type": "order",
+            "prompt": "Put the lines in order so the program prints the total cost.",
+            "lines": [
+              "price = 20",
+              "qty = 3",
+              "total = price * qty",
+              "print(total)"
+            ],
+            "output": "60",
+            "alternativeOrders": [
+              [
+                1,
+                0,
+                2,
+                3
+              ]
+            ],
+            "explanation": "Both variables must exist before total uses them, and total must exist before it is printed. The first two lines can go either way round.",
+            "hint": "A variable has to be created before any line can use it."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l1s3",
+      "code": "1.3",
+      "title": "Data Types",
+      "summary": "Text, whole numbers, decimals and True/False.",
+      "estimatedMinutes": 5,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Every value has a type",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Python keeps track of what kind of value something is. The four you'll use most:"
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "str — text, like \"hello\"",
+                  "int — whole numbers, like 42",
+                  "float — decimal numbers, like 3.14",
+                  "bool — True or False"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Seeing the type",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Use type() to ask Python what type a value is."
+              },
+              {
+                "type": "code",
+                "code": "print(type(\"hi\"))\nprint(type(7))\nprint(type(2.5))\nprint(type(True))",
+                "output": "<class 'str'>\n<class 'int'>\n<class 'float'>\n<class 'bool'>",
+                "explanation": [
+                  "type() returns the kind of value.",
+                  "Don't worry about the word class yet."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Why types matter",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The same symbol can behave differently depending on the type."
+              },
+              {
+                "type": "code",
+                "code": "print(2 + 3)\nprint(\"2\" + \"3\")",
+                "output": "5\n23",
+                "explanation": [
+                  "With numbers, + adds.",
+                  "With text, + joins strings together."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "\"5\" (text) and 5 (number) are different things in Python."
+              }
+            ]
+          },
+          {
+            "title": "Converting types",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "age_text = \"20\"\nage = int(age_text)\nprint(age + 1)",
+                "output": "21",
+                "explanation": [
+                  "int() turns the text \"20\" into the number 20.",
+                  "Now maths works on it. str() and float() convert too."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l1s3q1",
+            "prompt": "What is the type of 3.14?",
+            "options": [
+              "int",
+              "str",
+              "float",
+              "bool"
+            ],
+            "correctIndex": 2,
+            "explanation": "3.14 has a decimal point, so it is a float. int is only for whole numbers like 42, and a str would need quotes.",
+            "hint": "Look closely at the dot in the number and recall the four main types.",
+            "optionFeedback": [
+              "int is only for whole numbers like 42, but 3.14 has a decimal part.",
+              "A str is text and would need quotes, like \"3.14\".",
+              "Right: a number with a decimal point is a float.",
+              "bool only has two values, True and False, so 3.14 can't be a bool."
+            ]
+          },
+          {
+            "id": "l1s3q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "5",
+              "23",
+              "2 + 3",
+              "Error"
+            ],
+            "correctIndex": 1,
+            "explanation": "Both values are strings, so + joins them into \"23\".",
+            "code": "print(\"2\" + \"3\")",
+            "hint": "Notice the quotes around each value and recall how + treats text.",
+            "optionFeedback": [
+              "You'd get 5 only with numbers; the quotes make these strings, so they are not added as maths.",
+              "Right: both values are strings, so + joins them side by side.",
+              "The + is outside the quotes, so Python performs it rather than printing it as text.",
+              "Joining two strings with + is allowed, so there is no error here."
+            ]
+          },
+          {
+            "id": "l1s3q3",
+            "prompt": "Which value is a bool?",
+            "options": [
+              "\"True\"",
+              "True",
+              "1.0",
+              "\"yes\""
+            ],
+            "correctIndex": 1,
+            "explanation": "True without quotes is a bool. \"True\" and \"yes\" have quotes, so they are text (str), and 1.0 is a float.",
+            "hint": "A bool has no quotes and is one of exactly two special values.",
+            "optionFeedback": [
+              "The quotes make this text (a str), even though the word inside looks like a bool.",
+              "Right: True without quotes is one of the two bool values.",
+              "1.0 has a decimal point, so it is a float, not a bool.",
+              "\"yes\" is in quotes, so it is a str; Python's bool values are only True and False."
+            ]
+          },
+          {
+            "id": "l1s3q4",
+            "prompt": "Which function converts \"42\" into a whole number?",
+            "options": [
+              "str()",
+              "float()",
+              "type()",
+              "int()"
+            ],
+            "correctIndex": 3,
+            "explanation": "int() turns text like \"42\" into the whole number 42. float() gives a decimal number, str() makes text, and type() only tells you the type.",
+            "hint": "Remember that each conversion function is named after the type it produces.",
+            "optionFeedback": [
+              "str() turns a value into text, which is the opposite of what we need here.",
+              "float() gives a decimal number such as 42.0, not a whole number.",
+              "type() only tells you what type a value is; it doesn't change it.",
+              "Right: int() turns text like \"42\" into the whole number 42."
+            ]
+          },
+          {
+            "id": "l1s3q5",
+            "type": "fill",
+            "prompt": "Fill the blanks so the program adds 1 to the number stored as text.",
+            "code": "age_text = \"20\"\nage = {{1}}(age_text)\nprint(age {{2}} 1)",
+            "blanks": [
+              "int",
+              "+"
+            ],
+            "distractors": [
+              "str",
+              "-"
+            ],
+            "output": "21",
+            "explanation": "int(\"20\") turns the text into the number 20, so age + 1 is 21. Adding 1 to the text itself would be a TypeError.",
+            "hint": "Text that looks like a number must be converted before you can do maths with it."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l1s4",
+      "code": "1.4",
+      "title": "Input and Output",
+      "summary": "Ask the user a question and respond to them.",
+      "estimatedMinutes": 6,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Getting input",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "input() pauses the program and waits for the user to type something."
+              },
+              {
+                "type": "code",
+                "code": "name = input(\"What is your name? \")\nprint(\"Hello,\", name)",
+                "output": "What is your name? Ravi\nHello, Ravi",
+                "explanation": [
+                  "The text inside input() is the question shown to the user.",
+                  "Whatever they type is stored in name.",
+                  "print can show several things separated by commas."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Input is always text",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Even if the user types a number, input() gives you a string."
+              },
+              {
+                "type": "code",
+                "code": "age = input(\"Age: \")\nprint(type(age))",
+                "output": "Age: 18\n<class 'str'>"
+              },
+              {
+                "type": "keypoint",
+                "text": "Convert input with int() or float() before doing maths."
+              }
+            ]
+          },
+          {
+            "title": "Doing maths with input",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "age = int(input(\"Age: \"))\nprint(\"Next year you will be\", age + 1)",
+                "output": "Age: 18\nNext year you will be 19",
+                "explanation": [
+                  "input() reads the text \"18\".",
+                  "int() turns it into the number 18.",
+                  "Now age + 1 works."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Formatting output",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "f-strings let you place variables directly inside text. Put f before the quotes and wrap variables in { }."
+              },
+              {
+                "type": "code",
+                "code": "name = \"Meera\"\nlevel = 1\nprint(f\"{name} is on level {level}\")",
+                "output": "Meera is on level 1"
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "f-strings are the cleanest way to mix text and values."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l1s4q1",
+            "prompt": "What does input() return?",
+            "options": [
+              "A number",
+              "A string",
+              "A bool",
+              "Nothing"
+            ],
+            "correctIndex": 1,
+            "explanation": "input() always returns what the user typed as a string.",
+            "hint": "Think about what type(age) printed even when the user typed 18.",
+            "optionFeedback": [
+              "Even when the user types digits like 18, input() hands them back as text.",
+              "Right: input() always gives back what was typed as a string (text).",
+              "input() never turns the answer into True or False; it keeps the typed characters as text.",
+              "input() does give something back: the text the user typed, which you can store in a variable."
+            ]
+          },
+          {
+            "id": "l1s4q2",
+            "prompt": "How do you turn the user's answer into a whole number?",
+            "options": [
+              "int(input())",
+              "input(int())",
+              "number(input())",
+              "input().int"
+            ],
+            "correctIndex": 0,
+            "explanation": "input() gives the answer as text, and wrapping it in int() turns that text into a whole number. input(int()) puts int() inside the question instead, and Python has no number() function or .int.",
+            "hint": "Think about which job happens first: asking the question or converting the answer.",
+            "optionFeedback": [
+              "Right: input() gets the text first, then int() turns it into a whole number.",
+              "This puts int() inside input(), so the conversion happens before the user has typed anything.",
+              "Python has no number() function; the converter for whole numbers is int().",
+              "There is no .int on text; conversion is done by wrapping the value in int( )."
+            ]
+          },
+          {
+            "id": "l1s4q3",
+            "prompt": "What does this print?",
+            "options": [
+              "{x} apples",
+              "x apples",
+              "5 apples",
+              "f5 apples"
+            ],
+            "correctIndex": 2,
+            "explanation": "In an f-string, {x} is replaced with the value of x.",
+            "code": "x = 5\nprint(f\"{x} apples\")",
+            "hint": "Remember what the f before the quotes does to anything inside curly braces.",
+            "optionFeedback": [
+              "Because of the f before the quotes, {x} is replaced by the value, so the braces don't appear.",
+              "Inside an f-string, {x} means the value of x, not the letter x.",
+              "Right: {x} is replaced with the value of x, which is 5.",
+              "The f only marks the string as an f-string; it is not printed itself."
+            ]
+          },
+          {
+            "id": "l1s4q4",
+            "prompt": "What is shown to the user by input(\"Age: \")?",
+            "options": [
+              "Nothing",
+              "The word input",
+              "Age: ",
+              "An error"
+            ],
+            "correctIndex": 2,
+            "explanation": "The text inside input() is the question shown to the user before they type, so they see Age: . It is not an error, and Python shows your text, not the word input.",
+            "hint": "Think about the \"What is your name?\" example and when that text appeared.",
+            "optionFeedback": [
+              "The text inside the parentheses is shown as a question before the user types.",
+              "Python runs input(); it shows your question text, not the name of the function.",
+              "Right: the text inside input() is displayed as the question.",
+              "Giving input() a question in quotes is correct, so there is no error."
+            ]
+          },
+          {
+            "id": "l1s4q5",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "name = \"Meera\"\nlevel = 2\nprint(f\"{name}: level {level}\")",
+            "answer": "Meera: level 2",
+            "explanation": "In an f-string each {name} is replaced by the variable's value; everything else is printed as written.",
+            "hint": "Replace each pair of curly braces with the value of the variable inside it."
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "l1p1",
+      "code": "1.P",
+      "title": "Party Bill Splitter",
+      "summary": "Ask for the bill and the number of friends, add a tip and split it fairly.",
+      "estimatedMinutes": 8,
+      "type": "project",
+      "steps": [
+        "project"
+      ],
+      "briefing": {
+        "title": "Build a Party Bill Splitter",
+        "text": [
+          "You and your friends had dinner. This program asks for the bill and how many people there are, adds a 10% tip and tells everyone what to pay.",
+          "You build it one piece at a time. At each step you pick the right line of code and it appears in the program."
+        ],
+        "why": [
+          "Splitting a bill is something you'll really do",
+          "It uses input(), type conversion, maths and f-strings: everything from Level 1"
+        ],
+        "concepts": [
+          {
+            "subLevelId": "l1s1",
+            "label": "print()"
+          },
+          {
+            "subLevelId": "l1s2",
+            "label": "Variables"
+          },
+          {
+            "subLevelId": "l1s3",
+            "label": "Data types"
+          },
+          {
+            "subLevelId": "l1s4",
+            "label": "Input and f-strings"
+          }
+        ],
+        "sampleOutput": "=== Bill Splitter ===\nYour name: Asha\nTotal bill (Rs): 1200\nHow many people? 4\nThanks, Asha!\nTip (10%): Rs 120.0\nTotal with tip: Rs 1320.0\nEach person pays: Rs 330.0",
+        "usesInput": true,
+        "fileName": "bill_splitter.py",
+        "sampleInputs": [
+          "Asha",
+          "1200",
+          "4"
+        ]
+      },
+      "finalCode": [
+        "# Party Bill Splitter",
+        "print(\"=== Bill Splitter ===\")",
+        "name = input(\"Your name: \")",
+        "bill = float(input(\"Total bill (Rs): \"))",
+        "people = int(input(\"How many people? \"))",
+        "tip = bill * 0.1",
+        "total = bill + tip",
+        "share = total / people",
+        "print(f\"Thanks, {name}!\")",
+        "print(f\"Tip (10%): Rs {tip}\")",
+        "print(f\"Total with tip: Rs {total}\")",
+        "print(f\"Each person pays: Rs {share}\")"
+      ],
+      "stages": [
+        {
+          "id": "l1p1st1",
+          "title": "Show a title",
+          "instruction": "Every program should tell the user what it does. Print a title line first.",
+          "revealsLines": [
+            1,
+            2
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l1p1st1q",
+            "prompt": "Which line prints the title?",
+            "options": [
+              "print(=== Bill Splitter ===)",
+              "print(\"=== Bill Splitter ===\")",
+              "Print(\"=== Bill Splitter ===\")",
+              "print \"=== Bill Splitter ===\""
+            ],
+            "correctIndex": 1,
+            "explanation": "Text goes inside quotes, and print is written in lowercase with brackets (1.1)."
+          },
+          "optionFeedback": [
+            "Without quotes Python tries to read === as code. This is a SyntaxError.",
+            "Text goes inside quotes, and print is written in lowercase with brackets (1.1).",
+            "Python is case-sensitive: Print is not the same as print, so this is a NameError.",
+            "In Python 3, print needs brackets. This is a SyntaxError."
+          ]
+        },
+        {
+          "id": "l1p1st2",
+          "title": "Ask for a name",
+          "instruction": "Ask the user for their name and keep the answer in a variable called name.",
+          "revealsLines": [
+            3
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l1p1st2q",
+            "prompt": "Which line asks for the name and stores it?",
+            "options": [
+              "input(\"Your name: \") = name",
+              "name = \"input(Your name: )\"",
+              "name = input(\"Your name: \")",
+              "name == input(\"Your name: \")"
+            ],
+            "correctIndex": 2,
+            "explanation": "input() shows the question and gives back what was typed; = stores it in name (1.2, 1.4)."
+          },
+          "optionFeedback": [
+            "The variable name must be on the left of =. This is a SyntaxError.",
+            "This stores the words input(Your name: ) as text. Nothing is asked.",
+            "input() shows the question and gives back what was typed; = stores it in name (1.2, 1.4).",
+            "== compares, it doesn't store. name doesn't exist yet, so this is a NameError."
+          ]
+        },
+        {
+          "id": "l1p1st3",
+          "title": "Read the bill as a number",
+          "instruction": "The bill can have paise, like 1199.50, so it must become a decimal number before we do maths with it.",
+          "revealsLines": [
+            4
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l1p1st3q",
+            "prompt": "Which line reads the bill correctly?",
+            "options": [
+              "bill = float(input(\"Total bill (Rs): \"))",
+              "bill = input(\"Total bill (Rs): \")",
+              "bill = int(input(\"Total bill (Rs): \"))",
+              "bill = float(\"Total bill (Rs): \")"
+            ],
+            "correctIndex": 0,
+            "explanation": "input() always gives text. float() turns it into a decimal number (1.3)."
+          },
+          "optionFeedback": [
+            "input() always gives text. float() turns it into a decimal number (1.3).",
+            "The bill would stay text, so bill * 0.1 would be a TypeError.",
+            "int() fails on decimals: typing 1199.50 would be a ValueError.",
+            "This tries to turn the question itself into a number, which is a ValueError."
+          ]
+        },
+        {
+          "id": "l1p1st4",
+          "title": "Count the people",
+          "instruction": "Now ask how many people are sharing. People come in whole numbers.",
+          "revealsLines": [
+            5
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l1p1st4q",
+            "prompt": "Which line reads the number of people?",
+            "options": [
+              "people = input(int(\"How many people? \"))",
+              "people = int(input(\"How many people? \"))",
+              "people = int(input)(\"How many people? \")",
+              "people = str(input(\"How many people? \"))"
+            ],
+            "correctIndex": 1,
+            "explanation": "int() wraps input() so the typed text becomes a whole number (1.4)."
+          },
+          "optionFeedback": [
+            "The brackets are in the wrong order: int() runs on the question text first, a ValueError.",
+            "int() wraps input() so the typed text becomes a whole number (1.4).",
+            "int(input) tries to turn the input function itself into a number. This is a TypeError.",
+            "str() keeps it as text, so total / people would be a TypeError."
+          ]
+        },
+        {
+          "id": "l1p1st5",
+          "title": "Do the maths",
+          "instruction": "Work out a 10% tip, the total with the tip, and each person's share.",
+          "revealsLines": [
+            6,
+            7,
+            8
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l1p1st5q",
+            "prompt": "Which three lines do the maths?",
+            "options": [
+              "tip = bill * 0.1\ntotal = bill + tip\nshare = total / people",
+              "tip = bill * 10%\ntotal = bill + tip\nshare = total / people",
+              "tip = bill * 0.1\ntotal = bill + tip\nshare = people / total",
+              "tip = bill * 0.1\ntotal = bill * tip\nshare = total / people"
+            ],
+            "correctIndex": 0,
+            "explanation": "10% is 0.1 of the bill. Add it to the bill, then divide by the number of people (1.3)."
+          },
+          "optionFeedback": [
+            "10% is 0.1 of the bill. Add it to the bill, then divide by the number of people (1.3).",
+            "% means remainder in Python, not percent. bill * 10% is a SyntaxError.",
+            "Backwards: 4 / 1320 gives a tiny number, not each person's share.",
+            "The tip must be added, not multiplied: 1200 * 120 is far too much."
+          ]
+        },
+        {
+          "id": "l1p1st6",
+          "title": "Show the results",
+          "instruction": "Thank the user by name, then print the tip, the total and each share.",
+          "revealsLines": [
+            9,
+            10,
+            11,
+            12
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l1p1st6q",
+            "prompt": "Which line thanks the user by name?",
+            "options": [
+              "print(\"Thanks, {name}!\")",
+              "print(f\"Thanks, name!\")",
+              "print(f\"Thanks, \" name \"!\")",
+              "print(f\"Thanks, {name}!\")"
+            ],
+            "correctIndex": 3,
+            "explanation": "The f before the quotes lets {name} be replaced by the value (1.4)."
+          },
+          "optionFeedback": [
+            "Without the f, Python prints the braces as they are: Thanks, {name}!",
+            "Without braces, the word name is printed instead of the value.",
+            "Text and a variable can't just sit next to each other. This is a SyntaxError.",
+            "The f before the quotes lets {name} be replaced by the value (1.4)."
+          ]
+        }
+      ],
+      "walkthrough": [
+        "Line 2 prints a title so the user knows what the program does.",
+        "input() always gives text, so float() and int() turn the answers into numbers.",
+        "The tip is 0.1 of the bill (10%). The total adds the tip; the share divides it by the people.",
+        "f-strings put the values into the messages. Decimal results show .0, like 330.0."
+      ]
+    }
+  ],
+  "cheatSheet": {
+    "title": "Python Basics",
+    "sections": [
+      {
+        "heading": "Printing",
+        "items": [
+          {
+            "code": "print(\"Hello!\")",
+            "note": "Show text. Text goes in quotes.",
+            "output": "Hello!"
+          },
+          {
+            "code": "print(\"Age:\", 18)",
+            "note": "Commas print several values with spaces between.",
+            "output": "Age: 18"
+          },
+          {
+            "code": "# This is a comment",
+            "note": "Python ignores everything after #."
+          }
+        ]
+      },
+      {
+        "heading": "Variables",
+        "items": [
+          {
+            "code": "name = \"Meera\"\nscore = 10\nscore = score + 5\nprint(name, score)",
+            "note": "= stores a value. A variable can be changed later.",
+            "output": "Meera 15"
+          },
+          {
+            "code": "my_score = 1",
+            "note": "Names: letters, digits and _, can't start with a digit, case matters."
+          }
+        ]
+      },
+      {
+        "heading": "Data types",
+        "items": [
+          {
+            "code": "print(type(\"hi\"), type(7), type(2.5), type(True))",
+            "note": "str, int, float and bool.",
+            "output": "<class 'str'> <class 'int'> <class 'float'> <class 'bool'>"
+          },
+          {
+            "code": "print(int(\"42\") + 1)\nprint(str(42) + \"!\")",
+            "note": "Convert with int(), float() and str().",
+            "output": "43\n42!"
+          }
+        ]
+      },
+      {
+        "heading": "Input and output",
+        "items": [
+          {
+            "code": "name = input(\"Name? \")",
+            "note": "input() shows a question and always gives back text."
+          },
+          {
+            "code": "age = int(input(\"Age? \"))",
+            "note": "Convert input before doing maths."
+          },
+          {
+            "code": "x = 3\nprint(f\"{x} apples\")",
+            "note": "f-strings put values inside text.",
+            "output": "3 apples"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "Text needs quotes; numbers don't.",
+      "input() always returns a string.",
+      "Python is case-sensitive: print, not Print."
+    ]
+  }
+}

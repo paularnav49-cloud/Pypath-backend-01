@@ -1,0 +1,546 @@
+{
+  "id": "l9",
+  "number": 9,
+  "title": "Using Modules (Advanced)",
+  "description": "Advanced: use ready-made tools from Python's standard library: math, random and datetime.",
+  "available": true,
+  "advanced": true,
+  "subLevels": [
+    {
+      "id": "l9s1",
+      "code": "9.1",
+      "title": "Importing modules",
+      "summary": "Load a module with import and use the math module.",
+      "estimatedMinutes": 7,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "What is a module?",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A module is a file of ready-made Python code. Python comes with many of them, called the standard library. import loads a module so you can use its tools with a dot."
+              },
+              {
+                "type": "code",
+                "code": "import math\nprint(math.sqrt(25))\nprint(math.pi)",
+                "output": "5.0\n3.141592653589793",
+                "explanation": [
+                  "import math loads the math module. Put imports at the top of your program.",
+                  "math.sqrt() is the square root function inside math.",
+                  "math.pi is a value stored in the module."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "math: square roots, rounding up and down, pi.",
+                  "random: random numbers and choices.",
+                  "datetime: dates and days between them."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Useful math tools",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "import math\nprint(math.floor(4.7))\nprint(math.ceil(4.2))\nbooks = 23\nper_box = 5\nprint(math.ceil(books / per_box), \"boxes\")",
+                "output": "4\n5\n5 boxes",
+                "explanation": [
+                  "floor() rounds down to a whole number; ceil() rounds up.",
+                  "23 / 5 is 4.6; you need 5 boxes, so ceil() is the right tool."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "from ... import",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "from math import sqrt, pi brings in only the names you list, and you use them without math. in front."
+              },
+              {
+                "type": "code",
+                "code": "from math import sqrt, pi\nprint(sqrt(81))\nprint(f\"{pi:.2f}\")",
+                "output": "9.0\n3.14"
+              }
+            ]
+          },
+          {
+            "title": "import ... as",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "import math as m loads math but lets you call it by a shorter name."
+              },
+              {
+                "type": "code",
+                "code": "import math as m\nprint(m.floor(9.99))",
+                "output": "9"
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "import math: use math.sqrt(9).",
+                  "from math import sqrt: use sqrt(9).",
+                  "import math as m: use m.sqrt(9)."
+                ]
+              },
+              {
+                "type": "code",
+                "code": "import math\nprint(sqrt(16))",
+                "output": "NameError: name 'sqrt' is not defined",
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Mixing the styles. After import math you must write math.sqrt(16); plain sqrt only works after from math import sqrt."
+              }
+            ]
+          },
+          {
+            "title": "Modules you can't add here",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "On a computer you can install extra modules with a tool called pip, and you can write your own module file, like helpers.py, and import it. The PyPath app works offline and runs a single main.py, so neither is possible in the Practical tab. This course only uses modules that come with Python."
+              },
+              {
+                "type": "tip",
+                "title": "In the app",
+                "text": "The Practical tab includes standard library modules such as math, random and datetime. A few modules, like the ones for the internet, are blocked."
+              },
+              {
+                "type": "keypoint",
+                "text": "import gives you ready-made, tested tools, so you don't have to write them yourself."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l9s1q1",
+            "prompt": "What does this print?",
+            "options": [
+              "7",
+              "49",
+              "7.0",
+              "NameError"
+            ],
+            "correctIndex": 2,
+            "explanation": "math.sqrt() gives the square root as a float, so the square root of 49 prints as 7.0.",
+            "code": "import math\nprint(math.sqrt(49))",
+            "hint": "Recall the kind of number math.sqrt(25) printed in the lesson.",
+            "optionFeedback": [
+              "The answer is 7, but sqrt() returns a float, so it shows a decimal point.",
+              "sqrt() finds the square root; it doesn't print the number you gave it.",
+              "Right: sqrt() always gives a float.",
+              "math is imported and math.sqrt is written in full, so every name is known."
+            ]
+          },
+          {
+            "id": "l9s1q2",
+            "prompt": "Why does this code fail?",
+            "options": [
+              "math has to be imported twice",
+              "After import math, sqrt must be written as math.sqrt",
+              "sqrt() only works on even numbers",
+              "import must come after print()"
+            ],
+            "correctIndex": 1,
+            "explanation": "import math makes the name math available. sqrt on its own is unknown: NameError.",
+            "code": "import math\nprint(sqrt(9))",
+            "hint": "Think about which name import math actually makes available to your program.",
+            "optionFeedback": [
+              "One import is enough; the problem is how sqrt is written.",
+              "Right: use math.sqrt, or change the import to from math import sqrt.",
+              "sqrt() works on any positive number, odd or even.",
+              "Imports go at the top, before you use the module."
+            ]
+          },
+          {
+            "id": "l9s1q3",
+            "prompt": "Which word fills the blank?",
+            "options": [
+              "from",
+              "import",
+              "use",
+              "get"
+            ],
+            "correctIndex": 0,
+            "explanation": "from math import ceil brings ceil in directly, so it can be used without math. in front.",
+            "code": "____ math import ceil\nprint(ceil(2.1))",
+            "hint": "The line names the module first, then the single tool you want to bring in.",
+            "optionFeedback": [
+              "Right: from math import ceil.",
+              "import math import ceil is not valid Python; the first word is different.",
+              "Python has no use keyword for modules.",
+              "Python has no get keyword for modules."
+            ]
+          },
+          {
+            "id": "l9s1q4",
+            "prompt": "What does this print?",
+            "options": [
+              "8 7",
+              "7 7",
+              "8 8",
+              "7 8"
+            ],
+            "correctIndex": 3,
+            "explanation": "floor() rounds 7.9 down to 7; ceil() rounds 7.1 up to 8.",
+            "code": "import math\nprint(math.floor(7.9), math.ceil(7.1))",
+            "hint": "One of these functions always rounds down and the other always rounds up.",
+            "optionFeedback": [
+              "That would be normal rounding; floor() always goes down and ceil() always goes up.",
+              "ceil() rounds up, so 7.1 becomes 8.",
+              "floor() rounds down, so 7.9 becomes 7.",
+              "Right: floor goes down, ceil goes up."
+            ]
+          },
+          {
+            "id": "l9s1q5",
+            "prompt": "What does import math as m do?",
+            "options": [
+              "Imports math and lets you call it m, as in m.sqrt(4)",
+              "Imports only a function called m",
+              "Renames the math module file on your phone",
+              "Multiplies every math result by m"
+            ],
+            "correctIndex": 0,
+            "explanation": "as gives the module a nickname inside your program. The real module is unchanged.",
+            "hint": "Compare it with plain import math and think about what the extra part changes.",
+            "optionFeedback": [
+              "Right: m becomes a short name for math.",
+              "It imports the whole math module; m is just its new name.",
+              "Nothing on your phone changes; the nickname only exists while your program runs.",
+              "as only gives a name; it doesn't do any maths."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l9s2",
+      "code": "9.2",
+      "title": "random and datetime",
+      "summary": "Make random choices and work with dates.",
+      "estimatedMinutes": 9,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Random numbers and choices",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "import random\ndice = random.randint(1, 6)\nprint(\"You rolled\", dice)\nsnacks = [\"samosa\", \"idli\", \"poha\"]\nprint(random.choice(snacks))\nrandom.shuffle(snacks)\nprint(snacks)",
+                "explanation": [
+                  "randint(1, 6) gives a whole number from 1 to 6. Unlike range(), both ends are included.",
+                  "choice() picks one item from a list.",
+                  "shuffle() mixes up the list itself."
+                ],
+                "caption": "Run it a few times: the results change."
+              },
+              {
+                "type": "code",
+                "code": "import random\ncards = [1, 2, 3]\ncards = random.shuffle(cards)\nprint(cards)",
+                "output": "None"
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Writing cards = random.shuffle(cards). Like sort(), shuffle() changes the list and returns None, so the list is lost. Just write random.shuffle(cards)."
+              }
+            ]
+          },
+          {
+            "title": "The same random numbers every time",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "random.seed() picks the starting point of the random numbers. With the same seed you get the same numbers every run, which is handy for testing a game."
+              },
+              {
+                "type": "code",
+                "code": "import random\nrandom.seed(7)\nprint(random.randint(1, 100))\nprint(random.randint(1, 100))",
+                "output": "42\n20"
+              },
+              {
+                "type": "keypoint",
+                "text": "Without a seed the numbers change every run; with the same seed they repeat exactly."
+              }
+            ]
+          },
+          {
+            "title": "Dates",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The datetime module has a date type. date(year, month, day) makes a date."
+              },
+              {
+                "type": "code",
+                "code": "from datetime import date\nexam = date(2026, 3, 15)\nprint(exam)\nprint(exam.year, exam.month, exam.day)",
+                "output": "2026-03-15\n2026 3 15"
+              },
+              {
+                "type": "code",
+                "code": "from datetime import date\nprint(date.today())",
+                "caption": "Shows today's date, so the output depends on the day you run it."
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Dates print as year-month-day, like 2026-03-15."
+              }
+            ]
+          },
+          {
+            "title": "Counting days",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "from datetime import date, timedelta\nstart = date(2026, 1, 28)\nprint(start + timedelta(days=7))\nholiday = date(2026, 3, 4)\ngap = holiday - start\nprint(gap.days, \"days to go\")",
+                "output": "2026-02-04\n35 days to go",
+                "explanation": [
+                  "timedelta(days=7) is a length of time; adding it moves the date on, into February.",
+                  "Subtracting two dates gives a timedelta; .days is the number of days."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "random.randint(a, b): a whole number from a to b.",
+                  "random.choice(list): one item.",
+                  "random.shuffle(list): mixes the list.",
+                  "date(y, m, d), date.today(), timedelta(days=n)."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l9s2q1",
+            "prompt": "Which values can random.randint(1, 3) give?",
+            "options": [
+              "1 or 2 only",
+              "0, 1 or 2",
+              "1, 2 or 3",
+              "Any decimal number between 1 and 3"
+            ],
+            "correctIndex": 2,
+            "explanation": "randint() includes both ends, so 1, 2 and 3 are all possible.",
+            "hint": "Remember how randint() treats its second number compared with range().",
+            "optionFeedback": [
+              "That is how range(1, 3) works; randint() includes the end number too.",
+              "randint(1, 3) starts at 1, not 0.",
+              "Right: both ends are included.",
+              "randint() only gives whole numbers."
+            ]
+          },
+          {
+            "id": "l9s2q2",
+            "prompt": "Why does this print None?",
+            "options": [
+              "shuffle() changes the list itself and returns None",
+              "shuffle() deletes the list",
+              "Lists of letters can't be shuffled",
+              "random must be imported twice"
+            ],
+            "correctIndex": 0,
+            "explanation": "shuffle() works like sort(): it changes the list and gives back None, which is then stored in deck.",
+            "code": "import random\ndeck = [\"A\", \"K\", \"Q\"]\ndeck = random.shuffle(deck)\nprint(deck)",
+            "hint": "Think about what shuffle() gives back, and what deck = then stores.",
+            "optionFeedback": [
+              "Right: deck = stores the None that shuffle() returns.",
+              "shuffle() keeps every item; it only changes their order.",
+              "Any list can be shuffled, whatever is inside it.",
+              "One import is enough to use random.shuffle()."
+            ]
+          },
+          {
+            "id": "l9s2q3",
+            "prompt": "What does this print?",
+            "options": [
+              "False",
+              "True",
+              "It depends on the run",
+              "TypeError"
+            ],
+            "correctIndex": 1,
+            "explanation": "Both numbers come right after random.seed(5), so they are the same number: a == b is True.",
+            "code": "import random\nrandom.seed(5)\na = random.randint(1, 1000)\nrandom.seed(5)\nb = random.randint(1, 1000)\nprint(a == b)",
+            "hint": "Notice that the same seed is set again before the second number is made.",
+            "optionFeedback": [
+              "Setting the same seed again restarts the same sequence, so a and b match.",
+              "Right: the same seed gives the same number.",
+              "A seed makes the numbers repeat exactly, on every run.",
+              "Comparing two numbers with == is always allowed."
+            ]
+          },
+          {
+            "id": "l9s2q4",
+            "prompt": "What does this print?",
+            "options": [
+              "['red']",
+              "r",
+              "0",
+              "red"
+            ],
+            "correctIndex": 3,
+            "explanation": "choice() picks one item from the list. With only one item, it must pick red.",
+            "code": "import random\nprint(random.choice([\"red\"]))",
+            "hint": "Count how many items the list has to choose from.",
+            "optionFeedback": [
+              "choice() returns one item, not the whole list.",
+              "choice() picks an item from the list, not a letter from the item.",
+              "choice() returns the item itself, not its position.",
+              "Right: the only item in the list is picked."
+            ]
+          },
+          {
+            "id": "l9s2q5",
+            "prompt": "What does this print?",
+            "options": [
+              "25",
+              "12",
+              "2026-12-25",
+              "December"
+            ],
+            "correctIndex": 1,
+            "explanation": "date(2026, 12, 25) is year 2026, month 12, day 25, so .month is 12.",
+            "code": "from datetime import date\nd = date(2026, 12, 25)\nprint(d.month)",
+            "hint": "date() takes its three numbers in the order year, month, day.",
+            "optionFeedback": [
+              "25 is the day; the month is the middle number.",
+              "Right: the month is the second number.",
+              "That is what print(d) shows; .month gives just one part.",
+              ".month is a number, not the month's name."
+            ]
+          },
+          {
+            "id": "l9s2q6",
+            "prompt": "What does this print?",
+            "options": [
+              "2026-02-02",
+              "2026-01-33",
+              "2026-02-03",
+              "2026-01-03"
+            ],
+            "correctIndex": 0,
+            "explanation": "January has 31 days, so 3 days after 30 January is 2 February.",
+            "code": "from datetime import date, timedelta\nd = date(2026, 1, 30)\nprint(d + timedelta(days=3))",
+            "hint": "Count forward one day at a time and remember how many days January has.",
+            "optionFeedback": [
+              "Right: 31 January, 1 February, 2 February.",
+              "Dates move into the next month; there is no 33 January.",
+              "Count again: January has 31 days, so it is one day earlier than that.",
+              "Adding days moves the date forward, it doesn't change the month back."
+            ]
+          },
+          {
+            "id": "l9s2q7",
+            "prompt": "What does this print?",
+            "options": [
+              "10",
+              "8",
+              "9",
+              "-9"
+            ],
+            "correctIndex": 2,
+            "explanation": "From 1 May to 10 May is 9 days, so gap.days is 9.",
+            "code": "from datetime import date\ngap = date(2026, 5, 10) - date(2026, 5, 1)\nprint(gap.days)",
+            "hint": "Subtract the day numbers, because both dates are in the same month.",
+            "optionFeedback": [
+              "Subtracting dates gives the gap between them, not the number of dates counted.",
+              "Check the subtraction again: 10 - 1.",
+              "Right: 10 - 1 is 9 days.",
+              "The later date comes first, so the gap is positive."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "cheatSheet": {
+    "title": "Using Modules",
+    "sections": [
+      {
+        "heading": "Importing",
+        "items": [
+          {
+            "code": "import math\nprint(math.sqrt(16))",
+            "note": "Use the module name and a dot.",
+            "output": "4.0"
+          },
+          {
+            "code": "from math import ceil\nprint(ceil(4.2))",
+            "note": "Bring in one name.",
+            "output": "5"
+          },
+          {
+            "code": "import math as m\nprint(m.floor(4.8))",
+            "note": "Give the module a short name.",
+            "output": "4"
+          }
+        ]
+      },
+      {
+        "heading": "random",
+        "items": [
+          {
+            "code": "import random\nprint(random.randint(1, 6))",
+            "note": "A whole number from 1 to 6, both included."
+          },
+          {
+            "code": "import random\nprint(random.choice([\"a\", \"b\"]))",
+            "note": "Pick one item from a list."
+          },
+          {
+            "code": "import random\nrandom.seed(7)\nprint(random.randint(1, 100))",
+            "note": "The same seed gives the same numbers.",
+            "output": "42"
+          }
+        ]
+      },
+      {
+        "heading": "datetime",
+        "items": [
+          {
+            "code": "from datetime import date, timedelta\nd = date(2026, 1, 30)\nprint(d + timedelta(days=3))",
+            "note": "Make dates and move them on.",
+            "output": "2026-02-02"
+          },
+          {
+            "code": "from datetime import date\nprint((date(2026, 5, 10) - date(2026, 5, 1)).days)",
+            "note": "Days between two dates.",
+            "output": "9"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "Imports go at the top of the program.",
+      "The app has Python's standard library only: no pip and no module files of your own."
+    ]
+  }
+}

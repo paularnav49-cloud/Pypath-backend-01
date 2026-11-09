@@ -1,0 +1,950 @@
+{
+  "id": "l8",
+  "number": 8,
+  "title": "Handling Errors (Advanced)",
+  "description": "Advanced: read error messages, catch errors with try and except, and raise your own.",
+  "available": true,
+  "advanced": true,
+  "subLevels": [
+    {
+      "id": "l8s1",
+      "code": "8.1",
+      "title": "Reading error messages",
+      "summary": "Understand tracebacks and the most common error types.",
+      "estimatedMinutes": 8,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Errors are clues",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "When Python meets a line it can't run, it stops and prints an error message. Errors that happen while a program runs are called exceptions. Every programmer sees them every day: they are clues, not failures."
+              },
+              {
+                "type": "code",
+                "code": "print(\"Start\")\nprint(10 / 0)\nprint(\"End\")",
+                "output": "Start\nTraceback (most recent call last):\n  File \"main.py\", line 2, in <module>\n    print(10 / 0)\nZeroDivisionError: division by zero",
+                "explanation": [
+                  "Line 1 runs and prints Start.",
+                  "Line 2 can't be done, so Python stops and shows the error.",
+                  "Line 3 never runs: nothing after an error runs."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "An exception stops the program at the line where it happens.",
+                  "Everything printed before the error stays on the screen.",
+                  "The lines after the error do not run."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Reading a traceback",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The message Python prints is called a traceback. Read it from the bottom up."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Traceback (most recent call last): Python is about to show where it was.",
+                  "File \"main.py\", line 2: the line number where the error happened.",
+                  "The next line repeats the code from that line.",
+                  "Under that, Python 3.11 may add a row of ^ or ~ marks pointing at the exact part that failed (left out in these lessons).",
+                  "The last line gives the error type and a short message. Read this first."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Read a traceback from the bottom: the last line says what went wrong, the line number says where."
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "In the Practical tab your program is always called main.py, so tracebacks point to main.py."
+              }
+            ]
+          },
+          {
+            "title": "NameError, TypeError, ValueError",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Three errors you will meet a lot. Each example shows only the last line of the error."
+              },
+              {
+                "type": "code",
+                "code": "print(score)",
+                "output": "NameError: name 'score' is not defined",
+                "explanation": [
+                  "NameError: the name was never created, or it is spelled differently."
+                ],
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "code",
+                "code": "age = \"20\"\nprint(age + 1)",
+                "output": "TypeError: can only concatenate str (not \"int\") to str",
+                "explanation": [
+                  "TypeError: the values are the wrong types for this job, here text + a number."
+                ],
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "code",
+                "code": "number = int(\"ten\")",
+                "output": "ValueError: invalid literal for int() with base 10: 'ten'",
+                "explanation": [
+                  "ValueError: the type is right (a string), but this value can't be converted."
+                ],
+                "caption": "Only the last line of the error is shown."
+              }
+            ]
+          },
+          {
+            "title": "ZeroDivisionError, IndexError, KeyError",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "print(5 / 0)",
+                "output": "ZeroDivisionError: division by zero",
+                "explanation": [
+                  "ZeroDivisionError: dividing by zero is impossible."
+                ],
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "code",
+                "code": "days = [\"Mon\", \"Tue\"]\nprint(days[2])",
+                "output": "IndexError: list index out of range",
+                "explanation": [
+                  "IndexError: the list has positions 0 and 1 only."
+                ],
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "code",
+                "code": "prices = {\"tea\": 15}\nprint(prices[\"milk\"])",
+                "output": "KeyError: 'milk'",
+                "explanation": [
+                  "KeyError: the dictionary has no key called milk."
+                ],
+                "caption": "Only the last line of the error is shown."
+              }
+            ]
+          },
+          {
+            "title": "Error types at a glance",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The error type on the last line already tells you what kind of problem to look for."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "NameError: unknown name",
+                  "TypeError: wrong type for the job",
+                  "ValueError: right type, bad value",
+                  "ZeroDivisionError: divided by zero",
+                  "IndexError: list position doesn't exist",
+                  "KeyError: dictionary key doesn't exist"
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Every error type in this level is also in the Glossary, if you need a reminder."
+              }
+            ]
+          },
+          {
+            "title": "Fixing an error",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "To fix an error: read the last line, go to the line number, and look at the part that is underlined. Here the variable was created as total but used as totl."
+              },
+              {
+                "type": "code",
+                "code": "total = 10\nprint(totl)",
+                "output": "Traceback (most recent call last):\n  File \"main.py\", line 2, in <module>\n    print(totl)\nNameError: name 'totl' is not defined",
+                "explanation": [
+                  "Line 2 uses totl; changing it to total fixes the program."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Reading only the top of the traceback. The useful part is at the bottom: the error type and message. Also, the line number is where Python noticed the problem; sometimes the real mistake is earlier, like a name spelled differently when it was created."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l8s1q1",
+            "prompt": "Which error does this code cause?",
+            "options": [
+              "TypeError",
+              "ValueError",
+              "KeyError",
+              "NameError"
+            ],
+            "correctIndex": 3,
+            "explanation": "total exists, but totl was never created, so Python doesn't know that name: NameError.",
+            "code": "total = 10\nprint(totl)",
+            "hint": "Compare the name that was created with the name that is printed, letter by letter.",
+            "optionFeedback": [
+              "A TypeError is about mixing the wrong types; here the name itself is unknown.",
+              "A ValueError needs a value that can't be converted; no conversion happens here.",
+              "A KeyError comes from a missing dictionary key; there is no dictionary here.",
+              "Right: totl is a name Python has never seen."
+            ]
+          },
+          {
+            "id": "l8s1q2",
+            "prompt": "In a traceback, which line tells you the type of error?",
+            "options": [
+              "The last line",
+              "The first line, Traceback (most recent call last):",
+              "The line that starts with File \"main.py\"",
+              "The line with the ^ marks"
+            ],
+            "correctIndex": 0,
+            "explanation": "The last line shows the error type and its message, such as ZeroDivisionError: division by zero.",
+            "hint": "Remember which direction the lesson said you should read a traceback from.",
+            "optionFeedback": [
+              "Right: the error type and message are always at the bottom.",
+              "The first line only says a traceback is starting; it never names the error.",
+              "The File line tells you where the error happened, not what kind it is.",
+              "The ^ marks underline the part of the code; the error type is printed below them."
+            ]
+          },
+          {
+            "id": "l8s1q3",
+            "prompt": "What does line 3 mean in File \"main.py\", line 3, in <module>?",
+            "options": [
+              "The program has 3 lines",
+              "3 errors were found",
+              "The error happened on line 3 of main.py",
+              "Lines 1 to 3 all have mistakes"
+            ],
+            "correctIndex": 2,
+            "explanation": "The File line points to the line Python was running when the error happened.",
+            "hint": "Think about what a traceback needs to tell you so you can find the problem.",
+            "optionFeedback": [
+              "The number says where the error is, not how long the program is.",
+              "Python stops at the first error, so a traceback describes just one error.",
+              "Right: it is the line number where Python stopped.",
+              "Only the line named in the traceback is where Python stopped."
+            ]
+          },
+          {
+            "id": "l8s1q4",
+            "prompt": "Which error does this code cause?",
+            "options": [
+              "TypeError",
+              "ValueError",
+              "NameError",
+              "ZeroDivisionError"
+            ],
+            "correctIndex": 1,
+            "explanation": "int() gets a string, which is the right type, but \"5.5\" is not a whole number, so the value is bad.",
+            "code": "number = int(\"5.5\")",
+            "hint": "int() accepts strings, so ask yourself whether this particular string can become a whole number.",
+            "optionFeedback": [
+              "int() is happy to take a string, so the type is not the problem.",
+              "Right: the type is fine but this value can't become an int.",
+              "Every name here exists: int and number are both fine.",
+              "There is no division anywhere in this line."
+            ]
+          },
+          {
+            "id": "l8s1q5",
+            "prompt": "Which error does this code cause?",
+            "options": [
+              "IndexError",
+              "NameError",
+              "KeyError",
+              "ValueError"
+            ],
+            "correctIndex": 2,
+            "explanation": "marks has only the key \"maths\", so looking up \"english\" raises a KeyError.",
+            "code": "marks = {\"maths\": 90}\nprint(marks[\"english\"])",
+            "hint": "Look at what kind of collection marks is and what is being looked up.",
+            "optionFeedback": [
+              "IndexError is for list positions; marks is a dictionary looked up by key.",
+              "marks is a name that exists; it is the key inside it that is missing.",
+              "Right: the dictionary has no english key.",
+              "No text is being converted to a number here."
+            ]
+          },
+          {
+            "id": "l8s1q6",
+            "prompt": "Which error does this code cause?",
+            "options": [
+              "ValueError",
+              "TypeError",
+              "NameError",
+              "ZeroDivisionError"
+            ],
+            "correctIndex": 1,
+            "explanation": "+ can join two strings or add two numbers, but not a string and an int: TypeError.",
+            "code": "print(\"Total: \" + 5)",
+            "hint": "Check the types of the two values on each side of the plus sign.",
+            "optionFeedback": [
+              "Nothing is being converted with int(); the problem is mixing two types.",
+              "Right: text and a number can't be joined with +.",
+              "There are no variable names here at all, only values.",
+              "This line adds, it doesn't divide."
+            ]
+          },
+          {
+            "id": "l8s1q7",
+            "prompt": "What appears on the screen?",
+            "options": [
+              "A, then the error message",
+              "Only the error message",
+              "A and B, then the error message",
+              "A, the error message, then B"
+            ],
+            "correctIndex": 0,
+            "explanation": "print(\"A\") runs first. The division by zero stops the program, so print(\"B\") never runs.",
+            "code": "print(\"A\")\nprint(1 / 0)\nprint(\"B\")",
+            "hint": "Python runs lines in order and stops for good at the first error.",
+            "optionFeedback": [
+              "Right: A is printed, then the program stops at line 2.",
+              "Line 1 runs before the error, so A is already on the screen.",
+              "B would come after the error, and nothing runs after an error.",
+              "The program doesn't continue after the error, so B is never printed."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l8s2",
+      "code": "8.2",
+      "title": "try and except",
+      "summary": "Catch an error and keep the program running.",
+      "estimatedMinutes": 7,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Catching an error",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Put code that might fail inside a try block. If an error happens there, Python jumps to the except block instead of stopping the program."
+              },
+              {
+                "type": "code",
+                "code": "try:\n    number = int(\"abc\")\n    print(\"Converted!\")\nexcept ValueError:\n    print(\"That was not a number\")\nprint(\"Program keeps going\")",
+                "output": "That was not a number\nProgram keeps going",
+                "explanation": [
+                  "int(\"abc\") raises a ValueError, so Python jumps straight to except.",
+                  "\"Converted!\" is skipped because it comes after the error inside try.",
+                  "After the except block, the program carries on as normal."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "try: the code that might fail.",
+                  "except ErrorType: what to do if that error happens.",
+                  "If the try block has no error, the except block is skipped."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Catching a specific error",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Write the error type after except, so you only catch the problem you expect. You can have several except blocks, one per error type."
+              },
+              {
+                "type": "code",
+                "code": "def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return \"can't divide by zero\"\n\nprint(safe_divide(10, 2))\nprint(safe_divide(5, 0))",
+                "output": "5.0\ncan't divide by zero"
+              },
+              {
+                "type": "code",
+                "code": "items = [\"pen\", \"book\"]\nfor text in [\"1\", \"5\", \"two\"]:\n    try:\n        print(items[int(text)])\n    except ValueError:\n        print(text, \"is not a number\")\n    except IndexError:\n        print(text, \"is too big\")",
+                "output": "book\n5 is too big\ntwo is not a number",
+                "explanation": [
+                  "\"1\" works: items[1] is book.",
+                  "\"5\" converts, but there is no position 5: IndexError.",
+                  "\"two\" can't be converted: ValueError."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "If no except block matches the error, it is not caught and the program stops as usual."
+              }
+            ]
+          },
+          {
+            "title": "Don't catch everything",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "except: with no error type catches every error, even your own typos. Here \"42\" is a fine number, but valeu is misspelt, and the message hides the real NameError."
+              },
+              {
+                "type": "code",
+                "code": "try:\n    value = int(\"42\")\n    print(valeu + 1)\nexcept:\n    print(\"Please type a number\")",
+                "output": "Please type a number"
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Writing except: with no error type. It catches every error, including spelling mistakes, and shows the wrong message. Name the error you expect, like except ValueError:."
+              },
+              {
+                "type": "keypoint",
+                "text": "Keep try blocks small and catch the specific error you expect."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l8s2q1",
+            "prompt": "What does this print?",
+            "options": [
+              "A\nB\nC",
+              "C",
+              "A\nB",
+              "A\nC"
+            ],
+            "correctIndex": 3,
+            "explanation": "print(\"A\") runs, then int(\"hi\") fails, so print(\"B\") is skipped and the except block prints C.",
+            "code": "try:\n    print(\"A\")\n    x = int(\"hi\")\n    print(\"B\")\nexcept ValueError:\n    print(\"C\")",
+            "hint": "Follow the try block line by line and notice exactly where the jump happens.",
+            "optionFeedback": [
+              "B comes after the failing line inside try, so it is skipped.",
+              "print(\"A\") runs before the error, so A is printed first.",
+              "The ValueError is caught, so the except block runs and prints C.",
+              "Right: A prints, the error skips B, and except prints C."
+            ]
+          },
+          {
+            "id": "l8s2q2",
+            "prompt": "What does this print?",
+            "options": [
+              "Not a number",
+              "8\nNot a number",
+              "8",
+              "71"
+            ],
+            "correctIndex": 2,
+            "explanation": "int(\"7\") works, so the try block finishes and the except block is skipped.",
+            "code": "try:\n    x = int(\"7\")\n    print(x + 1)\nexcept ValueError:\n    print(\"Not a number\")",
+            "hint": "Ask whether anything inside the try block actually fails here.",
+            "optionFeedback": [
+              "\"7\" is a valid whole number, so there is no ValueError to catch.",
+              "except only runs when an error happens, and here nothing fails.",
+              "Right: no error happens, so except is skipped.",
+              "x is the number 7 after int(), so + 1 does maths, not joining text."
+            ]
+          },
+          {
+            "id": "l8s2q3",
+            "prompt": "Which word goes in the blank to catch a division by zero?",
+            "options": [
+              "ValueError",
+              "ZeroDivisionError",
+              "DivideError",
+              "ZeroError"
+            ],
+            "correctIndex": 1,
+            "explanation": "Dividing by zero raises ZeroDivisionError, so that is the type to name after except.",
+            "code": "try:\n    print(10 / 0)\nexcept ____:\n    print(\"Can't divide by zero\")",
+            "hint": "Use the exact name Python prints on the last line when you divide by zero.",
+            "optionFeedback": [
+              "A ValueError is for bad values like int(\"abc\"); dividing by zero has its own error type.",
+              "Right: that is the exact name of the error.",
+              "Python has no error called DivideError; the name must match exactly.",
+              "Close, but the real name is longer; error names must be spelled exactly."
+            ]
+          },
+          {
+            "id": "l8s2q4",
+            "prompt": "Which statement is true?",
+            "options": [
+              "If no except block matches the error, the program still stops with that error",
+              "The except block runs every time, even with no error",
+              "Python goes back and runs the try block again",
+              "Lines after the error inside try still run"
+            ],
+            "correctIndex": 0,
+            "explanation": "except only catches the error types it names. Any other error stops the program as usual.",
+            "hint": "Think about an except ValueError block meeting a completely different kind of error.",
+            "optionFeedback": [
+              "Right: an error with no matching except is not caught.",
+              "except only runs when a matching error happens in the try block.",
+              "Python never repeats the try block by itself; it moves on.",
+              "As soon as an error happens, the rest of the try block is skipped."
+            ]
+          },
+          {
+            "id": "l8s2q5",
+            "prompt": "Why does this print \"Please type a number\" even though \"42\" is a number?",
+            "options": [
+              "except: catches every error, including the NameError from the typo valeu",
+              "int(\"42\") raises a ValueError",
+              "print() is not allowed inside try",
+              "valeu + 1 raises a ValueError"
+            ],
+            "correctIndex": 0,
+            "explanation": "valeu was never created, so line 3 raises a NameError. The bare except: catches it and shows a misleading message.",
+            "code": "try:\n    value = int(\"42\")\n    print(valeu + 1)\nexcept:\n    print(\"Please type a number\")",
+            "hint": "Look closely at the spelling of every name inside the try block.",
+            "optionFeedback": [
+              "Right: the bare except: hides a NameError.",
+              "\"42\" converts to 42 without any problem.",
+              "Any code, including print(), can go inside a try block.",
+              "Using a name that doesn't exist is a NameError, not a ValueError."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l8s3",
+      "code": "8.3",
+      "title": "else, finally and raise",
+      "summary": "Run code after success, always clean up, and raise your own errors.",
+      "estimatedMinutes": 8,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "else: when it worked",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "An else block after except runs only if the try block finished with no error."
+              },
+              {
+                "type": "code",
+                "code": "text = \"25\"\ntry:\n    age = int(text)\nexcept ValueError:\n    print(\"Not a number\")\nelse:\n    print(\"Next year you will be\", age + 1)",
+                "output": "Next year you will be 26",
+                "explanation": [
+                  "int(\"25\") works, so except is skipped and else runs.",
+                  "Keeping only the risky line in try makes it clear what you are protecting."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "try: the risky line.",
+                  "except: runs if that error happens.",
+                  "else: runs if no error happened."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "finally: always runs",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "def divide(a, b):\n    try:\n        print(a / b)\n    except ZeroDivisionError:\n        print(\"Cannot divide by zero\")\n    finally:\n        print(\"Done\")\n\ndivide(6, 3)\ndivide(1, 0)",
+                "output": "2.0\nDone\nCannot divide by zero\nDone",
+                "explanation": [
+                  "finally runs after try works and after an error is caught: every time."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Order: try, then except (if there was an error) or else (if there wasn't), then finally (always)."
+              }
+            ]
+          },
+          {
+            "title": "raise your own errors",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "raise creates an error on purpose, with your own message. Use it when a value breaks your rules. It stops the function, just like a normal error."
+              },
+              {
+                "type": "code",
+                "code": "def set_age(age):\n    if age < 0:\n        raise ValueError(\"age can't be negative\")\n    return age\n\nprint(set_age(12))\nprint(set_age(-3))",
+                "output": "12\nValueError: age can't be negative",
+                "caption": "Only the last line of the error is shown."
+              }
+            ]
+          },
+          {
+            "title": "Catching your own errors",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The code that calls the function can catch it. except ValueError as error: also stores the error, and printing it shows the message."
+              },
+              {
+                "type": "code",
+                "code": "def set_age(age):\n    if age < 0:\n        raise ValueError(\"age can't be negative\")\n    return age\n\ntry:\n    set_age(-3)\nexcept ValueError as error:\n    print(\"Problem:\", error)",
+                "output": "Problem: age can't be negative"
+              }
+            ]
+          },
+          {
+            "title": "raise needs an error type",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "raise \"Too big\"",
+                "output": "TypeError: exceptions must derive from BaseException",
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Raising plain text, like raise \"Too big\". raise needs an error type with the message in brackets: raise ValueError(\"Too big\")."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l8s3q1",
+            "prompt": "What does this print?",
+            "options": [
+              "bad",
+              "8",
+              "8\nbad",
+              "44"
+            ],
+            "correctIndex": 1,
+            "explanation": "int(\"4\") works, so except is skipped and else prints 4 * 2.",
+            "code": "try:\n    n = int(\"4\")\nexcept ValueError:\n    print(\"bad\")\nelse:\n    print(n * 2)",
+            "hint": "Decide first whether the try block raised an error, then pick the block that runs.",
+            "optionFeedback": [
+              "\"4\" converts fine, so the except block is skipped.",
+              "Right: no error, so else runs and prints 8.",
+              "except and else never both run for the same try.",
+              "n is the number 4 after int(), so * 2 is maths, not repeating text."
+            ]
+          },
+          {
+            "id": "l8s3q2",
+            "prompt": "What does this print?",
+            "options": [
+              "end",
+              "oops",
+              "oops\nend",
+              "end\noops"
+            ],
+            "correctIndex": 2,
+            "explanation": "The division fails, so except prints oops; finally always runs afterwards and prints end.",
+            "code": "try:\n    print(1 / 0)\nexcept ZeroDivisionError:\n    print(\"oops\")\nfinally:\n    print(\"end\")",
+            "hint": "Work out which blocks run when there is an error, and in what order.",
+            "optionFeedback": [
+              "The error is caught, so the except block also runs before finally.",
+              "finally runs every time, even after an error was caught.",
+              "Right: except runs first, then finally.",
+              "finally runs last, after the except block."
+            ]
+          },
+          {
+            "id": "l8s3q3",
+            "prompt": "When does the else block of a try statement run?",
+            "options": [
+              "Only when the try block finished with no error",
+              "Only when an error happened",
+              "Always, after finally",
+              "Only when there is no except block"
+            ],
+            "correctIndex": 0,
+            "explanation": "else is the success path: it runs when try had no error.",
+            "hint": "Think of else as the opposite path to except.",
+            "optionFeedback": [
+              "Right: else is for when everything worked.",
+              "That describes except; else is for the opposite case.",
+              "finally is the block that runs every time, and it runs last.",
+              "In this lesson else comes after an except block; it runs when try succeeds."
+            ]
+          },
+          {
+            "id": "l8s3q4",
+            "prompt": "Which word fills the blank to create an error with your own message?",
+            "options": [
+              "raise",
+              "throw",
+              "return",
+              "except"
+            ],
+            "correctIndex": 0,
+            "explanation": "raise ValueError(\"...\") creates an error on purpose and stops the function.",
+            "code": "def set_score(score):\n    if score > 100:\n        ____ ValueError(\"score must be 100 or less\")\n    return score",
+            "hint": "This is the keyword from the lesson that creates an error on purpose.",
+            "optionFeedback": [
+              "Right: raise creates the error.",
+              "Some other languages use throw, but Python does not have that keyword.",
+              "return gives back a value normally; it doesn't create an error.",
+              "except catches errors; it doesn't create them."
+            ]
+          },
+          {
+            "id": "l8s3q5",
+            "prompt": "What does this print?",
+            "options": [
+              "50",
+              "too big",
+              "Error: ValueError",
+              "Error: too big"
+            ],
+            "correctIndex": 3,
+            "explanation": "check(50) raises ValueError(\"too big\"). except ... as e catches it, and printing e shows its message.",
+            "code": "def check(n):\n    if n > 10:\n        raise ValueError(\"too big\")\n    return n\n\ntry:\n    print(check(50))\nexcept ValueError as e:\n    print(\"Error:\", e)",
+            "hint": "Check whether 50 breaks the rule, and remember what printing the stored error shows.",
+            "optionFeedback": [
+              "50 is bigger than 10, so raise runs before return.",
+              "The except block prints \"Error:\" before the message.",
+              "Printing the error shows its message, not the name of its type.",
+              "Right: the error is caught and its message is printed."
+            ]
+          },
+          {
+            "id": "l8s3q6",
+            "prompt": "Why does this give a TypeError instead of showing the message?",
+            "options": [
+              "raise only works inside a try block",
+              "raise needs an error type, like raise ValueError(\"Out of stock\")",
+              "The message needs single quotes",
+              "raise must be followed by finally"
+            ],
+            "correctIndex": 1,
+            "explanation": "You can only raise errors, not plain text. Put the message inside an error type.",
+            "code": "raise \"Out of stock\"",
+            "hint": "Look at what comes straight after the keyword and compare it with the lesson.",
+            "optionFeedback": [
+              "raise works anywhere, inside or outside try.",
+              "Right: raise needs an error type, not plain text.",
+              "Single and double quotes make the same string; the quotes are not the issue.",
+              "finally belongs to try statements; raise doesn't need it."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l8s4",
+      "code": "8.4",
+      "title": "Checking input in a loop",
+      "summary": "Keep asking until the user types something valid.",
+      "estimatedMinutes": 7,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Ask until it's valid",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Users make typos. Combine while True, try/except and break to keep asking until the answer is valid."
+              },
+              {
+                "type": "code",
+                "code": "while True:\n    text = input(\"Enter your age: \")\n    try:\n        age = int(text)\n    except ValueError:\n        print(\"Please type a whole number.\")\n        continue\n    if age < 0:\n        print(\"Age can't be negative.\")\n    else:\n        break\nprint(\"Thanks! Age:\", age)",
+                "output": "Enter your age: abc\nPlease type a whole number.\nEnter your age: -5\nAge can't be negative.\nEnter your age: 18\nThanks! Age: 18",
+                "explanation": [
+                  "abc can't be converted: the except block prints a message and continue asks again.",
+                  "-5 converts, but it breaks the rule, so the loop asks again.",
+                  "18 is valid, so break ends the loop."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "while True: keep asking.",
+                  "try/except: catch answers that aren't numbers.",
+                  "if: check your own rules.",
+                  "break: stop once the answer is valid."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "A reusable asking function",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Put the loop in a function. return ends the loop and gives back the valid number. raise inside try sends rule-breaking numbers to the same except block."
+              },
+              {
+                "type": "code",
+                "code": "def ask_number(question, low, high):\n    while True:\n        try:\n            n = int(input(question))\n            if n < low:\n                raise ValueError(\"too small\")\n            if n > high:\n                raise ValueError(\"too big\")\n            return n\n        except ValueError:\n            print(f\"Please type a whole number from {low} to {high}.\")\n\ntickets = ask_number(\"How many tickets (1-6)? \", 1, 6)\nprint(\"Booked\", tickets, \"tickets\")",
+                "output": "How many tickets (1-6)? seven\nPlease type a whole number from 1 to 6.\nHow many tickets (1-6)? 9\nPlease type a whole number from 1 to 6.\nHow many tickets (1-6)? 2\nBooked 2 tickets"
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Converting the input above the try block, like age = int(input(\"Age: \")) on its own line. A bad answer then crashes the program before try is reached. The line that can fail must be inside try."
+              },
+              {
+                "type": "keypoint",
+                "text": "Validation loop: ask, try to convert, check your rules, and only leave the loop with a valid value."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l8s4q1",
+            "prompt": "What does this print?",
+            "options": [
+              "not a number\nnegative\nok 7",
+              "ok 7",
+              "not a number\nok 7",
+              "not a number\nnegative"
+            ],
+            "correctIndex": 0,
+            "explanation": "\"x\" fails to convert, \"-2\" breaks the rule, and \"7\" is valid, so it prints ok 7 and break stops the loop.",
+            "code": "for text in [\"x\", \"-2\", \"7\"]:\n    try:\n        n = int(text)\n    except ValueError:\n        print(\"not a number\")\n        continue\n    if n < 0:\n        print(\"negative\")\n    else:\n        print(\"ok\", n)\n        break",
+            "hint": "Walk through the three answers one at a time and note what each one prints.",
+            "optionFeedback": [
+              "Right: each of the three answers prints one line.",
+              "\"x\" and \"-2\" come first and each prints a message before 7 is reached.",
+              "\"-2\" converts to a number, but it is below 0, so it prints negative.",
+              "\"7\" is valid, so the loop prints ok 7 before break ends it."
+            ]
+          },
+          {
+            "id": "l8s4q2",
+            "prompt": "Typing abc here still crashes the program. Why?",
+            "options": [
+              "The except should say TypeError",
+              "int(input(...)) is above the try block, so its ValueError is not caught",
+              "print() can't be used inside try",
+              "input() always crashes when letters are typed"
+            ],
+            "correctIndex": 1,
+            "explanation": "Only errors that happen inside try are caught. The conversion happens before try starts.",
+            "code": "age = int(input(\"Age: \"))\ntry:\n    print(\"Next year:\", age + 1)\nexcept ValueError:\n    print(\"Please type a number\")",
+            "hint": "Find the exact line that fails when letters are typed, and check where it is.",
+            "optionFeedback": [
+              "int(\"abc\") raises a ValueError, so ValueError is the right type to catch.",
+              "Right: the failing line must be inside try.",
+              "print() is fine inside try; the problem is on the line above it.",
+              "input() happily returns letters; it is int() that fails."
+            ]
+          },
+          {
+            "id": "l8s4q3",
+            "prompt": "Which word goes in the blank so the loop asks again after a bad answer?",
+            "options": [
+              "break",
+              "return",
+              "continue",
+              "finally"
+            ],
+            "correctIndex": 2,
+            "explanation": "continue jumps back to the top of the loop, which asks the question again.",
+            "code": "while True:\n    text = input(\"Number: \")\n    try:\n        n = int(text)\n    except ValueError:\n        print(\"Try again\")\n        ____\n    break\nprint(\"You typed\", n)",
+            "hint": "You need the loop keyword that skips the rest and starts the next round.",
+            "optionFeedback": [
+              "break would leave the loop even though no valid number was typed.",
+              "This code is not inside a function, so return can't be used here.",
+              "Right: continue goes back to the question.",
+              "finally starts a block of a try statement; it doesn't send the loop back."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "cheatSheet": {
+    "title": "Handling Errors",
+    "sections": [
+      {
+        "heading": "Common errors",
+        "items": [
+          {
+            "code": "print(score)",
+            "note": "NameError: the name doesn't exist."
+          },
+          {
+            "code": "print(\"Age: \" + 5)",
+            "note": "TypeError: wrong types for the job."
+          },
+          {
+            "code": "int(\"ten\")",
+            "note": "ValueError: right type, value can't be used."
+          },
+          {
+            "code": "print(5 / 0)",
+            "note": "ZeroDivisionError, IndexError and KeyError: no such number, position or key."
+          }
+        ]
+      },
+      {
+        "heading": "Catching errors",
+        "items": [
+          {
+            "code": "try:\n    n = int(\"abc\")\nexcept ValueError:\n    print(\"Not a number\")",
+            "note": "Catch a specific error.",
+            "output": "Not a number"
+          },
+          {
+            "code": "try:\n    n = int(\"5\")\nexcept ValueError:\n    print(\"bad\")\nelse:\n    print(n)\nfinally:\n    print(\"done\")",
+            "note": "else: no error happened. finally: always runs.",
+            "output": "5\ndone"
+          }
+        ]
+      },
+      {
+        "heading": "Raising errors",
+        "items": [
+          {
+            "code": "def set_age(age):\n    if age < 0:\n        raise ValueError(\"negative\")\n    return age\n\ntry:\n    set_age(-1)\nexcept ValueError as e:\n    print(\"Problem:\", e)",
+            "note": "raise an error with your own message.",
+            "output": "Problem: negative"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "Read a traceback from the bottom.",
+      "Name the error after except.",
+      "Keep only the risky line inside try."
+    ]
+  }
+}
