@@ -1,4 +1,0 @@
-<resources>
-    <!-- Google Sign-In Web application: OAuth client ID (Google Cloud Console > Google Auth Platform > Clients) -->
-    <string name="google_web_client_id" translatable="false">366083223668-ghnav157lrq95l3cucvsejkd8l3qv4h3.apps.googleusercontent.com</string>
-</resources>
