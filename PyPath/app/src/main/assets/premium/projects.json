@@ -1,0 +1,1173 @@
+{
+ "schemaVersion": 1,
+ "projects": [
+  {
+   "id": "adv-patterns",
+   "collection": "advanced",
+   "difficulty": "easy",
+   "title": "Number Pattern Studio",
+   "summary": "Print number triangles and squares from a size the user types.",
+   "concepts": [
+    "for loops",
+    "range()",
+    "nested loops",
+    "end="
+   ],
+   "objectives": [
+    "Use a loop inside a loop to build rows and columns",
+    "Control where print() ends a line with end=",
+    "Turn one number from input() into a whole pattern"
+   ],
+   "steps": [
+    {
+     "title": "Read the size",
+     "text": "Ask for a size with input() and convert it with int()."
+    },
+    {
+     "title": "One loop per row",
+     "text": "Write a for loop over range(1, size + 1). Each pass prints one row."
+    },
+    {
+     "title": "Numbers in a row",
+     "text": "Inside it, loop again from 1 to the row number and print each number with end=\" \"."
+    },
+    {
+     "title": "Finish the row",
+     "text": "After the inner loop, call print() on its own to start the next line."
+    },
+    {
+     "title": "Try other sizes",
+     "text": "Run it with 1, 3 and 6. A size of 1 should print a single 1."
+    }
+   ],
+   "starterCode": "# Number Pattern Studio\nsize = int(input(\"Size: \"))\n\n# Print one row per number from 1 to size\n",
+   "fileName": "patterns.py",
+   "recommendedAfter": "l3s4",
+   "order": 1,
+   "sampleRun": "Size: 4\n1\n1 2\n1 2 3\n1 2 3 4",
+   "challengeIds": [
+    "premium-ch-triangle"
+   ]
+  },
+  {
+   "id": "adv-words",
+   "collection": "advanced",
+   "difficulty": "easy",
+   "title": "Word Statistics",
+   "summary": "Analyse a sentence: count its words, find the longest one and the most common one.",
+   "concepts": [
+    "split()",
+    "lower()",
+    "dictionaries",
+    ".get()"
+   ],
+   "objectives": [
+    "Split text into a list of words",
+    "Count things with a dictionary and .get()",
+    "Find a maximum while looping"
+   ],
+   "steps": [
+    {
+     "title": "Read and split",
+     "text": "Read a sentence, make it lower case and split() it into words."
+    },
+    {
+     "title": "Count the words",
+     "text": "len() of the list is the word count."
+    },
+    {
+     "title": "Longest word",
+     "text": "Loop over the words and keep the longest seen so far (the first one wins a tie)."
+    },
+    {
+     "title": "Most common word",
+     "text": "Count every word in a dictionary with counts[w] = counts.get(w, 0) + 1, then loop to find the biggest count."
+    },
+    {
+     "title": "Print a report",
+     "text": "Print Words, Longest and Most common, each on its own line."
+    }
+   ],
+   "starterCode": "# Word Statistics\ntext = input(\"Sentence: \")\nwords = text.lower().split()\n\n",
+   "fileName": "word_stats.py",
+   "recommendedAfter": "l6s4",
+   "order": 2,
+   "sampleRun": "Sentence: the cat and the hat\nWords: 5\nLongest: the\nMost common: the",
+   "challengeIds": [
+    "premium-ch-word-stats"
+   ]
+  },
+  {
+   "id": "adv-gradebook",
+   "collection": "advanced",
+   "difficulty": "medium",
+   "title": "Class Gradebook",
+   "summary": "Store marks for several students, then print each average and grade with functions.",
+   "concepts": [
+    "functions",
+    "return",
+    "lists",
+    "f-strings"
+   ],
+   "objectives": [
+    "Split a program into small functions that return values",
+    "Keep related data together in a list",
+    "Format numbers neatly with :.1f"
+   ],
+   "steps": [
+    {
+     "title": "A function for the average",
+     "text": "Write average(marks) that returns sum(marks) / len(marks)."
+    },
+    {
+     "title": "A function for the grade",
+     "text": "Write grade(avg): A from 90, B from 75, C from 50, otherwise F."
+    },
+    {
+     "title": "Read the students",
+     "text": "Ask how many students, then for each one read a name and three marks."
+    },
+    {
+     "title": "Print a report line",
+     "text": "For each student print the name, the average with :.1f and the grade."
+    },
+    {
+     "title": "Class average",
+     "text": "At the end, print the average of all students' averages."
+    }
+   ],
+   "starterCode": "# Class Gradebook\ndef average(marks):\n    # return the average of the list\n    pass\n\ndef grade(avg):\n    # return \"A\", \"B\", \"C\" or \"F\"\n    pass\n\n",
+   "fileName": "gradebook.py",
+   "recommendedAfter": "l6s2",
+   "order": 3,
+   "sampleRun": "Students: 2\nName: Asha\nMark: 90\nMark: 95\nMark: 88\nAsha: 91.0 (A)\nName: Ravi\nMark: 60\nMark: 72\nMark: 55\nRavi: 62.3 (C)\nClass average: 76.7",
+   "challengeIds": [
+    "premium-ch-grades"
+   ]
+  },
+  {
+   "id": "adv-temperature",
+   "collection": "advanced",
+   "difficulty": "medium",
+   "title": "Temperature Log Analyser",
+   "summary": "Collect temperature readings until the user types done, skipping anything that isn't a number.",
+   "concepts": [
+    "while loops",
+    "try / except",
+    "float()",
+    "min() and max()"
+   ],
+   "objectives": [
+    "Keep reading input in a loop until a stop word",
+    "Survive bad input with try / except ValueError",
+    "Summarise a list with min(), max() and an average"
+   ],
+   "steps": [
+    {
+     "title": "Loop until done",
+     "text": "Use while True and break when the user types done."
+    },
+    {
+     "title": "Convert safely",
+     "text": "Wrap float(text) in try. In except ValueError print a short message and continue."
+    },
+    {
+     "title": "Store good readings",
+     "text": "Append every valid number to a list."
+    },
+    {
+     "title": "Handle no data",
+     "text": "If the list is empty at the end, print No readings and stop."
+    },
+    {
+     "title": "Print the summary",
+     "text": "Print the count, lowest, highest and the average with :.1f."
+    }
+   ],
+   "starterCode": "# Temperature Log Analyser\nreadings = []\n\nwhile True:\n    text = input(\"Reading: \")\n    # stop on \"done\", skip bad numbers\n    break\n",
+   "fileName": "temperatures.py",
+   "recommendedAfter": "l8s4",
+   "order": 4,
+   "sampleRun": "Reading: 21.5\nReading: hot\nNot a number, skipped\nReading: 19\nReading: 24\nReading: done\nReadings: 3\nLowest: 19.0\nHighest: 24.0\nAverage: 21.5",
+   "challengeIds": [
+    "premium-ch-readings"
+   ]
+  },
+  {
+   "id": "adv-todo-file",
+   "collection": "advanced",
+   "difficulty": "medium",
+   "title": "To-do List Saved to a File",
+   "summary": "Add tasks, save them to todo.txt and read them back, even when the file doesn't exist yet.",
+   "concepts": [
+    "with open()",
+    "\"a\" and \"r\" modes",
+    "FileNotFoundError",
+    "strip()"
+   ],
+   "objectives": [
+    "Append lines to a text file",
+    "Read a file line by line and clean each line",
+    "Handle a missing file without crashing"
+   ],
+   "steps": [
+    {
+     "title": "Show saved tasks",
+     "text": "Write show_tasks(): open todo.txt in a try block and print each line with strip(). In except FileNotFoundError print No tasks yet."
+    },
+    {
+     "title": "Add tasks",
+     "text": "Ask for tasks in a loop. Stop on an empty answer."
+    },
+    {
+     "title": "Append each task",
+     "text": "Open todo.txt with \"a\" and write the task followed by \\n."
+    },
+    {
+     "title": "Show the list again",
+     "text": "Call show_tasks() once more so the new tasks appear."
+    },
+    {
+     "title": "Run it twice",
+     "text": "Run the program again: the tasks from the first run are still in the file (in this session)."
+    }
+   ],
+   "starterCode": "# To-do List Saved to a File\ndef show_tasks():\n    pass\n\nshow_tasks()\n",
+   "fileName": "todo.py",
+   "recommendedAfter": "l10s3",
+   "order": 5,
+   "sampleRun": "No tasks yet\nNew task (Enter to stop): Revise loops\nNew task (Enter to stop): Finish project\nNew task (Enter to stop):\nYour tasks:\n- Revise loops\n- Finish project",
+   "challengeIds": []
+  },
+  {
+   "id": "adv-library",
+   "collection": "advanced",
+   "difficulty": "hard",
+   "title": "Library System with Classes",
+   "summary": "Model books as objects, lend and return them, and print the library with __str__.",
+   "concepts": [
+    "classes",
+    "__init__",
+    "methods",
+    "__str__",
+    "lists of objects"
+   ],
+   "objectives": [
+    "Design a class with attributes and methods",
+    "Keep many objects in a list and search it",
+    "Give objects a readable print form with __str__"
+   ],
+   "steps": [
+    {
+     "title": "The Book class",
+     "text": "Give Book a title, an author and available = True in __init__."
+    },
+    {
+     "title": "Lend and return",
+     "text": "lend() sets available to False and returns True, or returns False if it was already lent. give_back() sets it to True."
+    },
+    {
+     "title": "Printing a book",
+     "text": "__str__ returns e.g. \"Dune by Herbert (available)\" or \"(on loan)\"."
+    },
+    {
+     "title": "The library",
+     "text": "Make a list of three Book objects and a find(title) function that returns the matching book or None."
+    },
+    {
+     "title": "Try it",
+     "text": "Lend one book twice, return it, and print every book after each change."
+    }
+   ],
+   "starterCode": "# Library System with Classes\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n",
+   "fileName": "library.py",
+   "recommendedAfter": "l11s5",
+   "order": 6,
+   "sampleRun": "Lend: True\nLend again: False\nDune by Herbert (available)\nMatilda by Dahl (on loan)\nWings of Fire by Kalam (available)\nMatilda by Dahl (available)",
+   "challengeIds": [
+    "premium-ch-account"
+   ]
+  },
+  {
+   "id": "rw-calculator",
+   "collection": "realworld",
+   "difficulty": "easy",
+   "title": "Calculator",
+   "summary": "A two-number calculator for +, -, * and / that never crashes on division by zero.",
+   "concepts": [
+    "float()",
+    "if / elif",
+    "try / except",
+    "f-strings"
+   ],
+   "objectives": [
+    "Choose an operation with if / elif",
+    "Show a friendly message instead of a ZeroDivisionError",
+    "Print results with two decimal places"
+   ],
+   "steps": [
+    {
+     "title": "Read the numbers",
+     "text": "Read the first number, the operator and the second number. Convert numbers with float()."
+    },
+    {
+     "title": "Pick the operation",
+     "text": "Use if / elif for +, -, * and /."
+    },
+    {
+     "title": "Protect division",
+     "text": "If the second number is 0 and the operator is /, print Cannot divide by zero."
+    },
+    {
+     "title": "Unknown operator",
+     "text": "Anything else prints Unknown operator."
+    },
+    {
+     "title": "Show the result",
+     "text": "Print Result: with :.2f, e.g. Result: 3.50."
+    }
+   ],
+   "starterCode": "# Calculator\na = float(input(\"First number: \"))\nop = input(\"Operator (+ - * /): \")\nb = float(input(\"Second number: \"))\n\n",
+   "fileName": "calculator.py",
+   "recommendedAfter": "l8s2",
+   "order": 7,
+   "sampleRun": "First number: 7\nOperator (+ - * /): /\nSecond number: 2\nResult: 3.50",
+   "challengeIds": [
+    "premium-ch-calculator"
+   ]
+  },
+  {
+   "id": "rw-expenses",
+   "collection": "realworld",
+   "difficulty": "medium",
+   "title": "Expense Tracker",
+   "summary": "Record expenses by category and print a total for each category and overall.",
+   "concepts": [
+    "dictionaries",
+    "split()",
+    "int()",
+    "loops"
+   ],
+   "objectives": [
+    "Parse one line of input into two values",
+    "Add up amounts per category with a dictionary",
+    "Print a tidy summary"
+   ],
+   "steps": [
+    {
+     "title": "How many?",
+     "text": "Ask how many expenses there are."
+    },
+    {
+     "title": "Read each line",
+     "text": "Each expense is typed as category amount, for example food 120. Use split()."
+    },
+    {
+     "title": "Add per category",
+     "text": "totals[cat] = totals.get(cat, 0) + amount keeps a running total."
+    },
+    {
+     "title": "Print each category",
+     "text": "Loop over totals.items() and print category: amount in the order they first appeared."
+    },
+    {
+     "title": "Grand total",
+     "text": "Print Total: with the sum of all amounts."
+    }
+   ],
+   "starterCode": "# Expense Tracker\ntotals = {}\ncount = int(input(\"How many expenses? \"))\n\n",
+   "fileName": "expenses.py",
+   "recommendedAfter": "l6s4",
+   "order": 8,
+   "sampleRun": "How many expenses? 3\nExpense: food 120\nExpense: bus 30\nExpense: food 50\nfood: 170\nbus: 30\nTotal: 200",
+   "challengeIds": [
+    "premium-ch-expenses"
+   ]
+  },
+  {
+   "id": "rw-quiz-app",
+   "collection": "realworld",
+   "difficulty": "medium",
+   "title": "Quiz Application",
+   "summary": "Ask questions stored in a list of dictionaries, accept answers in any case and show the score.",
+   "concepts": [
+    "lists of dictionaries",
+    "lower() and strip()",
+    "counters",
+    "f-strings"
+   ],
+   "objectives": [
+    "Keep quiz data separate from the quiz logic",
+    "Compare answers fairly with strip() and lower()",
+    "Report a score and a short message"
+   ],
+   "steps": [
+    {
+     "title": "Store the questions",
+     "text": "Make a list of dictionaries, each with a \"q\" and an \"a\" key."
+    },
+    {
+     "title": "Ask each question",
+     "text": "Loop over the list and ask each question with input()."
+    },
+    {
+     "title": "Mark the answer",
+     "text": "Compare answer.strip().lower() with the stored answer. Print Correct! or the right answer."
+    },
+    {
+     "title": "Keep score",
+     "text": "Add 1 to score for every correct answer."
+    },
+    {
+     "title": "Final message",
+     "text": "Print Score: 2/3 and Well done! when every answer was right."
+    }
+   ],
+   "starterCode": "# Quiz Application\nquestions = [\n    {\"q\": \"Capital of France? \", \"a\": \"paris\"},\n    {\"q\": \"5 + 7 = \", \"a\": \"12\"},\n    {\"q\": \"Opposite of hot? \", \"a\": \"cold\"},\n]\nscore = 0\n\n",
+   "fileName": "quiz_app.py",
+   "recommendedAfter": "l6s3",
+   "order": 9,
+   "sampleRun": "Capital of France? Paris\nCorrect!\n5 + 7 = 11\nAnswer: 12\nOpposite of hot?  COLD\nCorrect!\nScore: 2/3",
+   "challengeIds": [
+    "premium-ch-quiz-app"
+   ]
+  },
+  {
+   "id": "rw-password",
+   "collection": "realworld",
+   "difficulty": "medium",
+   "title": "Password Generator and Checker",
+   "summary": "Generate random passwords with the random module, then rate how strong a password is.",
+   "concepts": [
+    "import random",
+    "random.choice()",
+    "loops over strings",
+    "counters"
+   ],
+   "objectives": [
+    "Build a string one random character at a time",
+    "Check a string for digits, capitals and small letters",
+    "Turn several checks into a single rating"
+   ],
+   "steps": [
+    {
+     "title": "Pick a character set",
+     "text": "Make one string with letters and digits, e.g. letters = \"abc...XYZ0123456789\"."
+    },
+    {
+     "title": "Generate",
+     "text": "Ask for a length and add random.choice(letters) to an empty string that many times."
+    },
+    {
+     "title": "Check strength",
+     "text": "For the password to check, count which rules it meets: 8 or more characters, a digit, a capital, a small letter."
+    },
+    {
+     "title": "Rate it",
+     "text": "4 rules: Strong. 3 rules: Medium. Fewer: Weak."
+    },
+    {
+     "title": "Try both",
+     "text": "Generate one password, then check a weak one like abc."
+    }
+   ],
+   "starterCode": "# Password Generator and Checker\nimport random\n\nletters = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\"\n\n",
+   "fileName": "passwords.py",
+   "recommendedAfter": "l9s2",
+   "order": 10,
+   "sampleRun": "Generated: 10 characters\nStrong\nCheck a password: abc\nWeak",
+   "sampleNote": "The generated password is different on every run (random.seed(7) was used for this example).",
+   "challengeIds": [
+    "premium-ch-strength"
+   ]
+  },
+  {
+   "id": "rw-contacts",
+   "collection": "realworld",
+   "difficulty": "hard",
+   "title": "Contact Book",
+   "summary": "A small data-management tool: add, find and delete contacts with simple commands.",
+   "concepts": [
+    "dictionaries",
+    "split()",
+    "while loops",
+    "if / elif"
+   ],
+   "objectives": [
+    "Read commands in a loop until end",
+    "Add, look up and remove dictionary entries",
+    "Give clear messages for missing contacts"
+   ],
+   "steps": [
+    {
+     "title": "Command loop",
+     "text": "Read a command in a while True loop and split() it into words. end stops the loop."
+    },
+    {
+     "title": "add name phone",
+     "text": "Store the phone number under the name."
+    },
+    {
+     "title": "find name",
+     "text": "Print the number, or Not found."
+    },
+    {
+     "title": "delete name",
+     "text": "Remove the contact with pop(name), or print Not found."
+    },
+    {
+     "title": "Summary",
+     "text": "After end, print Contacts: and how many are saved."
+    }
+   ],
+   "starterCode": "# Contact Book\ncontacts = {}\n\nwhile True:\n    parts = input(\"> \").split()\n    if parts[0] == \"end\":\n        break\n",
+   "fileName": "contacts.py",
+   "recommendedAfter": "l6s4",
+   "order": 11,
+   "sampleRun": "> add Asha 98765\n> add Ravi 91234\n> find Ravi\n91234\n> delete Asha\n> find Asha\nNot found\n> end\nContacts: 1",
+   "challengeIds": [
+    "premium-ch-contacts"
+   ]
+  }
+ ],
+ "challenges": [
+  {
+   "id": "premium-ch-triangle",
+   "title": "Number triangle",
+   "difficulty": "easy",
+   "concepts": [
+    "nested loops",
+    "end="
+   ],
+   "instructions": "Read a size n and print a triangle: row 1 is 1, row 2 is 1 2, up to row n. Numbers are separated by single spaces.",
+   "requirements": [
+    "Ask with input(\"Size: \")",
+    "Print n rows",
+    "Row r shows the numbers 1 to r"
+   ],
+   "example": "Size: 3\n1\n1 2\n1 2 3",
+   "hint": "print(n, end=\" \") keeps numbers on one line. Trailing spaces don't matter.",
+   "starterCode": "size = int(input(\"Size: \"))\n",
+   "checkMode": "exact",
+   "projectId": "adv-patterns",
+   "tests": [
+    {
+     "stdin": [
+      "3"
+     ],
+     "expectedOutput": "Size: 3\n1\n1 2\n1 2 3",
+     "description": "Size 3"
+    },
+    {
+     "stdin": [
+      "5"
+     ],
+     "expectedOutput": "Size: 5\n1\n1 2\n1 2 3\n1 2 3 4\n1 2 3 4 5",
+     "description": "Size 5"
+    },
+    {
+     "stdin": [
+      "1"
+     ],
+     "expectedOutput": "Size: 1\n1",
+     "description": "Edge case: size 1 prints a single 1"
+    },
+    {
+     "stdin": [
+      "7"
+     ],
+     "expectedOutput": "Size: 7\n1\n1 2\n1 2 3\n1 2 3 4\n1 2 3 4 5\n1 2 3 4 5 6\n1 2 3 4 5 6 7",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-word-stats",
+   "title": "Sentence report",
+   "difficulty": "medium",
+   "concepts": [
+    "split()",
+    "dictionaries",
+    ".get()"
+   ],
+   "instructions": "Read a sentence, make it lower case and print three lines: the number of words, the longest word (first one if tied) and the most common word (first one to reach the top count).",
+   "requirements": [
+    "Ask with input(\"Sentence: \")",
+    "Print Words: n",
+    "Print Longest: word",
+    "Print Most common: word"
+   ],
+   "example": "Sentence: the cat and the hat\nWords: 5\nLongest: the\nMost common: the",
+   "hint": "Loop once to count with counts[w] = counts.get(w, 0) + 1, then loop again over the words in order to pick the first word with the highest count.",
+   "starterCode": "text = input(\"Sentence: \")\nwords = text.lower().split()\n",
+   "checkMode": "exact",
+   "projectId": "adv-words",
+   "tests": [
+    {
+     "stdin": [
+      "the cat and the hat"
+     ],
+     "expectedOutput": "Sentence: the cat and the hat\nWords: 5\nLongest: the\nMost common: the",
+     "description": "A short sentence"
+    },
+    {
+     "stdin": [
+      "Python is fun and python is easy"
+     ],
+     "expectedOutput": "Sentence: Python is fun and python is easy\nWords: 7\nLongest: python\nMost common: python",
+     "description": "Capital letters count as the same word"
+    },
+    {
+     "stdin": [
+      "hello"
+     ],
+     "expectedOutput": "Sentence: hello\nWords: 1\nLongest: hello\nMost common: hello",
+     "description": "Edge case: a single word"
+    },
+    {
+     "stdin": [
+      "a bb a ccc bb bb"
+     ],
+     "expectedOutput": "Sentence: a bb a ccc bb bb\nWords: 6\nLongest: ccc\nMost common: bb",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-grades",
+   "title": "Average and grade",
+   "difficulty": "medium",
+   "concepts": [
+    "functions",
+    "return",
+    ":.1f"
+   ],
+   "instructions": "Read how many marks there are, then each mark. Print the average with one decimal place and the grade: A from 90, B from 75, C from 50, otherwise F.",
+   "requirements": [
+    "Ask with input(\"Marks: \") for the count and input(\"Mark: \") for each mark",
+    "Print Average: with :.1f",
+    "Print Grade: and the letter"
+   ],
+   "example": "Marks: 3\nMark: 90\nMark: 80\nMark: 70\nAverage: 80.0\nGrade: B",
+   "hint": "A grade(avg) function with if / elif / elif / else that returns a letter keeps it tidy. Check the biggest threshold first.",
+   "starterCode": "def grade(avg):\n    pass\n\ncount = int(input(\"Marks: \"))\n",
+   "checkMode": "exact",
+   "projectId": "adv-gradebook",
+   "tests": [
+    {
+     "stdin": [
+      "3",
+      "90",
+      "80",
+      "70"
+     ],
+     "expectedOutput": "Marks: 3\nMark: 90\nMark: 80\nMark: 70\nAverage: 80.0\nGrade: B",
+     "description": "Three marks, grade B"
+    },
+    {
+     "stdin": [
+      "2",
+      "95",
+      "91"
+     ],
+     "expectedOutput": "Marks: 2\nMark: 95\nMark: 91\nAverage: 93.0\nGrade: A",
+     "description": "Grade A"
+    },
+    {
+     "stdin": [
+      "2",
+      "75",
+      "74"
+     ],
+     "expectedOutput": "Marks: 2\nMark: 75\nMark: 74\nAverage: 74.5\nGrade: C",
+     "description": "Edge case: 74.5 is just below a B"
+    },
+    {
+     "stdin": [
+      "1",
+      "50"
+     ],
+     "expectedOutput": "Marks: 1\nMark: 50\nAverage: 50.0\nGrade: C",
+     "description": "Edge case: exactly 50 is a C"
+    },
+    {
+     "stdin": [
+      "4",
+      "10",
+      "20",
+      "30",
+      "41"
+     ],
+     "expectedOutput": "Marks: 4\nMark: 10\nMark: 20\nMark: 30\nMark: 41\nAverage: 25.2\nGrade: F",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-readings",
+   "title": "Safe readings",
+   "difficulty": "medium",
+   "concepts": [
+    "while True",
+    "try / except",
+    "float()"
+   ],
+   "instructions": "Read values until the user types done. Skip anything that isn't a number by printing Skipped: followed by the text. At the end print the count and the total with one decimal place, or No readings if there were none.",
+   "requirements": [
+    "Ask with input(\"Reading: \")",
+    "Print Skipped: text for bad values",
+    "Print Count: n and Total: with :.1f, or No readings"
+   ],
+   "example": "Reading: 2.5\nReading: abc\nSkipped: abc\nReading: 4\nReading: done\nCount: 2\nTotal: 6.5",
+   "hint": "Put only float(text) inside try. except ValueError: print the message, then continue.",
+   "starterCode": "readings = []\nwhile True:\n    text = input(\"Reading: \")\n    break\n",
+   "checkMode": "exact",
+   "projectId": "adv-temperature",
+   "tests": [
+    {
+     "stdin": [
+      "2.5",
+      "abc",
+      "4",
+      "done"
+     ],
+     "expectedOutput": "Reading: 2.5\nReading: abc\nSkipped: abc\nReading: 4\nReading: done\nCount: 2\nTotal: 6.5",
+     "description": "One bad value is skipped"
+    },
+    {
+     "stdin": [
+      "10",
+      "20",
+      "30",
+      "done"
+     ],
+     "expectedOutput": "Reading: 10\nReading: 20\nReading: 30\nReading: done\nCount: 3\nTotal: 60.0",
+     "description": "Only numbers"
+    },
+    {
+     "stdin": [
+      "done"
+     ],
+     "expectedOutput": "Reading: done\nNo readings",
+     "description": "Edge case: no readings at all"
+    },
+    {
+     "stdin": [
+      "x",
+      "y",
+      "done"
+     ],
+     "expectedOutput": "Reading: x\nSkipped: x\nReading: y\nSkipped: y\nReading: done\nNo readings",
+     "description": "Edge case: every value is bad"
+    },
+    {
+     "stdin": [
+      "-3",
+      "1.25",
+      "seven",
+      "0",
+      "done"
+     ],
+     "expectedOutput": "Reading: -3\nReading: 1.25\nReading: seven\nSkipped: seven\nReading: 0\nReading: done\nCount: 3\nTotal: -1.8",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-account",
+   "title": "Bank account object",
+   "difficulty": "hard",
+   "concepts": [
+    "classes",
+    "methods",
+    "split()"
+   ],
+   "instructions": "Write an Account class with a balance and deposit / withdraw methods. Read commands until end: deposit 50 adds money, withdraw 30 takes it out, but a withdrawal bigger than the balance prints Not enough money and changes nothing. After end print Balance: and the amount.",
+   "requirements": [
+    "Use a class with a balance attribute starting at 0",
+    "Read commands with input(\"> \")",
+    "Print Not enough money for a refused withdrawal",
+    "Print Balance: n after end"
+   ],
+   "example": "> deposit 50\n> withdraw 80\nNot enough money\n> withdraw 20\n> end\nBalance: 30",
+   "hint": "parts = input(\"> \").split() gives [\"deposit\", \"50\"]. Convert parts[1] with int(). withdraw() can return False when it refuses.",
+   "starterCode": "class Account:\n    def __init__(self):\n        self.balance = 0\n\naccount = Account()\n",
+   "checkMode": "exact",
+   "projectId": "adv-library",
+   "tests": [
+    {
+     "stdin": [
+      "deposit 50",
+      "withdraw 80",
+      "withdraw 20",
+      "end"
+     ],
+     "expectedOutput": "> deposit 50\n> withdraw 80\nNot enough money\n> withdraw 20\n> end\nBalance: 30",
+     "description": "A refused and an accepted withdrawal"
+    },
+    {
+     "stdin": [
+      "deposit 100",
+      "deposit 25",
+      "end"
+     ],
+     "expectedOutput": "> deposit 100\n> deposit 25\n> end\nBalance: 125",
+     "description": "Two deposits"
+    },
+    {
+     "stdin": [
+      "end"
+     ],
+     "expectedOutput": "> end\nBalance: 0",
+     "description": "Edge case: no commands, balance stays 0"
+    },
+    {
+     "stdin": [
+      "deposit 10",
+      "withdraw 10",
+      "withdraw 1",
+      "end"
+     ],
+     "expectedOutput": "> deposit 10\n> withdraw 10\n> withdraw 1\nNot enough money\n> end\nBalance: 0",
+     "description": "Edge case: emptying the account exactly"
+    },
+    {
+     "stdin": [
+      "withdraw 5",
+      "deposit 7",
+      "withdraw 7",
+      "deposit 3",
+      "end"
+     ],
+     "expectedOutput": "> withdraw 5\nNot enough money\n> deposit 7\n> withdraw 7\n> deposit 3\n> end\nBalance: 3",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-calculator",
+   "title": "Safe calculator",
+   "difficulty": "easy",
+   "concepts": [
+    "if / elif",
+    "float()",
+    ":.2f"
+   ],
+   "instructions": "Read two numbers and an operator (+, -, * or /). Print Result: with two decimal places. Division by zero prints Cannot divide by zero; any other operator prints Unknown operator.",
+   "requirements": [
+    "Ask with input(\"First number: \"), input(\"Operator (+ - * /): \") and input(\"Second number: \")",
+    "Print Result: with :.2f",
+    "Handle division by zero and unknown operators"
+   ],
+   "example": "First number: 7\nOperator (+ - * /): /\nSecond number: 2\nResult: 3.50",
+   "hint": "Check op == \"/\" and b == 0 before dividing. f\"Result: {r:.2f}\" gives two decimal places.",
+   "starterCode": "a = float(input(\"First number: \"))\nop = input(\"Operator (+ - * /): \")\nb = float(input(\"Second number: \"))\n",
+   "checkMode": "exact",
+   "projectId": "rw-calculator",
+   "tests": [
+    {
+     "stdin": [
+      "7",
+      "/",
+      "2"
+     ],
+     "expectedOutput": "First number: 7\nOperator (+ - * /): /\nSecond number: 2\nResult: 3.50",
+     "description": "Division"
+    },
+    {
+     "stdin": [
+      "3",
+      "*",
+      "4.5"
+     ],
+     "expectedOutput": "First number: 3\nOperator (+ - * /): *\nSecond number: 4.5\nResult: 13.50",
+     "description": "Multiplication with a decimal"
+    },
+    {
+     "stdin": [
+      "5",
+      "/",
+      "0"
+     ],
+     "expectedOutput": "First number: 5\nOperator (+ - * /): /\nSecond number: 0\nCannot divide by zero",
+     "description": "Edge case: division by zero"
+    },
+    {
+     "stdin": [
+      "5",
+      "%",
+      "2"
+     ],
+     "expectedOutput": "First number: 5\nOperator (+ - * /): %\nSecond number: 2\nUnknown operator",
+     "description": "Edge case: unknown operator"
+    },
+    {
+     "stdin": [
+      "-2.5",
+      "-",
+      "1"
+     ],
+     "expectedOutput": "First number: -2.5\nOperator (+ - * /): -\nSecond number: 1\nResult: -3.50",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-expenses",
+   "title": "Category totals",
+   "difficulty": "medium",
+   "concepts": [
+    "dictionaries",
+    "split()",
+    ".items()"
+   ],
+   "instructions": "Read how many expenses there are, then each one as category amount (e.g. food 120). Print each category's total in the order the categories first appeared, then the overall total.",
+   "requirements": [
+    "Ask with input(\"How many expenses? \") and input(\"Expense: \")",
+    "Print category: total for each category",
+    "Print Total: n last"
+   ],
+   "example": "How many expenses? 3\nExpense: food 120\nExpense: bus 30\nExpense: food 50\nfood: 170\nbus: 30\nTotal: 200",
+   "hint": "Dictionaries remember the order keys were added, so looping over totals.items() prints categories in first-seen order.",
+   "starterCode": "totals = {}\ncount = int(input(\"How many expenses? \"))\n",
+   "checkMode": "exact",
+   "projectId": "rw-expenses",
+   "tests": [
+    {
+     "stdin": [
+      "3",
+      "food 120",
+      "bus 30",
+      "food 50"
+     ],
+     "expectedOutput": "How many expenses? 3\nExpense: food 120\nExpense: bus 30\nExpense: food 50\nfood: 170\nbus: 30\nTotal: 200",
+     "description": "Two categories"
+    },
+    {
+     "stdin": [
+      "2",
+      "books 300",
+      "books 45"
+     ],
+     "expectedOutput": "How many expenses? 2\nExpense: books 300\nExpense: books 45\nbooks: 345\nTotal: 345",
+     "description": "One category twice"
+    },
+    {
+     "stdin": [
+      "0"
+     ],
+     "expectedOutput": "How many expenses? 0\nTotal: 0",
+     "description": "Edge case: no expenses gives Total: 0"
+    },
+    {
+     "stdin": [
+      "4",
+      "tea 10",
+      "bus 20",
+      "tea 15",
+      "gift 5"
+     ],
+     "expectedOutput": "How many expenses? 4\nExpense: tea 10\nExpense: bus 20\nExpense: tea 15\nExpense: gift 5\ntea: 25\nbus: 20\ngift: 5\nTotal: 50",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-quiz-app",
+   "title": "Quiz scorer",
+   "difficulty": "medium",
+   "concepts": [
+    "lists of dictionaries",
+    "lower()",
+    "strip()"
+   ],
+   "instructions": "Ask the three questions from the starter code in order. Answers count as correct whatever their capital letters or extra spaces. Print Correct! or Answer: and the right answer after each question, then Score: n/3, and Well done! when all three are right.",
+   "requirements": [
+    "Use each question text as the input() prompt",
+    "Compare with answer.strip().lower()",
+    "Print Correct! or Answer: x",
+    "Print Score: n/3 (and Well done! for 3/3)"
+   ],
+   "example": "Capital of France? Paris\nCorrect!\n5 + 7 = 11\nAnswer: 12\nOpposite of hot?  COLD \nCorrect!\nScore: 2/3",
+   "hint": "Loop with for item in questions: then use item[\"q\"] and item[\"a\"].",
+   "starterCode": "questions = [\n    {\"q\": \"Capital of France? \", \"a\": \"paris\"},\n    {\"q\": \"5 + 7 = \", \"a\": \"12\"},\n    {\"q\": \"Opposite of hot? \", \"a\": \"cold\"},\n]\nscore = 0\n",
+   "checkMode": "exact",
+   "projectId": "rw-quiz-app",
+   "tests": [
+    {
+     "stdin": [
+      "Paris",
+      "11",
+      " COLD "
+     ],
+     "expectedOutput": "Capital of France? Paris\nCorrect!\n5 + 7 = 11\nAnswer: 12\nOpposite of hot?  COLD\nCorrect!\nScore: 2/3",
+     "description": "Two right, one wrong"
+    },
+    {
+     "stdin": [
+      "paris",
+      "12",
+      "cold"
+     ],
+     "expectedOutput": "Capital of France? paris\nCorrect!\n5 + 7 = 12\nCorrect!\nOpposite of hot? cold\nCorrect!\nScore: 3/3\nWell done!",
+     "description": "All right shows Well done!"
+    },
+    {
+     "stdin": [
+      "",
+      "",
+      ""
+     ],
+     "expectedOutput": "Capital of France?\nAnswer: paris\n5 + 7 =\nAnswer: 12\nOpposite of hot?\nAnswer: cold\nScore: 0/3",
+     "description": "Edge case: empty answers score 0"
+    },
+    {
+     "stdin": [
+      "PARIS ",
+      " 12",
+      "warm"
+     ],
+     "expectedOutput": "Capital of France? PARIS\nCorrect!\n5 + 7 =  12\nCorrect!\nOpposite of hot? warm\nAnswer: cold\nScore: 2/3",
+     "hidden": true
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-strength",
+   "title": "Password strength",
+   "difficulty": "medium",
+   "concepts": [
+    "loops over strings",
+    "counters",
+    "if / elif"
+   ],
+   "instructions": "Read a password and rate it. Count the rules it meets: at least 8 characters, contains a digit, contains a capital letter, contains a small letter. 4 rules: Strong. 3 rules: Medium. Otherwise: Weak.",
+   "requirements": [
+    "Ask with input(\"Password: \")",
+    "Print exactly Strong, Medium or Weak"
+   ],
+   "example": "Password: Secret123\nStrong",
+   "hint": "Loop over the characters and set three True/False flags. ch in \"0123456789\" checks for a digit; ch.upper() == ch and ch.lower() != ch means a capital.",
+   "starterCode": "password = input(\"Password: \")\n",
+   "checkMode": "regex",
+   "projectId": "rw-password",
+   "tests": [
+    {
+     "stdin": [
+      "Secret123"
+     ],
+     "expectedOutput": "Password: Secret123\nStrong",
+     "description": "All four rules: Strong",
+     "pattern": "(?:\\A|\\n)Strong\\Z"
+    },
+    {
+     "stdin": [
+      "secret123"
+     ],
+     "expectedOutput": "Password: secret123\nMedium",
+     "description": "No capital letter: Medium",
+     "pattern": "(?:\\A|\\n)Medium\\Z"
+    },
+    {
+     "stdin": [
+      "abc"
+     ],
+     "expectedOutput": "Password: abc\nWeak",
+     "description": "Edge case: short and simple is Weak",
+     "pattern": "(?:\\A|\\n)Weak\\Z"
+    },
+    {
+     "stdin": [
+      "Ab1"
+     ],
+     "expectedOutput": "Password: Ab1\nMedium",
+     "description": "Edge case: three kinds of character but too short is Medium",
+     "pattern": "(?:\\A|\\n)Medium\\Z"
+    },
+    {
+     "stdin": [
+      "!!!!!!!!"
+     ],
+     "expectedOutput": "Password: !!!!!!!!\nWeak",
+     "hidden": true,
+     "pattern": "(?:\\A|\\n)Weak\\Z"
+    }
+   ]
+  },
+  {
+   "id": "premium-ch-contacts",
+   "title": "Contact commands",
+   "difficulty": "hard",
+   "concepts": [
+    "dictionaries",
+    "while True",
+    "split()"
+   ],
+   "instructions": "Read commands until end. add name phone saves a contact, find name prints the phone number or Not found, delete name removes it or prints Not found. After end print Contacts: and the number saved.",
+   "requirements": [
+    "Read commands with input(\"> \")",
+    "Support add, find and delete",
+    "Print Not found for missing names",
+    "Print Contacts: n after end"
+   ],
+   "example": "> add Asha 98765\n> find Asha\n98765\n> delete Ravi\nNot found\n> end\nContacts: 1",
+   "hint": "if name in contacts: checks before find or delete. contacts.pop(name) removes an entry.",
+   "starterCode": "contacts = {}\n\nwhile True:\n    parts = input(\"> \").split()\n    if parts[0] == \"end\":\n        break\n",
+   "checkMode": "exact",
+   "projectId": "rw-contacts",
+   "tests": [
+    {
+     "stdin": [
+      "add Asha 98765",
+      "find Asha",
+      "delete Ravi",
+      "end"
+     ],
+     "expectedOutput": "> add Asha 98765\n> find Asha\n98765\n> delete Ravi\nNot found\n> end\nContacts: 1",
+     "description": "Add, find and a missing delete"
+    },
+    {
+     "stdin": [
+      "add Asha 1",
+      "add Ravi 2",
+      "delete Asha",
+      "find Asha",
+      "end"
+     ],
+     "expectedOutput": "> add Asha 1\n> add Ravi 2\n> delete Asha\n> find Asha\nNot found\n> end\nContacts: 1",
+     "description": "Deleted contacts are gone"
+    },
+    {
+     "stdin": [
+      "end"
+     ],
+     "expectedOutput": "> end\nContacts: 0",
+     "description": "Edge case: an empty contact book"
+    },
+    {
+     "stdin": [
+      "add Meera 5",
+      "add Meera 6",
+      "find Meera",
+      "end"
+     ],
+     "expectedOutput": "> add Meera 5\n> add Meera 6\n> find Meera\n6\n> end\nContacts: 1",
+     "description": "Edge case: adding the same name again replaces the number"
+    },
+    {
+     "stdin": [
+      "add A 1",
+      "add B 2",
+      "add C 3",
+      "delete B",
+      "find B",
+      "find C",
+      "end"
+     ],
+     "expectedOutput": "> add A 1\n> add B 2\n> add C 3\n> delete B\n> find B\nNot found\n> find C\n3\n> end\nContacts: 2",
+     "hidden": true
+    }
+   ]
+  }
+ ]
+}

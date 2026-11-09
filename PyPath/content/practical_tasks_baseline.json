@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "tasks": [
+    {
+      "id": "playground",
+      "title": "Free playground",
+      "concepts": [
+        "Any Python"
+      ],
+      "instructions": "Write any Python you like and press Run. It's a scratchpad for trying out ideas from your lessons.",
+      "requirements": [
+        "Experiment freely - nothing here is graded or saved"
+      ],
+      "hint": "Try changing a value and running the program again to see how the output changes.",
+      "starterCode": "# Write any Python code here and press Run\n"
+    },
+    {
+      "id": "p-first-program",
+      "title": "Your first program",
+      "afterSubLevel": "l1s1",
+      "concepts": [
+        "print()",
+        "comments"
+      ],
+      "instructions": "Write a program that introduces you using print().",
+      "requirements": [
+        "Print a line saying hello",
+        "Print one fact about yourself",
+        "Print the result of adding two numbers",
+        "Add a comment explaining your code"
+      ],
+      "example": "Hello!\nI am learning Python\n12",
+      "hint": "Each print() puts its text on a new line. Numbers don't need quotes: print(7 + 5).",
+      "starterCode": "# Your first program\n# Use print() to show three lines\n\n"
+    },
+    {
+      "id": "p-shopping-bill",
+      "title": "Shopping bill",
+      "afterSubLevel": "l1s2",
+      "concepts": [
+        "variables",
+        "print()"
+      ],
+      "instructions": "Store the number of pens and notebooks you bought in variables, then work out and print the total number of items.",
+      "requirements": [
+        "Create a variable for pens and one for notebooks",
+        "Create a variable total that adds them",
+        "Print total"
+      ],
+      "example": "7",
+      "hint": "total = pens + notebooks",
+      "starterCode": "# Shopping bill\n\n"
+    },
+    {
+      "id": "p-type-detective",
+      "title": "Type detective",
+      "afterSubLevel": "l1s3",
+      "concepts": [
+        "type()",
+        "int()",
+        "str"
+      ],
+      "instructions": "A friend's age was saved as text: age_text = \"14\". Print its type, convert it to a whole number, then print the age they will be in 5 years.",
+      "requirements": [
+        "Print type(age_text)",
+        "Convert it with int() into a new variable",
+        "Print the age in 5 years"
+      ],
+      "example": "<class 'str'>\n19",
+      "hint": "\"14\" + 5 is an error, but int(\"14\") + 5 works.",
+      "starterCode": "age_text = \"14\"\n\n"
+    },
+    {
+      "id": "p-greeting",
+      "title": "Greeting program",
+      "afterSubLevel": "l1s4",
+      "concepts": [
+        "input()",
+        "print()"
+      ],
+      "instructions": "Write a Python program that asks the user for their name and prints a greeting.",
+      "requirements": [
+        "Ask for the user's name with input()",
+        "Print a greeting that includes the name"
+      ],
+      "example": "Enter your name: Arnav\nHello Arnav",
+      "hint": "name = input(\"Enter your name: \") stores whatever the user types.",
+      "starterCode": "# Greeting program\n\n"
+    },
+    {
+      "id": "p-birthday-maths",
+      "title": "Birthday maths",
+      "afterSubLevel": "l1s4",
+      "concepts": [
+        "input()",
+        "int()",
+        "f-strings"
+      ],
+      "instructions": "Ask the user for their name and age, then tell them how old they will be next year using an f-string.",
+      "requirements": [
+        "Read the name with input()",
+        "Read the age and convert it with int()",
+        "Print a sentence with an f-string"
+      ],
+      "example": "Name: Meera\nAge: 15\nMeera, next year you will be 16",
+      "hint": "input() always gives text - wrap it in int() before adding 1.",
+      "starterCode": "# Birthday maths\n\n"
+    },
+    {
+      "id": "p-compare",
+      "title": "Number comparer",
+      "afterSubLevel": "l2s1",
+      "concepts": [
+        "comparisons",
+        "int()",
+        "input()"
+      ],
+      "instructions": "Ask the user for two whole numbers and print the result of comparing them.",
+      "requirements": [
+        "Read two numbers with int(input(...))",
+        "Print whether the first is greater than the second",
+        "Print whether they are equal"
+      ],
+      "example": "First: 8\nSecond: 3\n8 > 3 is True\n8 == 3 is False",
+      "hint": "print(a > b) prints True or False.",
+      "starterCode": "# Number comparer\n\n"
+    },
+    {
+      "id": "p-voting",
+      "title": "Can I vote?",
+      "afterSubLevel": "l2s2",
+      "concepts": [
+        "if",
+        "else",
+        "input()"
+      ],
+      "instructions": "Ask for the user's age. If they are 18 or older print that they can vote, otherwise print how many years they have to wait.",
+      "requirements": [
+        "Convert the age to a number",
+        "Use if and else",
+        "Calculate the years left in the else branch"
+      ],
+      "example": "Age: 15\nYou can vote in 3 years",
+      "hint": "Indent the lines that belong to if and else by 4 spaces (use the Tab key above the keyboard).",
+      "starterCode": "# Can I vote?\n\n"
+    },
+    {
+      "id": "p-grades",
+      "title": "Grade calculator",
+      "afterSubLevel": "l2s3",
+      "concepts": [
+        "if",
+        "elif",
+        "else"
+      ],
+      "instructions": "Ask for a mark out of 100 and print a grade: A for 90 and above, B for 75 and above, C for 50 and above, otherwise \"Keep practising\".",
+      "requirements": [
+        "Read the mark as a number",
+        "Check the highest grade first",
+        "Use if / elif / else"
+      ],
+      "example": "Mark: 82\nGrade B",
+      "hint": "Python checks each condition from top to bottom and runs the first one that is True.",
+      "starterCode": "# Grade calculator\n\n"
+    },
+    {
+      "id": "p-times-table",
+      "title": "Times table",
+      "afterSubLevel": "l3s1",
+      "concepts": [
+        "for loops",
+        "range()"
+      ],
+      "instructions": "Ask for a number and print its times table from 1 to 10 using a for loop.",
+      "requirements": [
+        "Read the number",
+        "Loop with for and range()",
+        "Print each line like 3 x 4 = 12"
+      ],
+      "example": "Number: 3\n3 x 1 = 3\n3 x 2 = 6\n...",
+      "starterCode": "# Times table\n\n"
+    },
+    {
+      "id": "p-countdown",
+      "title": "Countdown",
+      "afterSubLevel": "l3s2",
+      "concepts": [
+        "while loops"
+      ],
+      "instructions": "Ask for a starting number and count down to 1 with a while loop, then print \"Lift off!\".",
+      "requirements": [
+        "Use a while loop",
+        "Decrease the counter each time",
+        "Print Lift off! at the end"
+      ],
+      "example": "Start: 3\n3\n2\n1\nLift off!",
+      "starterCode": "# Countdown\n\n"
+    },
+    {
+      "id": "p-list-stats",
+      "title": "Marks analyser",
+      "afterSubLevel": "l5s3",
+      "concepts": [
+        "lists",
+        "list methods",
+        "loops"
+      ],
+      "instructions": "Store five marks in a list, add one more with append(), then print the highest, the lowest and the average mark.",
+      "requirements": [
+        "Create a list of marks",
+        "Use append()",
+        "Print max, min and the average"
+      ],
+      "example": "Highest: 95\nLowest: 48\nAverage: 72.5",
+      "starterCode": "marks = [72, 95, 48, 66, 81]\n\n"
+    }
+  ]
+}
