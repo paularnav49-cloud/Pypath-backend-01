@@ -14,7 +14,7 @@ on:
       zip_path:
         description: "Path of the zip file in this repo"
         type: string
-        default: "PyPath-premium-codebattle.zip"
+        default: "PyPath-frontend-polish.zip"
       delete_zip:
         description: "Delete the zip from the repo after unzipping"
         type: boolean
