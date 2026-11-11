@@ -71,7 +71,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core")
 
     // Google Sign-In through Android Credential Manager ("Sign in with Google").
-    // Google Play services does the network work, so the app adds no INTERNET permission.
+    // The Google ID token is then exchanged for a Supabase session (cloud backup, plain HttpURLConnection,
+    // no extra networking library).
     implementation("androidx.credentials:credentials:1.3.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")

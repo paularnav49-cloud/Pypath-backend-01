@@ -92,8 +92,9 @@ fun SignInScreen(
         }
         Spacer(Modifier.height(24.dp))
         Text(
-            "Your lessons and progress stay on this phone either way. Only your name and email are saved, on this " +
-                "device. You can sign in or out later from the menu on the home screen.",
+            "Your lessons and progress always stay on this phone. When you sign in, they are also backed up " +
+                "privately to your PyPath account, so you can continue on another phone. You can sign in or out " +
+                "later from the menu on the home screen.",
             style = MaterialTheme.typography.bodySmall, color = c.textFaint, textAlign = TextAlign.Center,
             modifier = Modifier.widthIn(max = 420.dp),
         )

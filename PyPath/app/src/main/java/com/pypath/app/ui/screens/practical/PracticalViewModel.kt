@@ -27,6 +27,8 @@ import com.pypath.app.data.programs.FileProgramRepository
 import com.pypath.app.data.programs.ProgramBook
 import com.pypath.app.data.programs.ProgramLibrary
 import com.pypath.app.data.programs.ProgramRepository
+import com.pypath.app.data.programs.SyncedPrograms
+import com.pypath.app.cloud.CloudMerge
 import com.pypath.app.data.programs.SavedProgram
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -478,7 +480,26 @@ class PracticalViewModel(app: Application) : AndroidViewModel(app), RunnerListen
             library = lib
             currentProgramId = lib.find(lib.lastOpenedId)?.id ?: lib.sorted.firstOrNull()?.id
             loadingLibrary = false
+            // Cloud sync: programs saved on another phone appear here; nothing typed here is lost.
+            programRepo.syncedChanges.collect { onSyncedPrograms(it) }
         }
+    }
+
+    private fun onSyncedPrograms(incoming: SyncedPrograms) {
+        val current = library ?: return
+        val next = if (incoming.replaced) incoming.library else CloudMerge.programs(current, incoming.library)
+        if (incoming.replaced) saveJob?.cancel()
+        if (next == current) return
+        if (currentProgramId != null && next.find(currentProgramId) == null) leaveCurrentRun()
+        // Drop editor drafts whose program text changed underneath (the merged text is shown instead).
+        for (p in current.programs) {
+            val key = PROGRAM_PREFIX + p.id
+            val now = next.find(p.id)
+            if (now == null || now.code != (drafts[key]?.text ?: p.code)) drafts.remove(key)
+        }
+        library = next
+        if (next.find(currentProgramId) == null) currentProgramId = next.find(next.lastOpenedId)?.id ?: next.sorted.firstOrNull()?.id
+        if (!incoming.replaced && next != incoming.library) saveNow()
     }
 
     fun updateProgramCode(p: SavedProgram, value: TextFieldValue) {

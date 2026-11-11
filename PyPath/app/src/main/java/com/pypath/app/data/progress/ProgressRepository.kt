@@ -31,6 +31,9 @@ interface ProgressRepository {
     suspend fun syncXp(course: Course): Int
     suspend fun migrate(course: Course)
     suspend fun reset()
+
+    /** Cloud sync: replaces progress with [transform] of the stored value in one transaction. */
+    suspend fun applySynced(transform: (UserProgress) -> UserProgress) {}
 }
 
 class LocalProgressRepository(private val context: Context) : ProgressRepository {
@@ -101,4 +104,6 @@ class LocalProgressRepository(private val context: Context) : ProgressRepository
 
     /** Clears course progress and badges but keeps onboarding as seen. */
     override suspend fun reset() = update { ProgressUpdates.reset(it) }
+
+    override suspend fun applySynced(transform: (UserProgress) -> UserProgress) = update(transform)
 }

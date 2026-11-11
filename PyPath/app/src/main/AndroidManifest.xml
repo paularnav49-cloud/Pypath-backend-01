@@ -9,6 +9,11 @@
     <!-- Premium Phase 1 (Image Center): saving images to the gallery on Android 8-9 only. From
          Android 10 the app saves through MediaStore with no permission, so this is capped at API 28. -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <!-- Cloud backup: the main (UI) process signs in to Supabase and syncs the learner's own row over
+         HTTPS. Android grants this to every process of the app, so the ":python" runner process
+         takes network access away from itself with a kernel seccomp filter before any learner code
+         runs (see python/pypath_netlock.py); the runner refuses to run code if that lock fails. -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".PyPathApp"
@@ -41,8 +46,9 @@
         </provider>
 
         <!-- Practical tab: runs learner Python code (Chaquopy) in a separate, killable process.
-             Not exported, so no other app can bind to it. The app requests no INTERNET permission,
-             so code running here has no network access. -->
+             Not exported, so no other app can bind to it. Although the app holds INTERNET for cloud
+             backup, code running here has no network access: pypath_netlock installs a seccomp filter
+             in this process (all threads, permanent) that makes the kernel refuse internet sockets. -->
         <!-- Batch 3 Part 3: study reminder alarm (inexact, no exact-alarm permission), re-scheduled
              after reboot, clock or time-zone changes and app updates. Not exported. -->
         <receiver

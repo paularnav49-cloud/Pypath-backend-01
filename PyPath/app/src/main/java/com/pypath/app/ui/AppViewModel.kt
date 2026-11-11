@@ -10,6 +10,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.pypath.app.PyPathApp
 import com.pypath.app.audio.SoundManager
+import com.pypath.app.cloud.CloudSync
+import com.pypath.app.cloud.SyncStatus
 import com.pypath.app.data.activity.ActivityData
 import com.pypath.app.data.activity.ActivityRepository
 import com.pypath.app.data.activity.ActivityUpdates
@@ -65,6 +67,8 @@ class AppViewModel(
     private val authRepo: AuthRepository? = null,
     /** Premium Phase 1: Premium access (null in previews and tests: then everything is Free). */
     private val premiumRepo: PremiumRepository? = null,
+    /** Cloud backup for signed-in learners (null in previews and tests). */
+    private val cloud: CloudSync? = null,
 ) : ViewModel() {
 
     // ───────────── Premium Phase 1 ─────────────
@@ -87,16 +91,28 @@ class AppViewModel(
         (authRepo?.account?.map<AccountState, AccountState?> { it } ?: MutableStateFlow(AccountState(skipped = true)))
             .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
-    /** Saves the account. An empty certificate name is filled with the Google name (never overwritten). */
+    /** Cloud backup state for the account dialog. */
+    val syncStatus: StateFlow<SyncStatus> = (cloud?.status ?: MutableStateFlow(SyncStatus.Off))
+        .stateIn(viewModelScope, SharingStarted.Eagerly, SyncStatus.Off)
+
+    /**
+     * Saves the account. Called only after Supabase accepted the Google sign-in (see GoogleSignIn).
+     * The first sync merges this phone's data with the account's cloud copy; then an empty
+     * certificate name is filled with the Google name (never overwritten).
+     */
     fun signedIn(user: GoogleAccount) = viewModelScope.launch {
         runCatching { authRepo?.signIn(user) }
+        runCatching { cloud?.syncNow() }
         if (user.displayName.isNotBlank()) runCatching {
             if (settings.certificateName.first().isBlank()) settings.setCertificateName(user.displayName.trim())
         }
     }
 
-    /** Forgets the account on this phone. Progress, XP, streaks and settings are not touched. */
-    fun signOut() = viewModelScope.launch { runCatching { authRepo?.signOut() } }
+    /** Signs out of the account on this phone. Progress, XP, streaks and settings stay on the phone. */
+    fun signOut() = viewModelScope.launch {
+        runCatching { cloud?.signOut() }
+        runCatching { authRepo?.signOut() }
+    }
 
     /** "Continue without signing in". */
     fun skipSignIn() = viewModelScope.launch { runCatching { authRepo?.skip() } }
@@ -299,6 +315,7 @@ class AppViewModel(
 
     /** Clears course progress, badges, XP, question history, streaks and day tallies. Settings stay. */
     fun resetProgress() = viewModelScope.launch {
+        runCatching { cloud?.noteReset() }
         progressRepo.reset()
         activityRepo.reset()
         // Batch 3 Part 3: Reset progress also turns the daily reminder off and cancels it.
@@ -316,6 +333,7 @@ class AppViewModel(
                     AlarmReminderControl(app),
                     c.authRepository,
                     c.premiumRepository,
+                    c.cloudSync,
                 )
             }
         }

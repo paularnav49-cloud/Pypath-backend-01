@@ -20,9 +20,18 @@ import com.pypath.app.premium.FilePremiumStudyRepository
 import com.pypath.app.premium.PremiumStudyStore
 import com.pypath.app.premium.BattleStore
 import com.pypath.app.premium.FileBattleRepository
+import com.pypath.app.cloud.CloudStateApi
+import com.pypath.app.cloud.CloudSync
+import com.pypath.app.cloud.KeystoreSessionStore
+import com.pypath.app.cloud.LocalSyncMetaStore
+import com.pypath.app.cloud.RepositoryCloudData
+import com.pypath.app.cloud.SupabaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import java.io.File
 
-/** Simple manual DI container. Swap implementations here (e.g. remote content, cloud sync). */
+/** Simple manual DI container. Swap implementations here (e.g. remote content). */
 class AppContainer(app: Application) {
     val courseRepository: CourseRepository = AssetCourseRepository(app)
     val progressRepository: ProgressRepository = LocalProgressRepository(app)
@@ -39,6 +48,22 @@ class AppContainer(app: Application) {
     val premiumStudyStore: PremiumStudyStore by lazy { PremiumStudyStore(FilePremiumStudyRepository(File(app.filesDir, "premium"))) }
     /** Premium Code Battle: battle records, history and trophies (files/premium/battle.json, opened on first use). */
     val battleStore: BattleStore by lazy { BattleStore(FileBattleRepository(File(app.filesDir, "premium"))) }
+    /**
+     * Cloud backup (Supabase) for signed-in learners. Main process only: the `:python` runner process
+     * never creates the container, and its network access is locked by pypath_netlock.
+     */
+    val cloudSync: CloudSync by lazy {
+        CloudSync(
+            auth = SupabaseAuth(),
+            api = CloudStateApi(),
+            sessions = KeystoreSessionStore(app),
+            local = RepositoryCloudData(progressRepository, activityRepository, programRepository, settingsRepository, File(app.filesDir, "cloud")),
+            meta = LocalSyncMetaStore(app),
+            accounts = authRepository,
+        )
+    }
+    /** Lives as long as the app process; used for background cloud sync. */
+    val appScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     /** Sound effects for the Learn side only. Loaded on first use by MainActivity. */
     val sounds: SoundManager by lazy { SoundManager(app) }
 }

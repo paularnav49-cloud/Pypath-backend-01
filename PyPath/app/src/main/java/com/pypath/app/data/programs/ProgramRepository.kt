@@ -1,6 +1,10 @@
 package com.pypath.app.data.programs
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -11,7 +15,8 @@ import java.util.UUID
 
 /**
  * Premium Phase 1 (Advanced IDE): one saved Python program. Programs are stored once, in a single
- * small JSON file in the app's private storage (no database, no cloud, no duplicate copies).
+ * small JSON file in the app's private storage (one copy; signed-in learners also get a private
+ * cloud backup through [com.pypath.app.cloud.CloudSync]).
  */
 @Serializable
 data class SavedProgram(
@@ -32,6 +37,11 @@ data class ProgramLibrary(
     val programs: List<SavedProgram> = emptyList(),
     /** Program shown when the IDE opens again. */
     val lastOpenedId: String? = null,
+    /**
+     * Cloud sync: ids of deleted programs and when they were deleted, so a program deleted on one
+     * phone is not brought back from another phone or from the cloud copy.
+     */
+    val deleted: Map<String, Long> = emptyMap(),
 ) {
     fun find(id: String?): SavedProgram? = programs.firstOrNull { it.id == id }
 
@@ -87,10 +97,11 @@ object ProgramBook {
             if (it.id == id && it.code != code) it.copy(code = code.take(MAX_CODE), updatedAt = now) else it
         })
 
-    fun delete(lib: ProgramLibrary, id: String): ProgramLibrary {
+    fun delete(lib: ProgramLibrary, id: String, now: Long = System.currentTimeMillis()): ProgramLibrary {
+        if (lib.find(id) == null) return lib
         val rest = lib.programs.filter { it.id != id }
         val last = if (lib.lastOpenedId == id) rest.maxByOrNull { it.updatedAt }?.id else lib.lastOpenedId
-        return lib.copy(programs = rest, lastOpenedId = last)
+        return lib.copy(programs = rest, lastOpenedId = last, deleted = lib.deleted + (id to now))
     }
 
     fun open(lib: ProgramLibrary, id: String): ProgramLibrary = if (lib.find(id) != null) lib.copy(lastOpenedId = id) else lib
@@ -99,7 +110,26 @@ object ProgramBook {
 interface ProgramRepository {
     suspend fun load(): ProgramLibrary
     suspend fun save(library: ProgramLibrary)
+
+    /**
+     * Cloud sync: read-modify-write in one step (so a save from the editor is never lost). The
+     * result is announced on [syncedChanges] so an open editor can pick it up.
+     */
+    suspend fun applySynced(replaced: Boolean = false, transform: (ProgramLibrary) -> ProgramLibrary): ProgramLibrary {
+        val next = transform(load())
+        save(next)
+        return next
+    }
+
+    /** Libraries written by cloud sync (not by the editor itself). */
+    val syncedChanges: Flow<SyncedPrograms> get() = emptyFlow()
 }
+
+/**
+ * A library written by cloud sync. [replaced] is true when the phone switched to a different
+ * account: the editor must then drop what it holds instead of merging it in.
+ */
+data class SyncedPrograms(val library: ProgramLibrary, val replaced: Boolean)
 
 /**
  * Stores the whole library in `files/programs/programs.json`. Writes go to a temporary file that
@@ -110,20 +140,38 @@ class FileProgramRepository(private val dir: File) : ProgramRepository {
     private val file get() = File(dir, "programs.json")
     private val mutex = Mutex()
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
+    private val synced = MutableSharedFlow<SyncedPrograms>(extraBufferCapacity = 4, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    override suspend fun load(): ProgramLibrary = withContext(Dispatchers.IO) {
-        mutex.withLock {
-            val f = file
-            if (!f.exists()) return@withLock ProgramLibrary()
-            runCatching { json.decodeFromString(ProgramLibrary.serializer(), f.readText()) }.getOrElse {
-                runCatching { f.copyTo(File(dir, "programs.json.bak"), overwrite = true) }
-                ProgramLibrary()
-            }
+    override val syncedChanges: Flow<SyncedPrograms> get() = synced
+
+    override suspend fun load(): ProgramLibrary = withContext(Dispatchers.IO) { mutex.withLock { read() } }
+
+    private fun read(): ProgramLibrary {
+        val f = file
+        if (!f.exists()) return ProgramLibrary()
+        return runCatching { json.decodeFromString(ProgramLibrary.serializer(), f.readText()) }.getOrElse {
+            runCatching { f.copyTo(File(dir, "programs.json.bak"), overwrite = true) }
+            ProgramLibrary()
         }
     }
 
-    override suspend fun save(library: ProgramLibrary) = withContext(Dispatchers.IO) {
-        mutex.withLock {
+    override suspend fun applySynced(replaced: Boolean, transform: (ProgramLibrary) -> ProgramLibrary): ProgramLibrary {
+        val next = withContext(Dispatchers.IO) {
+            mutex.withLock {
+                val current = read()
+                val next = transform(current)
+                if (next != current) write(next)
+                next
+            }
+        }
+        synced.tryEmit(SyncedPrograms(next, replaced))
+        return next
+    }
+
+    override suspend fun save(library: ProgramLibrary) = withContext(Dispatchers.IO) { mutex.withLock { write(library) } }
+
+    private fun write(library: ProgramLibrary) {
+        run {
             dir.mkdirs()
             val tmp = File(dir, "programs.json.tmp")
             tmp.writeText(json.encodeToString(ProgramLibrary.serializer(), library))

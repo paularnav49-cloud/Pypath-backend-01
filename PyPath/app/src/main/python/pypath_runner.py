@@ -25,7 +25,11 @@ Sandbox (best effort, defence in depth)
   any file access outside the per-run scratch directory and the read-only Python
   standard library.
 * The Java bridge modules are removed from ``sys.modules`` for the duration of the run.
-* The Android app itself has no INTERNET permission, so the OS blocks networking too.
+* Network lock (``pypath_netlock``): the app holds the INTERNET permission for cloud sync,
+  so before any learner code runs this process installs a Linux seccomp-bpf filter that
+  makes the kernel refuse internet sockets (and DNS-proxy sockets, ptrace and io_uring) for
+  every thread, permanently. ``warm_up`` fails and ``run`` refuses to execute code if the
+  lock is not active, so learner code never runs with network access.
 * Each run gets a fresh ``__main__`` namespace and builtins are restored afterwards.
 """
 
@@ -53,7 +57,7 @@ BLOCKED_MODULES = frozenset({
     "socket", "_socket", "ssl", "_ssl", "select", "selectors", "asyncio",
     "http", "urllib", "ftplib", "smtplib", "poplib", "imaplib", "telnetlib", "socketserver",
     "xmlrpc", "webbrowser", "subprocess", "_posixsubprocess", "multiprocessing",
-    "_multiprocessing", "concurrent", "ctypes", "_ctypes", "pty", "resource",
+    "_multiprocessing", "concurrent", "ctypes", "_ctypes", "pypath_netlock", "pty", "resource",
     "signal", "faulthandler",
 })
 
@@ -398,10 +402,31 @@ def _hide_modules():
     return hidden
 
 
+def _lock_network():
+    """Installs the kernel network lock once (trusted code, before any learner code runs).
+    ctypes is used only here; it is removed from ``sys.modules`` afterwards and stays blocked
+    for learner code by the audit hook and BLOCKED_MODULES."""
+    import pypath_netlock
+    try:
+        return pypath_netlock.lock_network()
+    finally:
+        for name in list(sys.modules):
+            if name.split(".")[0] in ("ctypes", "_ctypes"):
+                sys.modules.pop(name, None)
+
+
+def _network_locked():
+    mod = sys.modules.get("pypath_netlock")
+    return mod is not None and mod.is_locked()
+
+
 def run(code, out_fd, in_fd, workdir, private_dir=None):
     """Execute ``code``. Returns 'ok', 'error' or 'exit:<code>'."""
     global _active_channel
     _install_hook(private_dir)
+    if not _network_locked():
+        # Fail closed: never run learner code in a process that could reach the network.
+        _lock_network()
     channel = _Channel(out_fd, in_fd)
     saved_streams = (sys.stdout, sys.stderr, sys.stdin)
     saved_builtins = dict(builtins.__dict__)
@@ -483,7 +508,9 @@ def run(code, out_fd, in_fd, workdir, private_dir=None):
 
 
 def warm_up(private_dir=None):
-    """Install the sandbox hook and pre-import runner modules so the first run is fast."""
+    """Lock the network, install the sandbox hook and pre-import runner modules so the first
+    run is fast. Raises (and the runner stays unusable) if the network lock fails."""
+    _lock_network()
     _install_hook(private_dir)
     traceback.TracebackException  # noqa: B018
     return sys.version

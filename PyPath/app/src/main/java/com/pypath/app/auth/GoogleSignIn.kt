@@ -1,7 +1,6 @@
 package com.pypath.app.auth
 
 import android.content.Context
-import android.util.Base64
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -12,11 +11,14 @@ import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.pypath.app.PyPathApp
 import com.pypath.app.R
+import com.pypath.app.cloud.SupabaseException
 import com.pypath.app.data.auth.GoogleAccount
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import java.security.MessageDigest
 import java.security.SecureRandom
 
 /** Outcome of one "Sign in with Google" attempt. */
@@ -28,11 +30,14 @@ sealed interface SignInResult {
 }
 
 /**
- * Google Sign-In through Android Credential Manager ("Sign in with Google" button flow).
+ * Google Sign-In through Android Credential Manager ("Sign in with Google" button flow), followed by
+ * Supabase sign-in with the Google ID token.
  *
- * Google Play services shows the account picker and talks to Google, so the app itself still needs
- * no INTERNET permission (the Practical tab's Python process stays offline). Needs a Web OAuth
- * client id in res/values/google_auth.xml; see README "Google Sign-In".
+ * Google Play services shows the account picker and talks to Google. The ID token is then exchanged
+ * once for a Supabase session (see [com.pypath.app.cloud.CloudSync.signInWithGoogle]) and never
+ * stored. The learner is signed in only if that exchange succeeds. A fresh nonce protects against
+ * replay: Google receives its SHA-256, Supabase the raw value, and Supabase checks they match.
+ * Needs a Web OAuth client id in res/values/google_auth.xml; see README "Google Sign-In".
  */
 object GoogleSignIn {
 
@@ -49,12 +54,20 @@ object GoogleSignIn {
                     "app/src/main/res/values/google_auth.xml and build again.",
             )
         }
-        val option = GetSignInWithGoogleOption.Builder(clientId).setNonce(newNonce()).build()
+        val cloud = (activityContext.applicationContext as? PyPathApp)?.container?.cloudSync
+            ?: return SignInResult.Failure("Sign-in is not available right now. Please restart PyPath and try again.")
+        val rawNonce = Nonce.newRaw()
+        val option = GetSignInWithGoogleOption.Builder(clientId).setNonce(Nonce.sha256Hex(rawNonce)).build()
         val request = GetCredentialRequest.Builder().addCredentialOption(option).build()
         return try {
             val credential = CredentialManager.create(activityContext).getCredential(activityContext, request).credential
             if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                 val google = GoogleIdTokenCredential.createFrom(credential.data)
+                // Supabase must accept the token before the learner counts as signed in.
+                val session = cloud.signInWithGoogle(google.idToken, rawNonce)
+                if (session.isFailure) {
+                    return SignInResult.Failure(GoogleAuthConfig.friendlyCloudError(session.exceptionOrNull()))
+                }
                 SignInResult.Success(
                     GoogleAccount(
                         id = GoogleAuthConfig.subjectFromIdToken(google.idToken) ?: google.id,
@@ -84,10 +97,17 @@ object GoogleSignIn {
         runCatching { CredentialManager.create(context).clearCredentialState(ClearCredentialStateRequest()) }
     }
 
-    private fun newNonce(): String {
-        val bytes = ByteArray(16).also { SecureRandom().nextBytes(it) }
-        return Base64.encodeToString(bytes, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
+}
+
+/** Sign-in nonce: a random value per attempt; Google gets its SHA-256 (hex), Supabase the raw value. */
+object Nonce {
+    fun newRaw(random: SecureRandom = SecureRandom()): String {
+        val bytes = ByteArray(32).also { random.nextBytes(it) }
+        return java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(bytes)
     }
+
+    fun sha256Hex(raw: String): String =
+        MessageDigest.getInstance("SHA-256").digest(raw.toByteArray(Charsets.UTF_8)).joinToString("") { "%02x".format(it) }
 }
 
 /** Pure helpers (no Android types), covered by unit tests. */
@@ -106,6 +126,18 @@ object GoogleAuthConfig {
         val json = String(java.util.Base64.getUrlDecoder().decode(payload.padEnd((payload.length + 3) / 4 * 4, '=')), Charsets.UTF_8)
         Json.parseToJsonElement(json).jsonObject["sub"]?.jsonPrimitive?.content?.takeIf { it.isNotBlank() }
     }.getOrNull()
+
+    /** Message for a failed Supabase sign-in (the Google part already worked). */
+    fun friendlyCloudError(e: Throwable?): String = when {
+        e is java.io.IOException -> "No internet connection. Connect to the internet and try again."
+        e is SupabaseException && (e.message.orEmpty().contains("audience", ignoreCase = true) ||
+            e.message.orEmpty().contains("provider", ignoreCase = true)) ->
+            "Your PyPath account could not be opened: Google sign-in is not enabled correctly on the PyPath server (${e.message})."
+        e is SupabaseException && e.message.orEmpty().contains("nonce", ignoreCase = true) ->
+            "Sign-in check failed. Please try again."
+        e is SupabaseException -> "Could not sign in to your PyPath account (${e.code}). Please try again."
+        else -> "Could not sign in to your PyPath account. Please try again."
+    }
 
     fun friendlyError(raw: String?): String {
         val m = raw.orEmpty()

@@ -35,6 +35,10 @@ import java.util.concurrent.atomic.AtomicReference
  *
  * Console I/O travels over two pipes (see `pypath_runner.py`), so learner code never needs the
  * Java bridge, which is hidden from it while it runs.
+ *
+ * Network: the app holds INTERNET (cloud backup in the main process), but `warm_up` first locks
+ * this process's network with a kernel seccomp filter (`pypath_netlock.py`). If the lock cannot be
+ * installed, `warm_up` raises, [initError] is set and no learner code is ever run (fail closed).
  */
 class PythonRunnerService : Service() {
 

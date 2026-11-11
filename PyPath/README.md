@@ -85,7 +85,8 @@ The bottom navigation has two tabs: **Learn** (the existing dashboard) and **Pra
 - **Process isolation**: learner code runs in `PythonRunnerService` in its own process (`:python`). The UI process never runs Python, so `while True: pass` cannot freeze the app. **Stop** and the **10 s execution limit** (time spent waiting for `input()` is not counted) kill that process; a fresh interpreter starts automatically. Crashes or out-of-memory errors only take down that process.
 - **I/O**: `app/src/main/python/pypath_runner.py` executes the code with `exec()` in a fresh `__main__` namespace. stdout/stderr and `input()` requests go to the service over OS pipes and are streamed to the console. `input()` shows an input field inside the console; the answer is written back to the waiting program.
 - **Errors**: real CPython tracebacks (runner frames removed) are shown in the console; the error card shows the exception and a "Go to line N" shortcut parsed from the traceback.
-- **Sandbox (best effort)**: the app requests no `INTERNET` permission. A permanent PEP 578 audit hook blocks sockets, subprocess/exec/fork/kill, ctypes, thread creation and any file access outside a per-run scratch directory (wiped after each run) and the read-only standard library - learner code cannot read app data such as saved progress. The Java bridge modules are hidden and `java`, `android`, `socket`, `subprocess`, `ctypes`, `urllib`, `http`, ... cannot be imported. A Python-level sandbox is not a hard security boundary against a determined attacker; the OS-level protections (separate process, no network permission, no credentials stored by the app) are the real boundary.
+- **Network lock (kernel)**: the app holds `INTERNET` for cloud backup (main process only). Before any learner code runs, `pypath_netlock.py` installs a seccomp-bpf filter in the `:python` process (all threads, inherited by new threads/children, cannot be removed): `socket()` is refused for every domain except AF_NETLINK and AF_UNIX datagram (logging), so IPv4/IPv6 TCP/UDP, raw sockets and the DNS proxy are unreachable; `ptrace`, `process_vm_*` and `io_uring_*` are refused. `warm_up` fails and `run` refuses to execute code if the lock or its self-test fails.
+- **Sandbox (best effort)**: A permanent PEP 578 audit hook blocks sockets, subprocess/exec/fork/kill, ctypes, thread creation and any file access outside a per-run scratch directory (wiped after each run) and the read-only standard library - learner code cannot read app data such as saved progress. The Java bridge modules are hidden and `java`, `android`, `socket`, `subprocess`, `ctypes`, `urllib`, `http`, ... cannot be imported. A Python-level sandbox is not a hard security boundary against a determined attacker; the OS-level protections (separate process, kernel network lock, the Supabase session kept encrypted in the main process only) are the real boundary.
 - **No permanent storage**: task code is kept in memory (`PracticalViewModel`) for the session only. It is never written to disk, uploaded or synced. (Only Premium "My programs" are saved, on the phone; see below.)
 - **Editor**: `CodeEditor` is a real `BasicTextField` (cursor, selection, copy/paste, hardware keyboards) with syntax highlighting, line numbers, auto-indent after `:`, Tab/Shift+Tab, and a shortcut key bar (Tab, unindent, brackets, quotes, operators).
 - **Tasks**: `app/src/main/assets/practical/tasks.json`. Each task names `afterSubLevel` - the sub-level that teaches its last required concept - and unlocks only when that sub-level is completed. Tasks for unreleased levels (loops, lists) show "Coming soon". The Free playground is always open. The sub-level screen links its Practice step to its task.
@@ -101,16 +102,40 @@ reminders, XP and the certificate work the same whether or not the learner signs
 - **Flow**: after onboarding (and once for existing learners after updating) a sign-in screen offers
   **Sign in with Google** or **Continue without signing in**. Either choice is remembered. Sign in
   or sign out any time from the dashboard menu (⋮ > Sign in with Google / Account).
-- **What is stored**: only the Google account id, email, display name and given name, in a separate
-  DataStore file (`pypath_account`). No tokens are kept. "Reset progress" does not sign out, and
-  signing out does not touch progress or settings.
+- **What is stored**: the Google account id, email, display name and given name (`pypath_account`), and
+  the Supabase session (`pypath_cloud_session`), encrypted with an AES-256-GCM key kept in the Android
+  Keystore. The Google ID token is used once and never stored. "Reset progress" does not sign out,
+  and signing out does not touch progress or settings on the phone.
+- **Supabase sign-in**: the Google ID token is exchanged for a Supabase session
+  (`POST /auth/v1/token?grant_type=id_token`, provider `google`). A fresh nonce per attempt: Google
+  receives its SHA-256, Supabase the raw value. The learner counts as signed in only if Supabase
+  accepts the token. Sign out ends the Supabase session (`/auth/v1/logout`) and clears it from the phone.
+  Accounts saved by older versions (before cloud sign-in) are shown as signed out once, with data kept.
 - **Uses of the account**: the dashboard greets the learner by first name, and an empty certificate
   name is pre-filled with the Google name (a name the learner typed is never overwritten).
-- **Still offline / no INTERNET permission**: Google Play services shows the account sheet and talks
-  to Google, so the app itself (and the Practical tab's `:python` process) still has no network access.
   The avatar shows initials instead of downloading the profile photo.
-- **No backend**: the ID token is not verified on a server (there is none). If you add cloud sync later,
-  send `GoogleIdTokenCredential.idToken` to your server and verify it there.
+
+## Cloud backup (Supabase)
+
+Signed-in learners get a private backup in `public.user_cloud_state` (one row per user, protected by
+the project's Row Level Security). Guests never sync. Code: `app/src/main/java/com/pypath/app/cloud/`.
+
+- **What is synced**: learning progress (`progress`), question history / XP per day / streaks
+  (`activity`), saved programs (`programs`) and preferences that follow the learner (`settings`: sound,
+  certificate name, daily goal, learning minutes). The study reminder (needs this phone's notification
+  permission) and the Premium test switch are not synced. Premium is never granted from cloud data.
+- **Safe merge, never a blind overwrite**: each sync downloads the row, merges it with the phone's data
+  (`CloudMerge`: completed steps, badges, tasks and active days are unions; counters take the larger
+  value; the newer program text wins; deleted programs are remembered so they don't come back; each
+  setting keeps its newest change), then writes back with an optimistic `revision` check. If another
+  phone wrote first, it downloads, merges and retries. "Reset progress" is synced too (newest reset wins).
+- **When**: after sign-in, on app start, a few seconds after local changes, and when the app goes to the
+  background. Offline changes stay on the phone and are sent later (automatic retry).
+- **Several accounts on one phone**: data is never uploaded to a different account. If another account
+  signs in, the previous account's local data is kept aside on the phone and merged back the next time
+  that account signs in.
+- **Keys**: only the Supabase URL and publishable key are in the app (`cloud/SupabaseConfig.kt`); no
+  service-role key, database password or OAuth client secret.
 
 ### One-time setup (Google Cloud Console)
 

@@ -24,7 +24,10 @@ class MainActivity : ComponentActivity() {
         // to show onboarding or the sign-in screen.
         splash.setKeepOnScreenCondition { appViewModel.state.value is AppState.Loading || appViewModel.account.value == null }
         enableEdgeToEdge()
-        val sounds = (application as PyPathApp).container.sounds.also { it.ensureLoaded() }
+        val container = (application as PyPathApp).container
+        val sounds = container.sounds.also { it.ensureLoaded() }
+        // Cloud backup for signed-in learners (does nothing for guests).
+        container.cloudSync.start(container.appScope)
         setContent {
             PyPathTheme {
                 CompositionLocalProvider(LocalSounds provides sounds) {
@@ -32,6 +35,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        // Leaving the app: send any unsynced change now (kept on the phone if offline).
+        (application as PyPathApp).container.cloudSync.requestSync(immediate = true)
+        super.onStop()
     }
 
     override fun onDestroy() {
