@@ -1,0 +1,95 @@
+name: Unzip backend integration
+
+# Put this file in .github/workflows/ on the backend-integration branch, and upload
+# PyPath-backend-integration.zip to the root of the same branch.
+# The workflow starts by itself when the zip is pushed to backend-integration (you can also run it
+# by hand from the Actions tab). It unzips the files over the repo (overwriting files with the same
+# name, never deleting other files), removes the zip and commits the result to backend-integration.
+#
+# Safety: it refuses to run on any branch except backend-integration, so main is never touched.
+# Files inside .github/ in the zip are skipped.
+# This file contains NO backslashes, so it survives copy and paste on a phone.
+
+on:
+  push:
+    branches:
+      - backend-integration
+    paths:
+      - "PyPath-backend-integration.zip"
+  workflow_dispatch:
+    inputs:
+      zip_path:
+        description: "Path of the zip file in this repo"
+        type: string
+        default: "PyPath-backend-integration.zip"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unzip-backend-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  ZIP_PATH: ${{ inputs.zip_path || 'PyPath-backend-integration.zip' }}
+  TARGET_BRANCH: backend-integration
+
+jobs:
+  unzip:
+    name: Unzip and commit to backend-integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Refuse to run outside backend-integration
+        run: |
+          if [ "$GITHUB_REF_NAME" != "$TARGET_BRANCH" ]; then
+            echo "::error::This workflow only runs on $TARGET_BRANCH (current: $GITHUB_REF_NAME). Choose backend-integration in Run workflow."
+            exit 1
+          fi
+
+      - name: Checkout backend-integration
+        uses: actions/checkout@v4
+        with:
+          ref: backend-integration
+          fetch-depth: 1
+
+      - name: Unzip over the repo
+        run: |
+          set -euo pipefail
+          [ -f "$ZIP_PATH" ] || { echo "::error::Zip not found: $ZIP_PATH (upload it to the root of backend-integration first)"; exit 1; }
+          rm -rf /tmp/unzipped && mkdir -p /tmp/unzipped
+          unzip -q -o "$ZIP_PATH" -d /tmp/unzipped
+          # If the zip has one top folder that wraps everything (and it is not PyPath), step into it.
+          root=/tmp/unzipped
+          entries=$(ls -A "$root")
+          if [ "$(echo "$entries" | wc -l)" = "1" ] && [ -d "$root/$entries" ] && [ "$entries" != "PyPath" ] && [ "$entries" != ".github" ]; then
+            root="$root/$entries"
+          fi
+          rm -rf "$root/.git" "$root/.github"
+          find "$root" -type d -name __pycache__ -prune -exec rm -rf {} +
+          find "$root" -type f -name local.properties -delete
+          count=$(find "$root" -type f | wc -l)
+          cp -a "$root/." .
+          echo "Copied $count files from $ZIP_PATH"
+          echo "Unzipped $count files from $ZIP_PATH into backend-integration" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove the zip
+        run: git rm -q --cached --ignore-unmatch -- "$ZIP_PATH" && rm -f -- "$ZIP_PATH"
+
+      - name: Commit and push to backend-integration
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- . ':!.github'
+          if git diff --cached --quiet; then
+            echo "Nothing changed; no commit."
+            exit 0
+          fi
+          git diff --cached --stat
+          git commit --author "paularnav49-cloud <paularnav49@gmail.com>" -m "Add Supabase sign-in and private cloud sync; lock runner network with seccomp" -m "Unzipped from $ZIP_PATH." -m "Co-authored-by: Perplexity <noreply@perplexity.ai>"
+          git push origin HEAD:backend-integration
+          echo "Pushed commit $(git rev-parse HEAD) to backend-integration" >> "$GITHUB_STEP_SUMMARY"
