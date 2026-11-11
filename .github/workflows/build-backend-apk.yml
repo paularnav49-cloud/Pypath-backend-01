@@ -38,15 +38,123 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK
-        working-directory: PyPath
-        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+      - name: Decode and validate signing keystore
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          missing=()
+          for name in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [[ -z "${!name:-}" ]]; then
+              missing+=("$name")
+            fi
+          done
+          if (( ${#missing[@]} > 0 )); then
+            echo "::error::Missing required GitHub secret(s): ${missing[*]}"
+            exit 1
+          fi
 
-      - name: Upload debug APK
+          signing_dir="$RUNNER_TEMP/pypath-signing"
+          keystore_path="$signing_dir/keystore"
+          umask 077
+          mkdir -p "$signing_dir"
+          if ! printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$keystore_path"; then
+            rm -f "$keystore_path"
+            echo "::error::ANDROID_KEYSTORE_BASE64 could not be decoded."
+            exit 1
+          fi
+          chmod 600 "$keystore_path"
+          if [[ ! -s "$keystore_path" ]]; then
+            echo "::error::Decoded Android keystore is empty."
+            exit 1
+          fi
+          if ! keytool -list -keystore "$keystore_path" \
+            -storepass:env ANDROID_KEYSTORE_PASSWORD \
+            -alias "$ANDROID_KEY_ALIAS" >/dev/null 2>&1; then
+            echo "::error::Decoded keystore, keystore password, or key alias is invalid."
+            exit 1
+          fi
+          echo "KEYSTORE_PATH=$keystore_path" >> "$GITHUB_ENV"
+
+      - name: Build debug APK with persistent signing key
+        working-directory: PyPath
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          chmod +x gradlew
+          ./gradlew :app:assembleDebug --no-daemon --stacktrace \
+            "-Pandroid.injected.signing.store.file=$KEYSTORE_PATH" \
+            "-Pandroid.injected.signing.store.password=$ANDROID_KEYSTORE_PASSWORD" \
+            "-Pandroid.injected.signing.key.alias=$ANDROID_KEY_ALIAS" \
+            "-Pandroid.injected.signing.key.password=$ANDROID_KEY_PASSWORD"
+
+      - name: Verify APK signature and print fingerprints
+        id: verify
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          set -euo pipefail
+          apk="PyPath/app/build/outputs/apk/debug/app-debug.apk"
+          build_tools="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}/build-tools/34.0.0"
+          [[ -s "$apk" ]] || { echo "::error::Debug APK was not found at $apk"; exit 1; }
+          [[ -x "$build_tools/aapt2" && -x "$build_tools/apksigner" ]] || {
+            echo "::error::Android SDK build-tools 34.0.0 are unavailable."
+            exit 1
+          }
+
+          package_name=$("$build_tools/aapt2" dump badging "$apk" | awk -F"'" '/^package: name=/ { print $2; exit }')
+          [[ -n "$package_name" ]] || { echo "::error::Could not read the APK application ID."; exit 1; }
+
+          "$build_tools/apksigner" verify "$apk"
+          signing_info=$("$build_tools/apksigner" verify --print-certs "$apk")
+          apk_sha1=$(printf '%s\n' "$signing_info" | awk -F': ' '/certificate SHA-1 digest:/ { print $NF; exit }')
+          apk_sha256=$(printf '%s\n' "$signing_info" | awk -F': ' '/certificate SHA-256 digest:/ { print $NF; exit }')
+          [[ -n "$apk_sha1" && -n "$apk_sha256" ]] || {
+            echo "::error::Could not read the signing certificate fingerprints from the APK."
+            exit 1
+          }
+
+          keystore_info=$(keytool -list -v -keystore "$KEYSTORE_PATH" \
+            -storepass:env ANDROID_KEYSTORE_PASSWORD -alias "$ANDROID_KEY_ALIAS" 2>/dev/null)
+          keystore_sha1=$(printf '%s\n' "$keystore_info" | awk -F': ' '/SHA1:/ { print $NF; exit }')
+          keystore_sha256=$(printf '%s\n' "$keystore_info" | awk -F': ' '/SHA256:/ { print $NF; exit }')
+          normalize_fingerprint() { printf '%s' "$1" | tr -d ':' | tr '[:lower:]' '[:upper:]'; }
+          if [[ "$(normalize_fingerprint "$apk_sha1")" != "$(normalize_fingerprint "$keystore_sha1")" || \
+                "$(normalize_fingerprint "$apk_sha256")" != "$(normalize_fingerprint "$keystore_sha256")" ]]; then
+            echo "::error::APK signing fingerprints do not match the configured keystore."
+            exit 1
+          fi
+
+          echo "Application ID: $package_name"
+          echo "APK signing SHA-1: $apk_sha1"
+          echo "APK signing SHA-256: $apk_sha256"
+          echo "APK path: $apk"
+          echo "Build variant: debug"
+
+      - name: Upload signed debug APK
         uses: actions/upload-artifact@v4
         with:
           name: PyPath-backend-integration-debug-apk
-          path: PyPath/app/build/outputs/apk/debug/*.apk
+          path: PyPath/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 7
+
+      - name: Remove temporary signing keystore
+        if: ${{ always() }}
+        shell: bash
+        env:
+          KEYSTORE_PATH: ${{ runner.temp }}/pypath-signing/keystore
+        run: |
+          rm -f "$KEYSTORE_PATH"
+          rmdir "$(dirname "$KEYSTORE_PATH")" 2>/dev/null || true
           
