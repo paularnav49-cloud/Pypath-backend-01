@@ -1,0 +1,1414 @@
+{
+  "id": "l6",
+  "number": 6,
+  "title": "Strings and Dictionaries",
+  "description": "Work with text using string methods and f-strings, and store labelled data in dictionaries.",
+  "subLevels": [
+    {
+      "id": "l6s1",
+      "code": "6.1",
+      "title": "String methods",
+      "summary": "Change case, clean, search, split and join text.",
+      "estimatedMinutes": 6,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Strings have methods too",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Like lists, strings have methods you call with a dot. upper() and lower() change the case."
+              },
+              {
+                "type": "code",
+                "code": "name = \"Asha\"\nprint(name.upper())\nprint(name.lower())\nprint(name)",
+                "output": "ASHA\nasha\nAsha",
+                "explanation": [
+                  "upper() gives back a new string in capitals.",
+                  "The original name is not changed — strings can't be changed in place."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "String methods return a NEW string. Store it if you want to keep it."
+              }
+            ]
+          },
+          {
+            "title": "Cleaning text with strip()",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "strip() removes spaces from the start and end. Very useful for user input."
+              },
+              {
+                "type": "code",
+                "code": "answer = \"  yes  \"\nprint(answer.strip())\nprint(len(answer))\nprint(len(answer.strip()))",
+                "output": "yes\n7\n3",
+                "explanation": [
+                  "len() works on strings too and counts characters, including spaces.",
+                  "After strip() only the 3 letters are left."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Finding and replacing",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "text = \"I like tea\"\nprint(text.replace(\"tea\", \"coffee\"))\nprint(text.startswith(\"I\"))\nprint(text.count(\"e\"))",
+                "output": "I like coffee\nTrue\n2",
+                "explanation": [
+                  "replace(old, new) swaps every match.",
+                  "startswith() answers True or False.",
+                  "count() counts how many times the text appears."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Splitting and joining",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "split() breaks a string into a list. join() glues a list of strings back together."
+              },
+              {
+                "type": "code",
+                "code": "line = \"red,green,blue\"\ncolours = line.split(\",\")\nprint(colours)\nprint(\" & \".join(colours))",
+                "output": "['red', 'green', 'blue']\nred & green & blue",
+                "explanation": [
+                  "split(\",\") cuts the text at every comma.",
+                  "\" & \".join(...) puts \" & \" between the items."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Strings are like lists of letters",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "You can index a string and loop over its letters, just like a list."
+              },
+              {
+                "type": "code",
+                "code": "word = \"python\"\nprint(word[0])\nprint(word[-1])\nprint(len(word))\nfor letter in \"hi\":\n    print(letter)",
+                "output": "p\nn\n6\nh\ni"
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Calling name.upper() on its own line and expecting name to change. Write name = name.upper() to keep the result."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l6s1q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "HELLO",
+              "Hello",
+              "hello",
+              "HELLO()"
+            ],
+            "correctIndex": 0,
+            "explanation": "upper() turns every letter into a capital, not just the first one.",
+            "code": "print(\"hello\".upper())",
+            "hint": "Recall what upper() does to every letter, not just the first one.",
+            "optionFeedback": [
+              "Right: upper() turns every letter into a capital.",
+              "upper() capitalises every letter, not only the first.",
+              "upper() returns a capital version, and that new string is what gets printed.",
+              "The brackets call the method; they are not part of the text that is printed."
+            ]
+          },
+          {
+            "id": "l6s1q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "6",
+              "2",
+              "4",
+              "hi"
+            ],
+            "correctIndex": 1,
+            "explanation": "strip() removes the spaces at both ends, leaving \"hi\", which has 2 characters. len() gives a number, not the text.",
+            "code": "s = \"  hi  \"\nprint(len(s.strip()))",
+            "hint": "Remove the spaces at both ends first, then count what is left.",
+            "optionFeedback": [
+              "6 is the length before strip(); the spaces at both ends are removed first.",
+              "Right: strip() leaves \"hi\", which has 2 characters.",
+              "strip() removes the spaces at both ends, not just one side.",
+              "len() gives a number, the count of characters, not the text itself."
+            ]
+          },
+          {
+            "id": "l6s1q3",
+            "prompt": "What does this code print?",
+            "options": [
+              "['a', 'b', 'c']",
+              "['a-b-c']",
+              "abc",
+              "['a', '-', 'b', '-', 'c']"
+            ],
+            "correctIndex": 0,
+            "explanation": "split(\"-\") cuts at each dash and throws the dashes away, giving a list of three strings.",
+            "code": "print(\"a-b-c\".split(\"-\"))",
+            "hint": "Think about what split(\"-\") does with each dash it finds.",
+            "optionFeedback": [
+              "Right: split cuts at every dash and drops the dashes, giving three strings.",
+              "split cuts at each dash, so the string is broken into separate pieces.",
+              "split() gives back a list, so the result is shown in square brackets.",
+              "The dashes are where the string is cut, so they are thrown away, not kept."
+            ]
+          },
+          {
+            "id": "l6s1q4",
+            "prompt": "Why does this still print ravi?",
+            "options": [
+              "upper() needs an argument",
+              "print can't show capital letters",
+              "Strings must use single quotes for upper()",
+              "upper() returns a new string, and the result was never stored"
+            ],
+            "correctIndex": 3,
+            "explanation": "Strings never change in place. Writing name = name.upper() keeps the capital version.",
+            "code": "name = \"ravi\"\nname.upper()\nprint(name)",
+            "hint": "Think about what the key point said string methods give back.",
+            "optionFeedback": [
+              "upper() needs no argument; the empty brackets are correct.",
+              "print can show capital letters; the problem is that name itself never changed.",
+              "Single and double quotes work the same for every string method.",
+              "Right: upper() made a new string, but it wasn't stored, so name is still \"ravi\"."
+            ]
+          },
+          {
+            "id": "l6s1q5",
+            "prompt": "Fill in the blank so the result is \"a-b\".",
+            "options": [
+              "split",
+              "replace",
+              "join",
+              "append"
+            ],
+            "correctIndex": 2,
+            "explanation": "join() glues list items together with the string in front of the dot between them. split() does the opposite.",
+            "code": "result = \"-\".____([\"a\", \"b\"])",
+            "hint": "You start with a list and need one string, which is the opposite of splitting.",
+            "optionFeedback": [
+              "split() goes the other way: it breaks a string into a list.",
+              "replace() swaps text inside a string; it doesn't combine a list.",
+              "Right: \"-\".join([...]) glues the items together with \"-\" between them.",
+              "append() is a list method that adds an item; strings don't have it."
+            ]
+          },
+          {
+            "id": "l6s1q6",
+            "prompt": "What does this code print?",
+            "options": [
+              "2",
+              "3",
+              "1",
+              "6"
+            ],
+            "correctIndex": 1,
+            "explanation": "b-a-n-a-n-a has three a's. 6 is the length of the whole word.",
+            "code": "w = \"banana\"\nprint(w.count(\"a\"))",
+            "hint": "Spell out banana letter by letter and count only one particular letter.",
+            "optionFeedback": [
+              "banana has an a after b, after the first n and after the second n, so there's one more.",
+              "Right: b-a-n-a-n-a has three a's.",
+              "count() counts every match in the word, not just the first.",
+              "6 is the length of the whole word; count(\"a\") counts only the a's."
+            ]
+          },
+          {
+            "id": "l6s1q7",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "line = \"a,b,c\"\nparts = line.split(\",\")\nprint(len(parts))\nprint(\"-\".join(parts))",
+            "answer": "3\na-b-c",
+            "explanation": "split(\",\") cuts the text into a list of 3 pieces. \"-\".join puts them back together with dashes between.",
+            "hint": "Splitting gives a list of pieces, and joining glues them back with the chosen text."
+          },
+          {
+            "id": "l6s1q8",
+            "type": "fill",
+            "prompt": "Fill the blanks so the program swaps tea for coffee and checks the first letter.",
+            "code": "text = \"I like tea\"\nprint(text.{{1}}(\"tea\", \"coffee\"))\nprint(text.{{2}}(\"I\"))",
+            "blanks": [
+              "replace",
+              "startswith"
+            ],
+            "distractors": [
+              "split"
+            ],
+            "output": "I like coffee\nTrue",
+            "explanation": "replace swaps one piece of text for another. startswith(\"I\") checks the beginning and gives True.",
+            "hint": "One method swaps words, the other checks how the text begins."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l6s2",
+      "code": "6.2",
+      "title": "f-strings and formatting",
+      "summary": "Round numbers and line up columns neatly.",
+      "estimatedMinutes": 5,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "f-strings can do maths",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "You met f-strings in 1.4. Anything inside { } is worked out first — even a calculation."
+              },
+              {
+                "type": "code",
+                "code": "item = \"pen\"\nprice = 12\nqty = 3\nprint(f\"{qty} x {item} = {price * qty}\")",
+                "output": "3 x pen = 36"
+              }
+            ]
+          },
+          {
+            "title": "Decimal places",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Add :.2f after a value to show exactly 2 decimal places. The number is rounded."
+              },
+              {
+                "type": "code",
+                "code": "average = 72.456\nprint(f\"{average:.2f}\")\nprint(f\"{average:.1f}\")\nprint(f\"{2 / 3:.3f}\")",
+                "output": "72.46\n72.5\n0.667",
+                "explanation": [
+                  ":.2f means \"float with 2 decimals\".",
+                  "The value itself is not changed — only how it is shown."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Lining up columns",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Add :<8 to left-align a value in 8 spaces, or :>6 to right-align it in 6. This makes neat tables."
+              },
+              {
+                "type": "code",
+                "code": "print(f\"{'Item':<8}{'Price':>6}\")\nprint(f\"{'Tea':<8}{15:>6}\")\nprint(f\"{'Samosa':<8}{20:>6}\")",
+                "output": "Item     Price\nTea         15\nSamosa      20",
+                "explanation": [
+                  "< means left-align, > means right-align.",
+                  "The number is the width in characters.",
+                  "Inside a double-quoted f-string, use single quotes for text like 'Item'."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Forgetting the f. print(\"Hi {name}\") prints the braces literally: Hi {name}."
+              },
+              {
+                "type": "keypoint",
+                "text": "f\"{value:.2f}\" rounds. f\"{value:>6}\" lines things up."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l6s2q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "3.15",
+              "3.14159",
+              "3.1",
+              "3.14"
+            ],
+            "correctIndex": 3,
+            "explanation": ":.2f rounds to 2 decimal places. The third decimal is 1, so it rounds down to 3.14.",
+            "code": "x = 3.14159\nprint(f\"{x:.2f}\")",
+            "hint": "Look at the third decimal digit to decide whether to round up or down.",
+            "optionFeedback": [
+              "The third decimal is 1, so the number rounds down, not up.",
+              ":.2f shows only 2 decimal places, so the extra digits are not shown.",
+              "That is 1 decimal place, which is what :.1f would give.",
+              "Right: :.2f rounds to 2 decimal places, giving 3.14."
+            ]
+          },
+          {
+            "id": "l6s2q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "Hi {n}",
+              "Hi Ali",
+              "Hi n",
+              "Error"
+            ],
+            "correctIndex": 0,
+            "explanation": "Without the f in front of the quotes it's a normal string, so the braces are printed as they are.",
+            "code": "n = \"Ali\"\nprint(\"Hi {n}\")",
+            "hint": "Check what is, or isn't, written just before the opening quote.",
+            "optionFeedback": [
+              "Right: with no f before the quotes, the braces are printed as they are.",
+              "Hi Ali would need an f before the quotes: f\"Hi {n}\".",
+              "Without an f, nothing inside the braces is replaced, and the braces stay too.",
+              "Braces in a normal string are allowed, so nothing goes wrong; they are just printed."
+            ]
+          },
+          {
+            "id": "l6s2q3",
+            "prompt": "What does :>5 do in f\"{x:>5}\"?",
+            "options": [
+              "Keeps only values greater than 5",
+              "Right-aligns x in a space 5 characters wide",
+              "Shows x with 5 decimal places",
+              "Repeats x five times"
+            ],
+            "correctIndex": 1,
+            "explanation": "> means right-align and 5 is the width. Decimal places use a dot, like :.5f.",
+            "hint": "Recall the \"Lining up columns\" page and what the < and > symbols did.",
+            "optionFeedback": [
+              "> inside the braces is about alignment, not comparing values.",
+              "Right: > means right-align and 5 is the width.",
+              "Decimal places use a dot and f, like :.5f.",
+              "Repeating uses * with a string; this format sets a width instead."
+            ]
+          },
+          {
+            "id": "l6s2q4",
+            "prompt": "What does this code print?",
+            "options": [
+              "4 + 5 = 45",
+              "{a} + {b} = {a + b}",
+              "4 + 5 = 9",
+              "a + b = 9"
+            ],
+            "correctIndex": 2,
+            "explanation": "Each { } is replaced by its value, and {a + b} is calculated as 9 because a and b are numbers.",
+            "code": "a = 4\nb = 5\nprint(f\"{a} + {b} = {a + b}\")",
+            "hint": "Replace each pair of braces with what is worked out inside it.",
+            "optionFeedback": [
+              "a and b are numbers, so {a + b} is added, not joined into 45.",
+              "The f before the quotes makes Python fill in each { }.",
+              "Right: {a} and {b} become 4 and 5, and {a + b} is worked out as 9.",
+              "{a} is replaced with the value of a, not the letter a."
+            ]
+          },
+          {
+            "id": "l6s2q5",
+            "prompt": "Fill in the blank to show 2 decimal places.",
+            "options": [
+              ":.2f",
+              ".2",
+              ":2",
+              ":2f"
+            ],
+            "correctIndex": 0,
+            "explanation": ":.2f means 2 decimal places, so 12.3456 shows as 12.35. Without the dot, :2 only sets a width of 2 and shows 12.3456 unchanged, and :2f shows 12.345600, not 2 decimals. .2 without the colon is an error.",
+            "code": "total = 12.3456\nprint(f\"{total____}\")",
+            "hint": "Recall the exact format used on the Decimal places page for two places.",
+            "optionFeedback": [
+              "Right: :.2f shows exactly 2 decimal places, so 12.35.",
+              "Without the colon, .2 is not a valid format and causes an error.",
+              ":2 only sets a width of 2, so the number is shown unchanged.",
+              "Without the dot, :2f does not mean 2 decimal places; it shows 12.345600."
+            ]
+          },
+          {
+            "id": "l6s2q6",
+            "type": "fill",
+            "prompt": "Fill the blanks so the average shows 2 decimals and Tea is padded to 6 characters on the left side.",
+            "code": "average = 72.456\nprint(f\"{average:{{1}}}\")\nprint(f\"{'Tea':{{2}}}|\")",
+            "blanks": [
+              ".2f",
+              "<6"
+            ],
+            "distractors": [
+              ".1f",
+              ">6"
+            ],
+            "output": "72.46\nTea   |",
+            "explanation": ".2f rounds to 2 decimal places. <6 makes the text 6 characters wide and lines it up on the left.",
+            "hint": "The number after the dot sets the decimals, and the arrow points where the text lines up."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l6s3",
+      "code": "6.3",
+      "title": "Dictionaries",
+      "summary": "Store values under labels called keys.",
+      "estimatedMinutes": 8,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Labels instead of positions",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A dictionary stores pairs of key: value inside curly braces { }. You look values up by their key instead of by a position number."
+              },
+              {
+                "type": "code",
+                "code": "student = {\"name\": \"Asha\", \"age\": 21, \"city\": \"Pune\"}\nprint(student[\"name\"])\nprint(student[\"age\"])",
+                "output": "Asha\n21",
+                "explanation": [
+                  "\"name\", \"age\" and \"city\" are the keys.",
+                  "student[\"name\"] gives the value stored under \"name\"."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Adding and changing",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "stock = {\"pens\": 10}\nstock[\"books\"] = 4\nstock[\"pens\"] = 8\nprint(stock)",
+                "output": "{'pens': 8, 'books': 4}",
+                "explanation": [
+                  "Assigning to a new key adds it.",
+                  "Assigning to an existing key replaces its value."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Keys are unique. One key, one value."
+              }
+            ]
+          },
+          {
+            "title": "Safe lookups with get()",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "get() looks up a key but doesn't crash if it's missing. You can give a fallback value."
+              },
+              {
+                "type": "code",
+                "code": "prices = {\"tea\": 15, \"coffee\": 25}\nprint(prices.get(\"tea\"))\nprint(prices.get(\"juice\"))\nprint(prices.get(\"juice\", 0))",
+                "output": "15\nNone\n0",
+                "explanation": [
+                  "\"juice\" isn't a key, so get() returns None.",
+                  "get(\"juice\", 0) returns 0 instead."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Checking and removing",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "ages = {\"Asha\": 21, \"Ravi\": 19}\nprint(\"Ravi\" in ages)\nremoved = ages.pop(\"Ravi\")\nprint(removed)\nprint(len(ages))",
+                "output": "True\n19\n1",
+                "explanation": [
+                  "in checks the keys.",
+                  "pop(key) removes the pair and gives back its value.",
+                  "len() counts the pairs."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Counting with a dictionary",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A classic use: count how often each thing appears."
+              },
+              {
+                "type": "code",
+                "code": "votes = [\"tea\", \"coffee\", \"tea\", \"tea\"]\ncounts = {}\nfor v in votes:\n    counts[v] = counts.get(v, 0) + 1\nprint(counts)",
+                "output": "{'tea': 3, 'coffee': 1}",
+                "explanation": [
+                  "counts.get(v, 0) is the count so far (0 the first time).",
+                  "Adding 1 and storing it updates the count."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Missing keys",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "marks = {\"maths\": 90}\nprint(marks[\"science\"])",
+                "output": "KeyError: 'science'",
+                "explanation": [
+                  "Square brackets need the key to exist.",
+                  "Python stops with a KeyError."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Using d[key] for a key that might be missing. Check with in first, or use d.get(key, default)."
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Keys are case-sensitive: \"Tea\" and \"tea\" are different keys."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l6s3q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "1",
+              "b",
+              "Error",
+              "2"
+            ],
+            "correctIndex": 3,
+            "explanation": "d[\"b\"] looks up the value stored under the key \"b\", which is 2 — not the key itself.",
+            "code": "d = {\"a\": 1, \"b\": 2}\nprint(d[\"b\"])",
+            "hint": "Find the key in the square brackets, then look at what is stored under it.",
+            "optionFeedback": [
+              "1 is stored under the key \"a\"; d[\"b\"] looks up a different key.",
+              "d[\"b\"] gives the value stored under \"b\", not the key itself.",
+              "\"b\" is a key in the dictionary, so the lookup works.",
+              "Right: the value stored under \"b\" is 2."
+            ]
+          },
+          {
+            "id": "l6s3q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "{'x': 5, 'x': 7}",
+              "{'x': 5}",
+              "{'x': 7}",
+              "7"
+            ],
+            "correctIndex": 2,
+            "explanation": "Keys are unique, so assigning to \"x\" again replaces the old value.",
+            "code": "d = {\"x\": 5}\nd[\"x\"] = 7\nprint(d)",
+            "hint": "Remember the key point about how many values one key can hold.",
+            "optionFeedback": [
+              "Keys are unique, so a dictionary can't hold two \"x\" keys.",
+              "Assigning d[\"x\"] = 7 changes the stored value, so it is no longer 5.",
+              "Right: assigning to an existing key replaces its old value.",
+              "print(d) shows the whole dictionary, not just one value."
+            ]
+          },
+          {
+            "id": "l6s3q3",
+            "prompt": "What does this code print?",
+            "options": [
+              "None",
+              "0",
+              "10",
+              "KeyError"
+            ],
+            "correctIndex": 1,
+            "explanation": "\"milk\" is missing, so get() returns the fallback 0. Without a fallback it would return None.",
+            "code": "d = {\"tea\": 10}\nprint(d.get(\"milk\", 0))",
+            "hint": "\"milk\" isn't a key, so check what the second value given to get() is for.",
+            "optionFeedback": [
+              "None is what get() returns with no fallback; here a fallback is given.",
+              "Right: \"milk\" is missing, so get() returns the fallback 0.",
+              "10 belongs to \"tea\"; get() looks up \"milk\", which isn't there.",
+              "get() doesn't crash on a missing key; that's its whole purpose."
+            ]
+          },
+          {
+            "id": "l6s3q4",
+            "prompt": "In a dictionary, what is a key?",
+            "options": [
+              "The label you use to look up a value",
+              "The position number of a value",
+              "The last value added",
+              "A password that locks the dictionary"
+            ],
+            "correctIndex": 0,
+            "explanation": "Dictionaries are looked up by key, not by position like lists.",
+            "hint": "Think about how student[\"name\"] found Asha without using a position number.",
+            "optionFeedback": [
+              "Right: a key is the label you use to look up a value.",
+              "Position numbers are how lists work; dictionaries use labels.",
+              "A key isn't about when a value was added; every value has its own key.",
+              "Keys don't lock anything; they just label values."
+            ]
+          },
+          {
+            "id": "l6s3q5",
+            "prompt": "Why does this raise a KeyError?",
+            "options": [
+              "Dictionaries can only store numbers",
+              "Keys are case-sensitive: \"Pen\" is not \"pen\"",
+              "You must write d(\"Pen\")",
+              "print can't show dictionary values"
+            ],
+            "correctIndex": 1,
+            "explanation": "The only key is \"pen\" in lowercase. Lookups use square brackets, and values can be any type.",
+            "code": "d = {\"pen\": 5}\nprint(d[\"Pen\"])",
+            "hint": "Compare the key in the dictionary with the key in the lookup, letter by letter.",
+            "optionFeedback": [
+              "Dictionaries can hold any values, such as text like \"Asha\".",
+              "Right: \"Pen\" and \"pen\" are different keys, and only \"pen\" exists.",
+              "Lookups use square brackets, which this code already uses.",
+              "print can show dictionary values; the lookup fails before print gets anything."
+            ]
+          },
+          {
+            "id": "l6s3q6",
+            "prompt": "What does this code print?",
+            "options": [
+              "1",
+              "3",
+              "2",
+              "{'a': 1, 'b': 2}"
+            ],
+            "correctIndex": 2,
+            "explanation": "Adding \"b\" makes two key-value pairs, and len() counts pairs.",
+            "code": "d = {\"a\": 1}\nd[\"b\"] = 2\nprint(len(d))",
+            "hint": "Count the key-value pairs after the new key has been added.",
+            "optionFeedback": [
+              "1 was the count before d[\"b\"] = 2 added a new pair.",
+              "len() counts pairs, not the values added together.",
+              "Right: there are now two pairs, and len() counts pairs.",
+              "len(d) gives a number, not the dictionary itself."
+            ]
+          },
+          {
+            "id": "l6s3q7",
+            "prompt": "Fill in the blank to count words safely.",
+            "options": [
+              "count",
+              "append",
+              "values",
+              "get"
+            ],
+            "correctIndex": 3,
+            "explanation": "get(word, 0) returns the current count, or 0 if the word is new, and then 1 is added. Dictionaries have no count() or append() method, and values() takes no word.",
+            "code": "counts[word] = counts.____(word, 0) + 1",
+            "hint": "Recall the safe way to look up a key that may not be there yet.",
+            "optionFeedback": [
+              "Dictionaries have no count() method; count() belongs to strings and lists.",
+              "append() is a list method; dictionaries don't have it.",
+              "values() gives all the values and takes no word, so it can't look one up.",
+              "Right: get(word, 0) gives the current count, or 0 for a new word."
+            ]
+          },
+          {
+            "id": "l6s3q8",
+            "prompt": "Which statement is true?",
+            "options": [
+              "Each key appears only once in a dictionary",
+              "All values must be the same type",
+              "Keys are numbered from 0",
+              "A dictionary can't be changed after it's created"
+            ],
+            "correctIndex": 0,
+            "explanation": "Assigning to an existing key replaces its value. Values can be any type, and dictionaries can be changed.",
+            "hint": "Remember what happened when stock[\"pens\"] was assigned a second time.",
+            "optionFeedback": [
+              "Right: keys are unique, so assigning to an existing key replaces its value.",
+              "Values can be of different types, like \"Asha\" and 21 in the student example.",
+              "Keys are labels you choose; dictionaries are not numbered from 0 like lists.",
+              "Dictionaries can be changed: you can add, change and pop keys."
+            ]
+          },
+          {
+            "id": "l6s3q9",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "prices = {\"tea\": 15, \"coffee\": 25}\nprint(prices.get(\"juice\", 0))\nprices[\"tea\"] = 20\nprint(prices[\"tea\"])",
+            "answer": "0\n20",
+            "explanation": "get returns the default 0 because \"juice\" is not a key. Assigning to an existing key replaces its value.",
+            "hint": "A missing key gives the default you passed, and assigning to a key replaces its value."
+          },
+          {
+            "id": "l6s3q10",
+            "type": "order",
+            "prompt": "Put the lines in order so the program counts each letter.",
+            "lines": [
+              "counts = {}",
+              "for v in [\"a\", \"b\", \"a\"]:",
+              "    counts[v] = counts.get(v, 0) + 1",
+              "print(counts)"
+            ],
+            "output": "{'a': 2, 'b': 1}",
+            "explanation": "The empty dictionary is made first, the indented line adds 1 for each letter, and the result is printed after the loop.",
+            "hint": "Create the empty dictionary first and print it only when the loop has finished."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l6s4",
+      "code": "6.4",
+      "title": "Looping over dictionaries",
+      "summary": "Visit keys, values and pairs with for loops.",
+      "estimatedMinutes": 6,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Looping over keys",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A for loop over a dictionary gives you its keys, in the order they were added."
+              },
+              {
+                "type": "code",
+                "code": "prices = {\"tea\": 15, \"coffee\": 25, \"juice\": 30}\nfor item in prices:\n    print(item)",
+                "output": "tea\ncoffee\njuice"
+              }
+            ]
+          },
+          {
+            "title": "keys(), values() and items()",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "values() gives just the values. items() gives each key together with its value, so you can use two loop variables. list() turns the result into a normal list for printing."
+              },
+              {
+                "type": "code",
+                "code": "prices = {\"tea\": 15, \"coffee\": 25, \"juice\": 30}\nprint(list(prices.keys()))\nprint(list(prices.values()))\nfor item, price in prices.items():\n    print(f\"{item} costs {price}\")",
+                "output": "['tea', 'coffee', 'juice']\n[15, 25, 30]\ntea costs 15\ncoffee costs 25\njuice costs 30",
+                "explanation": [
+                  "for item, price in ... takes each pair apart into two variables.",
+                  "This is the most common way to loop over a dictionary."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Totals and best values",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "sales = {\"Mon\": 120, \"Tue\": 90, \"Wed\": 150}\ntotal = 0\nbest_day = \"\"\nbest = 0\nfor day, amount in sales.items():\n    total += amount\n    if amount > best:\n        best = amount\n        best_day = day\nprint(f\"Total: {total}\")\nprint(f\"Best day: {best_day} ({best})\")",
+                "output": "Total: 360\nBest day: Wed (150)",
+                "explanation": [
+                  "total adds every amount.",
+                  "best remembers the biggest amount seen so far, and best_day its key."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "sum(d.values()), max(d.values()) and len(d) also work on dictionaries."
+              }
+            ]
+          },
+          {
+            "title": "Forgetting items()",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "ages = {\"Asha\": 21}\nfor name, age in ages:\n    print(name, age)",
+                "output": "ValueError: too many values to unpack (expected 2)",
+                "explanation": [
+                  "Looping over ages gives only the keys, like \"Asha\".",
+                  "Python can't split one string into name and age."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Using two loop variables without .items(). Write for name, age in ages.items():"
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "for k in d — keys",
+                  "for v in d.values() — values",
+                  "for k, v in d.items() — both"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l6s4q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "a\nb",
+              "1\n2",
+              "a 1\nb 2",
+              "a: 1\nb: 2"
+            ],
+            "correctIndex": 0,
+            "explanation": "Looping over a dictionary gives its keys. To get values you need .values() or .items().",
+            "code": "d = {\"a\": 1, \"b\": 2}\nfor k in d:\n    print(k)",
+            "hint": "Recall what a plain for loop over a dictionary gives you each time.",
+            "optionFeedback": [
+              "Right: looping over a dictionary gives its keys.",
+              "Those are the values; you'd need .values() to get them.",
+              "Getting keys and values together needs .items() and two loop variables.",
+              "Nothing adds a colon here; the loop variable is just each key."
+            ]
+          },
+          {
+            "id": "l6s4q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "x\ny",
+              "3\n4",
+              "{'x': 3}\n{'y': 4}",
+              "x 3\ny 4"
+            ],
+            "correctIndex": 3,
+            "explanation": "items() gives each key with its value and the two variables take the pair apart, so print(k, v) shows the key and the value with a space. Only k would give x and y.",
+            "code": "d = {\"x\": 3, \"y\": 4}\nfor k, v in d.items():\n    print(k, v)",
+            "hint": "items() gives pairs, and print with two values puts a space between them.",
+            "optionFeedback": [
+              "Printing only k would give x and y, but v is printed too.",
+              "Printing only v would give 3 and 4, but k is printed too.",
+              "The two variables take each pair apart, so no dictionary braces are printed.",
+              "Right: each line shows the key, a space, then its value."
+            ]
+          },
+          {
+            "id": "l6s4q3",
+            "prompt": "What does this code print?",
+            "options": [
+              "7",
+              "ab",
+              "2",
+              "Error"
+            ],
+            "correctIndex": 0,
+            "explanation": "values() gives 2 and 5, and sum() adds them. Keys are not added.",
+            "code": "d = {\"a\": 2, \"b\": 5}\nprint(sum(d.values()))",
+            "hint": "Think about what values() gives here and what sum() does with it.",
+            "optionFeedback": [
+              "Right: values() gives 2 and 5, and sum() adds them.",
+              "values() gives the numbers, not the keys, and sum() adds numbers.",
+              "sum() adds every value, not just the first.",
+              "sum() works here because the values are numbers, so there is no error."
+            ]
+          },
+          {
+            "id": "l6s4q4",
+            "prompt": "What does .items() give you?",
+            "options": [
+              "Only the values, one at a time",
+              "Each key together with its value, as pairs",
+              "Only the keys, in the order added",
+              "The number of key-value pairs"
+            ],
+            "correctIndex": 1,
+            "explanation": "items() gives key-value pairs. Only values is .values(), and the count is len(d).",
+            "hint": "Look at the loop on the keys(), values() and items() page with two loop variables.",
+            "optionFeedback": [
+              "Only the values is what .values() gives.",
+              "Right: items() gives each key with its value, so you can use two loop variables.",
+              "Only the keys is what a plain loop, or .keys(), gives.",
+              "The number of pairs comes from len(d)."
+            ]
+          },
+          {
+            "id": "l6s4q5",
+            "prompt": "This raises a ValueError. How do you fix it?",
+            "options": [
+              "Use marks.keys() with two variables",
+              "Rename mark to marks",
+              "Loop over marks.items() instead of marks",
+              "Put the loop inside a function"
+            ],
+            "correctIndex": 2,
+            "explanation": "Looping over marks gives only keys, so there's nothing to put in mark. items() gives the pairs.",
+            "code": "marks = {\"Asha\": 90, \"Ravi\": 75}\nfor name, mark in marks:\n    print(name, mark)",
+            "hint": "Recall the common mistake tip about using two loop variables.",
+            "optionFeedback": [
+              "keys() gives only keys, so there is still nothing for mark.",
+              "The name of the loop variable isn't the problem; there's still only one value per repeat.",
+              "Right: items() gives pairs, so name and mark each get a value.",
+              "Moving the loop into a function doesn't change what the loop gives."
+            ]
+          },
+          {
+            "id": "l6s4q6",
+            "prompt": "Fill in the blank to print only the values.",
+            "options": [
+              "keys",
+              "values",
+              "items",
+              "get"
+            ],
+            "correctIndex": 1,
+            "explanation": "values() gives just the values. items() would give pairs, and keys() the labels.",
+            "code": "for v in prices.____():\n    print(v)",
+            "hint": "Think about which method gives what is stored, not the labels.",
+            "optionFeedback": [
+              "keys() gives the labels, not the values.",
+              "Right: values() gives just the values.",
+              "items() gives key-value pairs, not just the values.",
+              "get() looks up one key and needs that key; it doesn't loop over everything."
+            ]
+          },
+          {
+            "id": "l6s4q7",
+            "type": "order",
+            "prompt": "Put the lines in order so the program prints each day's sales and then Done.",
+            "lines": [
+              "sales = {\"Mon\": 120, \"Tue\": 90}",
+              "for day, amount in sales.items():",
+              "    print(f\"{day}: {amount}\")",
+              "print(\"Done\")"
+            ],
+            "output": "Mon: 120\nTue: 90\nDone",
+            "explanation": "The dictionary must exist before the loop. items() gives each key and value together, and Done comes after the loop.",
+            "hint": "The dictionary comes before the loop, and the final message comes after it."
+          },
+          {
+            "id": "l6s4q8",
+            "type": "fill",
+            "prompt": "Fill the blank so the loop gets each name and age together.",
+            "code": "ages = {\"Asha\": 21, \"Ravi\": 19}\nfor name, age in ages.{{1}}():\n    print(name, age)",
+            "blanks": [
+              "items"
+            ],
+            "distractors": [
+              "keys",
+              "values"
+            ],
+            "output": "Asha 21\nRavi 19",
+            "explanation": "items() gives (key, value) pairs, so both name and age get a value. keys() or values() give only one thing each.",
+            "hint": "You need a method that gives both the key and its value in each pass."
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "available": true,
+  "projects": [
+    {
+      "id": "l6p1",
+      "code": "6.P",
+      "title": "Mini Text Adventure",
+      "summary": "Explore rooms stored in dictionaries, collect items and find the treasure.",
+      "estimatedMinutes": 15,
+      "type": "project",
+      "steps": [
+        "project"
+      ],
+      "briefing": {
+        "title": "Build a Mini Text Adventure",
+        "text": [
+          "You'll build a tiny adventure game. Each room is a dictionary of exits, and the player types a direction to move.",
+          "Items are picked up along the way. Reach the cellar to win.",
+          "The player can type in any case and with extra spaces; string methods clean it up."
+        ],
+        "why": [
+          "Many games store their world as data, just like this",
+          "It uses nested dictionaries, get(), pop(), join(), upper(), strip() and lower()"
+        ],
+        "concepts": [
+          {
+            "subLevelId": "l3s3",
+            "label": "while True and break"
+          },
+          {
+            "subLevelId": "l5s3",
+            "label": "append()"
+          },
+          {
+            "subLevelId": "l6s1",
+            "label": "String methods"
+          },
+          {
+            "subLevelId": "l6s3",
+            "label": "Dictionaries"
+          },
+          {
+            "subLevelId": "l6s4",
+            "label": "keys()"
+          }
+        ],
+        "sampleOutput": "== HALL ==\nExits: north, east. Go? north\n== LIBRARY ==\nYou found: map\nExits: south. Go? South\n== HALL ==\nExits: north, east. Go? east\n== KITCHEN ==\nYou found: lamp\nExits: west, down. Go? Down\n== CELLAR ==\nYou found: treasure\nYou escaped with: map, lamp, treasure",
+        "usesInput": true,
+        "fileName": "adventure.py",
+        "sampleInputs": [
+          "north",
+          "South",
+          "east",
+          "Down"
+        ]
+      },
+      "finalCode": [
+        "# Mini Text Adventure",
+        "rooms = {",
+        "    \"hall\": {\"north\": \"library\", \"east\": \"kitchen\"},",
+        "    \"library\": {\"south\": \"hall\"},",
+        "    \"kitchen\": {\"west\": \"hall\", \"down\": \"cellar\"},",
+        "    \"cellar\": {},",
+        "}",
+        "items = {\"library\": \"map\", \"kitchen\": \"lamp\", \"cellar\": \"treasure\"}",
+        "bag = []",
+        "room = \"hall\"",
+        "while True:",
+        "    print(f\"== {room.upper()} ==\")",
+        "    if room in items:",
+        "        item = items.pop(room)",
+        "        bag.append(item)",
+        "        print(f\"You found: {item}\")",
+        "    if room == \"cellar\":",
+        "        break",
+        "    exits = \", \".join(rooms[room].keys())",
+        "    move = input(f\"Exits: {exits}. Go? \").strip().lower()",
+        "    room = rooms[room].get(move, room)",
+        "print(f\"You escaped with: {', '.join(bag)}\")"
+      ],
+      "stages": [
+        {
+          "id": "l6p1st1",
+          "title": "Build the map",
+          "instruction": "Each room is a key. Its value is another dictionary that maps an exit to the room it leads to.",
+          "revealsLines": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st1q",
+            "prompt": "Which line describes the kitchen?",
+            "options": [
+              "    \"kitchen\": [\"west\", \"hall\", \"down\", \"cellar\"],",
+              "    \"kitchen\": {\"west\": \"hall\", \"down\": \"cellar\"},",
+              "    \"kitchen\": {\"west\" = \"hall\", \"down\" = \"cellar\"},",
+              "    kitchen: {\"west\": \"hall\", \"down\": \"cellar\"},"
+            ],
+            "correctIndex": 1,
+            "explanation": "A dictionary inside a dictionary: rooms[\"kitchen\"][\"down\"] is \"cellar\" (6.3)."
+          },
+          "optionFeedback": [
+            "A list has no labels, so you couldn't look up which room \"down\" leads to.",
+            "A dictionary inside a dictionary: rooms[\"kitchen\"][\"down\"] is \"cellar\" (6.3).",
+            "Dictionaries use a colon between key and value. This is a SyntaxError.",
+            "Without quotes, kitchen is a variable that doesn't exist: a NameError."
+          ]
+        },
+        {
+          "id": "l6p1st2",
+          "title": "Items and the start",
+          "instruction": "Some rooms hold an item. Store them by room name, start with an empty bag, and begin in the hall.",
+          "revealsLines": [
+            8,
+            9,
+            10
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st2q",
+            "prompt": "Which line stores the items by room?",
+            "options": [
+              "items = {\"library\": \"map\", \"kitchen\": \"lamp\", \"cellar\": \"treasure\"}",
+              "items = {\"map\": \"library\", \"lamp\": \"kitchen\", \"treasure\": \"cellar\"}",
+              "items = [\"library\": \"map\", \"kitchen\": \"lamp\", \"cellar\": \"treasure\"]",
+              "items = {\"library\", \"map\", \"kitchen\", \"lamp\", \"cellar\", \"treasure\"}"
+            ],
+            "correctIndex": 0,
+            "explanation": "The room is the key, so items[room] finds what's in the current room (6.3)."
+          },
+          "optionFeedback": [
+            "The room is the key, so items[room] finds what's in the current room (6.3).",
+            "Keys and values are swapped, so you couldn't look up a room.",
+            "key: value pairs need curly braces. This is a SyntaxError.",
+            "Without colons there are no keys and values, so nothing can be looked up."
+          ]
+        },
+        {
+          "id": "l6p1st3",
+          "title": "Show the room",
+          "instruction": "Loop until the game ends. Each time, print the room name in capitals.",
+          "revealsLines": [
+            11,
+            12
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st3q",
+            "prompt": "Which line prints the room name in capitals?",
+            "options": [
+              "    print(f\"== {room.upper} ==\")",
+              "    print(f\"== {upper(room)} ==\")",
+              "    print(\"== {room.upper()} ==\")",
+              "    print(f\"== {room.upper()} ==\")"
+            ],
+            "correctIndex": 3,
+            "explanation": "upper() is a string method, called with brackets (6.1)."
+          },
+          "optionFeedback": [
+            "Without brackets, the method isn't called and Python prints <built-in method ...>.",
+            "upper is a method of strings, not a function on its own: a NameError.",
+            "Without the f, the braces are printed as plain text.",
+            "upper() is a string method, called with brackets (6.1)."
+          ]
+        },
+        {
+          "id": "l6p1st4",
+          "title": "Pick up items",
+          "instruction": "If the room still has an item, take it out of items, put it in the bag and say what was found.",
+          "revealsLines": [
+            13,
+            14,
+            15,
+            16
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st4q",
+            "prompt": "Which line checks whether this room has an item?",
+            "options": [
+              "    if items in room:",
+              "    if room in items:",
+              "    if items[room]:",
+              "    if room == items:"
+            ],
+            "correctIndex": 1,
+            "explanation": "in checks whether a key is in a dictionary (6.3). pop() then removes it so it's found only once."
+          },
+          "optionFeedback": [
+            "Backwards: you can't look for a dictionary inside text. This is a TypeError.",
+            "in checks whether a key is in a dictionary (6.3). pop() then removes it so it's found only once.",
+            "The hall has no item, so items[\"hall\"] is a KeyError.",
+            "Text is never equal to a whole dictionary, so this is never True."
+          ]
+        },
+        {
+          "id": "l6p1st5",
+          "title": "The goal",
+          "instruction": "The game ends when the player reaches the cellar.",
+          "revealsLines": [
+            17,
+            18
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st5q",
+            "prompt": "Which line ends the game in the cellar?",
+            "options": [
+              "    if room = \"cellar\":",
+              "    if \"cellar\":",
+              "    if room == cellar:",
+              "    if room == \"cellar\":"
+            ],
+            "correctIndex": 3,
+            "explanation": "Compare the room with the text \"cellar\", then break stops the while True loop (3.3)."
+          },
+          "optionFeedback": [
+            "= stores a value; comparisons use ==. This is a SyntaxError.",
+            "Non-empty text is always True, so the game would end at once.",
+            "Without quotes, cellar is an unknown variable: a NameError.",
+            "Compare the room with the text \"cellar\", then break stops the while True loop (3.3)."
+          ]
+        },
+        {
+          "id": "l6p1st6",
+          "title": "List the exits",
+          "instruction": "Show the exits of the current room as one line, like north, east.",
+          "revealsLines": [
+            19
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st6q",
+            "prompt": "Which line builds the list of exits?",
+            "options": [
+              "    exits = rooms[room].keys().join(\", \")",
+              "    exits = \", \".join(rooms.keys())",
+              "    exits = \", \".join(rooms[room].keys())",
+              "    exits = \", \".join(rooms[room].values())"
+            ],
+            "correctIndex": 2,
+            "explanation": "keys() gives the exit names, and \", \".join() puts them in one string (6.1, 6.4)."
+          },
+          "optionFeedback": [
+            "join() belongs to the separator string, not to keys(). This is an AttributeError.",
+            "This lists every room in the game, not the exits from this one.",
+            "keys() gives the exit names, and \", \".join() puts them in one string (6.1, 6.4).",
+            "values() gives where the exits lead, not which way to type."
+          ]
+        },
+        {
+          "id": "l6p1st7",
+          "title": "Read the move",
+          "instruction": "Ask which way to go. Clean the answer so \" North \" and \"north\" both work.",
+          "revealsLines": [
+            20
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st7q",
+            "prompt": "Which line reads and cleans the move?",
+            "options": [
+              "    move = input(f\"Exits: {exits}. Go? \").lower",
+              "    move = input(f\"Exits: {exits}. Go? \").upper().strip()",
+              "    move = input(f\"Exits: {exits}. Go? \").strip().lower()",
+              "    move = input(f\"Exits: {exits}. Go? \").split()"
+            ],
+            "correctIndex": 2,
+            "explanation": "strip() removes spaces at the ends and lower() makes it lowercase, like the keys (6.1)."
+          },
+          "optionFeedback": [
+            "Without brackets, lower isn't called; move becomes a method, not text.",
+            "The exits are lowercase, so NORTH would never match.",
+            "strip() removes spaces at the ends and lower() makes it lowercase, like the keys (6.1).",
+            "split() gives a list of words, which can't be a dictionary key."
+          ]
+        },
+        {
+          "id": "l6p1st8",
+          "title": "Move safely",
+          "instruction": "Move to the room the exit leads to. If the player types a direction that isn't an exit, stay put.",
+          "revealsLines": [
+            21,
+            22
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l6p1st8q",
+            "prompt": "Which line moves the player safely?",
+            "options": [
+              "    room = rooms[room].get(move, room)",
+              "    room = rooms[room][move]",
+              "    room = rooms.get(move, room)",
+              "    room = move"
+            ],
+            "correctIndex": 0,
+            "explanation": "get(key, default) returns the default when the key is missing, so a typo keeps you in the same room (6.3)."
+          },
+          "optionFeedback": [
+            "get(key, default) returns the default when the key is missing, so a typo keeps you in the same room (6.3).",
+            "A typo like \"nrth\" would crash with a KeyError.",
+            "This looks up directions among room names, so the player could never move.",
+            "room would become \"north\", which isn't a room: a KeyError on the next turn."
+          ]
+        }
+      ],
+      "walkthrough": [
+        "rooms is a dictionary of dictionaries: room -> {exit: next room}.",
+        "while True repeats until break, which happens in the cellar.",
+        "in checks for an item; pop() takes it out so it's found only once.",
+        "join() and keys() list the exits; strip() and lower() clean what the player types.",
+        "get(move, room) moves only when the exit exists; otherwise the player stays."
+      ]
+    }
+  ],
+  "cheatSheet": {
+    "title": "Strings and Dictionaries",
+    "sections": [
+      {
+        "heading": "String methods",
+        "items": [
+          {
+            "code": "s = \"  Hello World  \"\nprint(s.strip().lower())",
+            "note": "strip() trims spaces; lower() and upper() change case.",
+            "output": "hello world"
+          },
+          {
+            "code": "print(\"a,b,c\".split(\",\"))\nprint(\"-\".join([\"a\", \"b\"]))",
+            "note": "split() makes a list; join() glues a list into text.",
+            "output": "['a', 'b', 'c']\na-b"
+          },
+          {
+            "code": "print(\"banana\".replace(\"a\", \"o\"), \"banana\".count(\"a\"))",
+            "note": "replace() and count().",
+            "output": "bonono 3"
+          }
+        ]
+      },
+      {
+        "heading": "f-string formatting",
+        "items": [
+          {
+            "code": "price = 3.14159\nprint(f\"{price:.2f}\")",
+            "note": ":.2f rounds to 2 decimal places.",
+            "output": "3.14"
+          },
+          {
+            "code": "print(f\"[{'tea':<6}][{15:>4}]\")",
+            "note": ":<6 left-aligns in 6 spaces, :>4 right-aligns in 4.",
+            "output": "[tea   ][  15]"
+          }
+        ]
+      },
+      {
+        "heading": "Dictionaries",
+        "items": [
+          {
+            "code": "ages = {\"Asha\": 21}\nages[\"Ravi\"] = 19\nprint(ages[\"Ravi\"], len(ages))",
+            "note": "Look up, add and change values by key.",
+            "output": "19 2"
+          },
+          {
+            "code": "ages = {\"Asha\": 21}\nprint(ages.get(\"Sam\", 0), \"Asha\" in ages)",
+            "note": "get() with a default avoids KeyError; in checks keys.",
+            "output": "0 True"
+          },
+          {
+            "code": "counts = {}\nfor w in [\"a\", \"b\", \"a\"]:\n    counts[w] = counts.get(w, 0) + 1\nprint(counts)",
+            "note": "The counting pattern.",
+            "output": "{'a': 2, 'b': 1}"
+          }
+        ]
+      },
+      {
+        "heading": "Looping over dictionaries",
+        "items": [
+          {
+            "code": "prices = {\"tea\": 15, \"coffee\": 25}\nfor item, cost in prices.items():\n    print(item, cost)",
+            "note": "items() gives key and value together; keys() and values() give one side.",
+            "output": "tea 15\ncoffee 25"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "Strings never change; methods return a new string.",
+      "Dictionary keys must be unique.",
+      "Use get() when a key might be missing."
+    ]
+  }
+}

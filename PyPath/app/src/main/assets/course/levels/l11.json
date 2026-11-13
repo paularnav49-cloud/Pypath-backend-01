@@ -1,0 +1,1130 @@
+{
+  "id": "l11",
+  "number": 11,
+  "title": "Classes and Objects (Advanced)",
+  "description": "Advanced: create your own types with classes, give objects data and actions, and print them nicely.",
+  "available": true,
+  "advanced": true,
+  "subLevels": [
+    {
+      "id": "l11s1",
+      "code": "11.1",
+      "title": "Classes and objects",
+      "summary": "Why classes help, and how to make your first one.",
+      "estimatedMinutes": 7,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Why classes?",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "So far you have stored data in variables, lists and dictionaries. Data about one thing can end up spread over many variables:"
+              },
+              {
+                "type": "code",
+                "code": "student1_name = \"Asha\"\nstudent1_marks = [72, 95]\nstudent2_name = \"Ravi\"\nstudent2_marks = [64, 81]\nprint(student1_name, sum(student1_marks))",
+                "output": "Asha 167"
+              },
+              {
+                "type": "text",
+                "text": "That works, but it gets messy fast. A class keeps everything about one kind of thing together."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "A class is a blueprint, like the plan for a house.",
+                  "An object is one thing built from it, like one house.",
+                  "One class can make many objects."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Your first class",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class Dog:\n    sound = \"Woof\"\n\nrex = Dog()\nbella = Dog()\nrex.name = \"Rex\"\nbella.name = \"Bella\"\nprint(rex.name, rex.sound)\nprint(bella.name, bella.sound)\nprint(type(rex))",
+                "output": "Rex Woof\nBella Woof\n<class '__main__.Dog'>",
+                "explanation": [
+                  "class Dog: starts the class. Class names use CapitalWords.",
+                  "Dog() with brackets creates a new object.",
+                  "A value stored on an object is called an attribute; you read it with a dot.",
+                  "Each object keeps its own attributes, and __main__ means the class is in your program."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Class = blueprint. Object = one thing made from it, with its own attributes."
+              }
+            ]
+          },
+          {
+            "title": "Don't forget the brackets",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Dog() makes a new object. Dog on its own is just the class, the blueprint itself."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    sound = \"Woof\"\n\na = Dog()\nb = Dog\nprint(type(a))\nprint(type(b))",
+                "output": "<class '__main__.Dog'>\n<class 'type'>"
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Forgetting the brackets: b = Dog stores the class itself, not a new dog. Always write Dog() to create an object."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l11s1q1",
+            "prompt": "Which statement about classes and objects is true?",
+            "options": [
+              "A class and an object are two names for the same thing",
+              "A class is a blueprint; an object is one thing made from it",
+              "An object is a blueprint; classes are made from it",
+              "A class can only ever make one object"
+            ],
+            "correctIndex": 1,
+            "explanation": "Like a house plan and the houses built from it, one class can make many objects.",
+            "hint": "Think back to the house plan comparison from the lesson.",
+            "optionFeedback": [
+              "They are different: one is the plan, the other is what's built from it.",
+              "Right: blueprint and the thing built from it.",
+              "It is the other way round.",
+              "One class can make as many objects as you like, like rex and bella."
+            ]
+          },
+          {
+            "id": "l11s1q2",
+            "prompt": "What does this print?",
+            "options": [
+              "legs",
+              "Cat",
+              "tom",
+              "4"
+            ],
+            "correctIndex": 3,
+            "explanation": "tom is a Cat object, so tom.legs reads the legs attribute: 4.",
+            "code": "class Cat:\n    legs = 4\n\ntom = Cat()\nprint(tom.legs)",
+            "hint": "The dot reads a value stored on the object.",
+            "optionFeedback": [
+              "The dot gives the attribute's value, not its name.",
+              "Printing an attribute shows its value, not the class name.",
+              "tom.legs shows the attribute, not the variable name.",
+              "Right: tom.legs is 4."
+            ]
+          },
+          {
+            "id": "l11s1q3",
+            "prompt": "This should make a Cat object, but type(pet) shows <class 'type'>. What's wrong?",
+            "options": [
+              "Cat needs brackets: pet = Cat()",
+              "Class names must be lowercase",
+              "legs must be in quotes",
+              "type() doesn't work on objects"
+            ],
+            "correctIndex": 0,
+            "explanation": "Without brackets, pet is the class itself. Cat() creates an object.",
+            "code": "class Cat:\n    legs = 4\n\npet = Cat\nprint(type(pet))",
+            "hint": "Compare how rex was created in the lesson with how pet is created here.",
+            "optionFeedback": [
+              "Right: brackets create the object.",
+              "Class names use CapitalWords, so Cat is right.",
+              "4 is a number, so it doesn't need quotes.",
+              "type() works on anything; here it shows that pet is a class."
+            ]
+          },
+          {
+            "id": "l11s1q4",
+            "prompt": "What does this print?",
+            "options": [
+              "blue 4",
+              "red blue",
+              "red 4",
+              "red red"
+            ],
+            "correctIndex": 2,
+            "explanation": "a has its own colour, red, and every Car has wheels = 4.",
+            "code": "class Car:\n    wheels = 4\n\na = Car()\nb = Car()\na.colour = \"red\"\nb.colour = \"blue\"\nprint(a.colour, b.wheels)",
+            "hint": "Check which object each attribute is read from.",
+            "optionFeedback": [
+              "a.colour belongs to a, and b's colour doesn't change it.",
+              "The second value is b.wheels, not b.colour.",
+              "Right: a's colour and b's wheels.",
+              "The second value is b.wheels, which is a number."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l11s2",
+      "code": "11.2",
+      "title": "__init__ and attributes",
+      "summary": "Set up each object's data when it is created.",
+      "estimatedMinutes": 9,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Setting up objects with __init__",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Instead of adding attributes one by one, write an __init__ method (two underscores on each side). It runs automatically every time an object is created."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nrex = Dog(\"Rex\", 3)\nprint(rex.name)\nprint(rex.age)",
+                "output": "Rex\n3",
+                "explanation": [
+                  "Dog(\"Rex\", 3) creates a Dog and runs __init__.",
+                  "\"Rex\" goes to name and 3 goes to age.",
+                  "self is the new object; self.name = name stores the value on it."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "What is self?",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "self means \"this object\". Python fills it in for you: never pass it yourself. Each object gets its own values."
+              },
+              {
+                "type": "code",
+                "code": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\na = Student(\"Asha\", 9)\nb = Student(\"Ravi\", 10)\nprint(a.name, a.grade)\nprint(b.name, b.grade)",
+                "output": "Asha 9\nRavi 10"
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Student(\"Asha\", 9): Python makes an empty Student.",
+                  "It calls __init__ with self = that student, name = \"Asha\", grade = 9.",
+                  "self.name = name saves the name on that student."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Defaults and changes",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\nacc = BankAccount(\"Meera\")\nprint(acc.balance)\nacc.balance = 500\nprint(acc.owner, acc.balance)",
+                "output": "0\nMeera 500",
+                "explanation": [
+                  "balance=0 is a default value, like in normal functions.",
+                  "Attributes can be changed later with =."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "__init__ gives every new object its starting attributes."
+              }
+            ]
+          },
+          {
+            "title": "Missing arguments",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Creating an object must give __init__ every value it asks for, except ones with defaults."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nrex = Dog(\"Rex\")",
+                "output": "TypeError: Dog.__init__() missing 1 required positional argument: 'age'",
+                "explanation": [
+                  "__init__ needs name and age, so creating a Dog needs both values."
+                ],
+                "caption": "Only the last line of the error is shown."
+              }
+            ]
+          },
+          {
+            "title": "Forgetting self.",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Inside __init__, the value must be stored on self, or the object never gets it."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name):\n        name = name\n\nrex = Dog(\"Rex\")\nprint(rex.name)",
+                "output": "AttributeError: 'Dog' object has no attribute 'name'",
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Forgetting self. in __init__. name = name only changes a local variable, so the object never gets the attribute and reading rex.name gives an AttributeError. Write self.name = name."
+              }
+            ]
+          },
+          {
+            "title": "Two underscores",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class Dog:\n    def _init_(self, name):\n        self.name = name\n\nrex = Dog(\"Rex\")",
+                "output": "TypeError: Dog() takes no arguments",
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "__init__ has two underscores before and after. With one, Python doesn't recognise it."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l11s2q1",
+            "prompt": "When does __init__ run?",
+            "options": [
+              "Only when you call rex.__init__() yourself",
+              "Automatically, every time a new object is created",
+              "Once, when the class is written",
+              "When the program ends"
+            ],
+            "correctIndex": 1,
+            "explanation": "Creating an object, like Dog(\"Rex\", 3), runs __init__ for that new object.",
+            "hint": "Think about what happens straight after you write a class name with brackets.",
+            "optionFeedback": [
+              "Python calls it for you when the object is created.",
+              "Right: each new object runs it once.",
+              "It runs once per object, not once for the class.",
+              "It is about setting up new objects, at the start."
+            ]
+          },
+          {
+            "id": "l11s2q2",
+            "prompt": "What does this print?",
+            "options": [
+              "Gita",
+              "700",
+              "pages",
+              "Book"
+            ],
+            "correctIndex": 1,
+            "explanation": "700 is passed as pages and stored as self.pages.",
+            "code": "class Book:\n    def __init__(self, title, pages):\n        self.title = title\n        self.pages = pages\n\nb = Book(\"Gita\", 700)\nprint(b.pages)",
+            "hint": "Match each value in the brackets to the parameter in the same position.",
+            "optionFeedback": [
+              "Gita is the title; the code prints pages.",
+              "Right: b.pages is 700.",
+              "The dot gives the value of the attribute, not its name.",
+              "b.pages is an attribute value, not the class name."
+            ]
+          },
+          {
+            "id": "l11s2q3",
+            "prompt": "Which word fills the blank?",
+            "options": [
+              "Item",
+              "init",
+              "self",
+              "price"
+            ],
+            "correctIndex": 2,
+            "explanation": "self.price = price stores the value on the object being created.",
+            "code": "class Item:\n    def __init__(self, name, price):\n        self.name = name\n        ____.price = price",
+            "hint": "Look at the line just above it, which does the same job for name.",
+            "optionFeedback": [
+              "Item is the class; each object needs its own price.",
+              "init is not a name in this code.",
+              "Right: self.price stores it on the object.",
+              "price = price would only change the local variable."
+            ]
+          },
+          {
+            "id": "l11s2q4",
+            "prompt": "Why does this code fail?",
+            "options": [
+              "Phone needs brackets in the class line",
+              "\"Nokia\" needs to be a number",
+              "print() can't show attributes",
+              "brand = brand makes a local variable; it should be self.brand = brand"
+            ],
+            "correctIndex": 3,
+            "explanation": "Without self., the value is never stored on the object, so p.brand gives an AttributeError.",
+            "code": "class Phone:\n    def __init__(self, brand):\n        brand = brand\n\np = Phone(\"Nokia\")\nprint(p.brand)",
+            "hint": "Check whether the value is actually stored on the object inside __init__.",
+            "optionFeedback": [
+              "class Phone: is correct as written.",
+              "Attributes can hold any type of value.",
+              "print() can show attributes; the attribute just doesn't exist.",
+              "Right: self. is missing."
+            ]
+          },
+          {
+            "id": "l11s2q5",
+            "prompt": "What does this print?",
+            "options": [
+              "150",
+              "100",
+              "200",
+              "10050"
+            ],
+            "correctIndex": 0,
+            "explanation": "a uses the default balance 100, b has 50: 100 + 50 = 150.",
+            "code": "class Account:\n    def __init__(self, owner, balance=100):\n        self.owner = owner\n        self.balance = balance\n\na = Account(\"Asha\")\nb = Account(\"Ravi\", 50)\nprint(a.balance + b.balance)",
+            "hint": "Work out each object's balance separately before adding them.",
+            "optionFeedback": [
+              "Right: 100 + 50.",
+              "That's only a's balance; b's 50 is added too.",
+              "b was given 50, so its default of 100 is replaced.",
+              "Both balances are numbers, so + adds them."
+            ]
+          },
+          {
+            "id": "l11s2q6",
+            "prompt": "Which error does this code cause?",
+            "options": [
+              "TypeError",
+              "AttributeError",
+              "NameError",
+              "ValueError"
+            ],
+            "correctIndex": 0,
+            "explanation": "__init__ needs both name and age, but only one value was given: TypeError (missing argument).",
+            "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nrex = Dog(\"Rex\")",
+            "hint": "Count the values __init__ needs and compare that with the values given.",
+            "optionFeedback": [
+              "Right: a required argument is missing.",
+              "No attribute is read here; the problem is the missing argument.",
+              "Dog and rex are both known names.",
+              "\"Rex\" is a fine value; one value is missing."
+            ]
+          },
+          {
+            "id": "l11s2q7",
+            "prompt": "What is self inside __init__?",
+            "options": [
+              "The class itself",
+              "An extra value you must pass, like Dog(self, \"Rex\")",
+              "The new object that is being set up",
+              "A variable shared by all objects"
+            ],
+            "correctIndex": 2,
+            "explanation": "self is the object being created, so self.name belongs to that one object.",
+            "hint": "Think about where self.name ends up being stored.",
+            "optionFeedback": [
+              "self is one object, not the blueprint.",
+              "Python passes self for you; you never write it in the brackets.",
+              "Right: self is this object.",
+              "Each object has its own self, so values aren't shared."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l11s3",
+      "code": "11.3",
+      "title": "Methods",
+      "summary": "Give objects actions with methods that use self.",
+      "estimatedMinutes": 10,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Methods: functions inside a class",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A method is a function written inside a class. Its first parameter is always self."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        print(f\"{self.name} says Woof!\")\n\nrex = Dog(\"Rex\")\nrex.bark()",
+                "output": "Rex says Woof!",
+                "explanation": [
+                  "rex.bark() calls the method; Python passes rex in as self.",
+                  "Inside the method, self.name reads rex's name."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Methods that change attributes",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n\nacc = BankAccount(\"Asha\")\nacc.deposit(200)\nacc.deposit(50)\nprint(acc.balance)",
+                "output": "250",
+                "explanation": [
+                  "deposit(200) gives amount = 200; self is acc.",
+                  "Each call adds to the same balance."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Methods can take parameters after self.",
+                  "self.balance += amount changes the object's attribute."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Methods that return values",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\n    def average(self):\n        return sum(self.marks) / len(self.marks)\n\n    def passed(self):\n        return self.average() >= 50\n\ns = Student(\"Ravi\", [40, 70, 55])\nprint(s.average())\nprint(s.passed())",
+                "output": "55.0\nTrue",
+                "explanation": [
+                  "average() returns a value, like a normal function.",
+                  "A method can call another method with self.average()."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Methods can check rules",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError(\"not enough money\")\n        self.balance -= amount\n\nacc = BankAccount(\"Meera\", 100)\nacc.withdraw(30)\nprint(acc.balance)\ntry:\n    acc.withdraw(500)\nexcept ValueError as error:\n    print(\"Sorry:\", error)\nprint(acc.balance)",
+                "output": "70\nSorry: not enough money\n70"
+              },
+              {
+                "type": "keypoint",
+                "text": "Put the rules inside the method, so every withdrawal is checked the same way."
+              }
+            ]
+          },
+          {
+            "title": "Common mistakes with self",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class Dog:\n    def bark():\n        print(\"Woof\")\n\nrex = Dog()\nrex.bark()",
+                "output": "TypeError: Dog.bark() takes 0 positional arguments but 1 was given",
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        print(name, \"says Woof\")\n\nrex = Dog(\"Rex\")\nrex.bark()",
+                "output": "NameError: name 'name' is not defined",
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Forgetting self. Every method needs self as its first parameter, and inside a method you read attributes with self.name, not name."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l11s3q1",
+            "prompt": "What does this print?",
+            "options": [
+              "False",
+              "None",
+              "switch",
+              "True"
+            ],
+            "correctIndex": 3,
+            "explanation": "switch() sets self.on to True on lamp.",
+            "code": "class Lamp:\n    def __init__(self):\n        self.on = False\n\n    def switch(self):\n        self.on = True\n\nlamp = Lamp()\nlamp.switch()\nprint(lamp.on)",
+            "hint": "Follow what each method does to the attribute, in order.",
+            "optionFeedback": [
+              "It started False, but switch() changed it before printing.",
+              "lamp.on is an attribute with a value; it was set to a bool.",
+              "The code prints the attribute, not the method name.",
+              "Right: switch() changed it."
+            ]
+          },
+          {
+            "id": "l11s3q2",
+            "prompt": "What does this print?",
+            "options": [
+              "50",
+              "30",
+              "20",
+              "0"
+            ],
+            "correctIndex": 0,
+            "explanation": "Both calls add to the same money attribute: 0 + 20 + 30 = 50.",
+            "code": "class Wallet:\n    def __init__(self):\n        self.money = 0\n\n    def add(self, amount):\n        self.money += amount\n\nw = Wallet()\nw.add(20)\nw.add(30)\nprint(w.money)",
+            "hint": "Each call changes the same attribute on the same object.",
+            "optionFeedback": [
+              "Right: 20 + 30.",
+              "+= adds to the money, so the first 20 is kept.",
+              "The second call adds 30 more.",
+              "The method changes self.money, so it doesn't stay 0."
+            ]
+          },
+          {
+            "id": "l11s3q3",
+            "prompt": "Why does this code fail?",
+            "options": [
+              "rex.bark() needs an argument",
+              "bark needs self as its first parameter: def bark(self):",
+              "Methods can't use print()",
+              "A class needs __init__ before it can have methods"
+            ],
+            "correctIndex": 1,
+            "explanation": "Python passes rex in as self, but bark() accepts no parameters: TypeError.",
+            "code": "class Dog:\n    def bark():\n        print(\"Woof\")\n\nrex = Dog()\nrex.bark()",
+            "hint": "Python passes one value to every method call, even with empty brackets.",
+            "optionFeedback": [
+              "Python already passes rex; the method has no parameter to receive it.",
+              "Right: add self.",
+              "Methods can print like any function.",
+              "Methods work without __init__; the missing parameter is the problem."
+            ]
+          },
+          {
+            "id": "l11s3q4",
+            "prompt": "Which word fills the blank?",
+            "options": [
+              "width, height",
+              "Rectangle",
+              "self",
+              "this"
+            ],
+            "correctIndex": 2,
+            "explanation": "Every method's first parameter is self, which gives access to self.width and self.height.",
+            "code": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(____):\n        return self.width * self.height",
+            "hint": "The method body reads attributes through one particular name.",
+            "optionFeedback": [
+              "The values are read from the object, so they aren't parameters.",
+              "The class name isn't used as a parameter.",
+              "Right: area(self).",
+              "Some languages use this, but Python uses a different word."
+            ]
+          },
+          {
+            "id": "l11s3q5",
+            "prompt": "What does this print?",
+            "options": [
+              "12",
+              "13",
+              "7",
+              "None"
+            ],
+            "correctIndex": 1,
+            "explanation": "area() returns 3 * 4 = 12, and 12 + 1 = 13.",
+            "code": "class Rectangle:\n    def __init__(self, w, h):\n        self.w = w\n        self.h = h\n\n    def area(self):\n        return self.w * self.h\n\nr = Rectangle(3, 4)\nprint(r.area() + 1)",
+            "hint": "Work out what the method returns, then do the rest of the line.",
+            "optionFeedback": [
+              "Don't forget the + 1 after the method call.",
+              "Right: 12 + 1.",
+              "area() multiplies, it doesn't add.",
+              "area() has a return, so it gives back a number."
+            ]
+          },
+          {
+            "id": "l11s3q6",
+            "prompt": "What does this print?",
+            "options": [
+              "Error: empty\n0",
+              "0",
+              "Error: empty\n-1",
+              "-1"
+            ],
+            "correctIndex": 0,
+            "explanation": "The first take() makes items 0. The second raises ValueError, which is caught, so items stays 0.",
+            "code": "class Box:\n    def __init__(self, items):\n        self.items = items\n\n    def take(self):\n        if self.items == 0:\n            raise ValueError(\"empty\")\n        self.items -= 1\n\nb = Box(1)\nb.take()\ntry:\n    b.take()\nexcept ValueError as e:\n    print(\"Error:\", e)\nprint(b.items)",
+            "hint": "Track the value of items after each call, and remember what raise skips.",
+            "optionFeedback": [
+              "Right: the error is printed and items stays 0.",
+              "The second take() raises an error, which is caught and printed.",
+              "raise stops the method before -= 1 runs.",
+              "raise stops the method, and the caught error is printed first."
+            ]
+          },
+          {
+            "id": "l11s3q7",
+            "prompt": "Why does this code fail?",
+            "options": [
+              "greet() needs a return",
+              "Cat needs a second parameter",
+              "Inside the method it must be self.name, not name",
+              "print() can't take two values"
+            ],
+            "correctIndex": 2,
+            "explanation": "name only existed inside __init__. Other methods read it from the object as self.name.",
+            "code": "class Cat:\n    def __init__(self, name):\n        self.name = name\n\n    def greet(self):\n        print(\"Hi,\", name)\n\nc = Cat(\"Tom\")\nc.greet()",
+            "hint": "Think about where name was stored when the object was set up.",
+            "optionFeedback": [
+              "A method doesn't need return to print.",
+              "One parameter is all this Cat needs.",
+              "Right: read it from self.",
+              "print() can show several values separated by commas."
+            ]
+          },
+          {
+            "id": "l11s3q8",
+            "prompt": "Which statement is true?",
+            "options": [
+              "You must write rex.bark(rex)",
+              "self is a new, empty object each time a method is called",
+              "Methods can only read attributes, never change them",
+              "When you call rex.bark(), Python passes rex in as self"
+            ],
+            "correctIndex": 3,
+            "explanation": "The object before the dot becomes self inside the method.",
+            "hint": "Think about what object is written before the dot in the call.",
+            "optionFeedback": [
+              "Python passes rex automatically, so you never write it.",
+              "self is the object the method was called on, with all its attributes.",
+              "Methods can change attributes, like deposit() changing balance.",
+              "Right: the object before the dot is self."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l11s4",
+      "code": "11.4",
+      "title": "Many objects",
+      "summary": "Store objects in lists and work with them together.",
+      "estimatedMinutes": 7,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Objects in a list",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Real programs have many objects: a class of students, a cart of items. Keep them in a list."
+              },
+              {
+                "type": "code",
+                "code": "class Student:\n    def __init__(self, name, mark):\n        self.name = name\n        self.mark = mark\n\nstudents = [Student(\"Asha\", 82), Student(\"Ravi\", 67), Student(\"Meera\", 91)]\ntotal = 0\nbest = students[0]\nfor s in students:\n    print(s.name, s.mark)\n    total += s.mark\n    if s.mark > best.mark:\n        best = s\nprint(\"Average:\", total / len(students))\nprint(\"Top:\", best.name)\nprint([s.name for s in students if s.mark >= 70])",
+                "output": "Asha 82\nRavi 67\nMeera 91\nAverage: 80.0\nTop: Meera\n['Asha', 'Meera']",
+                "explanation": [
+                  "A list can hold objects like any other value.",
+                  "The loop variable s is one Student at a time.",
+                  "best remembers the student with the highest mark so far."
+                ]
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Make many objects by calling the class many times.",
+                  "Keep them in a list and loop over it.",
+                  "Use the dot on the loop variable: s.name."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Same object or a new one?",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class Counter:\n    def __init__(self):\n        self.count = 0\n\na = Counter()\nb = a\nc = Counter()\nb.count = 5\nprint(a.count, b.count, c.count)",
+                "output": "5 5 0",
+                "explanation": [
+                  "b = a doesn't copy: a and b are two names for the same object.",
+                  "c = Counter() is a separate object, so it still has 0."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Calling the class makes a new object; = only gives an existing object another name."
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Thinking b = a makes a copy. Changing b.count also changes a.count, because they are the same object. Call the class again to get a separate object."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l11s4q1",
+            "prompt": "What does this print?",
+            "options": [
+              "50",
+              "2",
+              "1040",
+              "pen book"
+            ],
+            "correctIndex": 0,
+            "explanation": "The loop adds each item's price: 10 + 40 = 50.",
+            "code": "class Item:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\ncart = [Item(\"pen\", 10), Item(\"book\", 40)]\ntotal = 0\nfor item in cart:\n    total += item.price\nprint(total)",
+            "hint": "Each round of the loop adds one object's price to total.",
+            "optionFeedback": [
+              "Right: 10 + 40.",
+              "The loop adds prices, not a count of items.",
+              "The prices are numbers, so they are added.",
+              "Only total is printed, and it holds prices."
+            ]
+          },
+          {
+            "id": "l11s4q2",
+            "prompt": "What does this print?",
+            "options": [
+              "9",
+              "1",
+              "10",
+              "AttributeError"
+            ],
+            "correctIndex": 0,
+            "explanation": "y = x makes y another name for the same Box, so changing y.size changes x.size.",
+            "code": "class Box:\n    def __init__(self):\n        self.size = 1\n\nx = Box()\ny = x\ny.size = 9\nprint(x.size)",
+            "hint": "Ask whether y = x creates a second object or not.",
+            "optionFeedback": [
+              "Right: x and y are the same object.",
+              "y = x didn't make a copy, so x changed too.",
+              "size was replaced with 9, not increased.",
+              "x has a size attribute, set in __init__."
+            ]
+          },
+          {
+            "id": "l11s4q3",
+            "prompt": "What does this print?",
+            "options": [
+              "['Tom']",
+              "['Rex', 'Bo']",
+              "['Rex', 'Tom', 'Bo']",
+              "[3, 5]"
+            ],
+            "correctIndex": 1,
+            "explanation": "Only pets older than 2 are kept, and their names are collected.",
+            "code": "class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\npets = [Pet(\"Rex\", 3), Pet(\"Tom\", 1), Pet(\"Bo\", 5)]\nprint([p.name for p in pets if p.age > 2])",
+            "hint": "Check each pet's age against the condition, then look at what is collected.",
+            "optionFeedback": [
+              "Tom is 1, so he fails the condition.",
+              "Right: Rex and Bo are older than 2.",
+              "The if keeps only some pets.",
+              "The list collects p.name, not p.age."
+            ]
+          },
+          {
+            "id": "l11s4q4",
+            "prompt": "What does this print?",
+            "options": [
+              "3 3",
+              "1 1",
+              "2 2",
+              "2 1"
+            ],
+            "correctIndex": 3,
+            "explanation": "a and b are separate objects: a ticked twice and b once.",
+            "code": "class Counter:\n    def __init__(self):\n        self.n = 0\n\n    def tick(self):\n        self.n += 1\n\na = Counter()\nb = Counter()\na.tick()\na.tick()\nb.tick()\nprint(a.n, b.n)",
+            "hint": "Each object made by calling the class keeps its own count.",
+            "optionFeedback": [
+              "Each object has its own n; they don't share it.",
+              "a.tick() was called twice.",
+              "b.tick() was called only once.",
+              "Right: they count separately."
+            ]
+          },
+          {
+            "id": "l11s4q5",
+            "prompt": "Which statement is true?",
+            "options": [
+              "b = a makes a copy of the object a",
+              "All objects of a class share their attributes set in __init__",
+              "Calling the class again, like Dog(\"Bella\"), always makes a new, separate object",
+              "A list can only hold one object of each class"
+            ],
+            "correctIndex": 2,
+            "explanation": "Each call to the class makes a new object. = only adds another name.",
+            "hint": "Think about the difference between c and b in the Counter example.",
+            "optionFeedback": [
+              "b = a gives the same object a second name.",
+              "Attributes set with self belong to each object.",
+              "Right: a new call, a new object.",
+              "A list can hold as many objects as you like."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l11s5",
+      "code": "11.5",
+      "title": "Printing objects and why classes",
+      "summary": "Use __str__ to print objects nicely, and see why classes help.",
+      "estimatedMinutes": 8,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Printing an object",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Printing an object you made shows something like <__main__.Dog object at 0x7f...>. The number is a memory address, so it changes from run to run."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\nprint(Dog(\"Rex\"))",
+                "caption": "Prints something like <__main__.Dog object at 0x7f3a2c1d5e90>."
+              },
+              {
+                "type": "text",
+                "text": "Add a __str__ method to choose the text yourself. It must return a string."
+              },
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def __str__(self):\n        return f\"{self.name} ({self.age} years)\"\n\nrex = Dog(\"Rex\", 3)\nprint(rex)\nprint(\"My dog: \" + str(rex))\nprint(f\"Hello {rex}\")",
+                "output": "Rex (3 years)\nMy dog: Rex (3 years)\nHello Rex (3 years)",
+                "explanation": [
+                  "print(), str() and f-strings all use __str__ to turn the object into text."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "__str__ must return text",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        print(self.name)\n\nrex = Dog(\"Rex\")\nprint(rex)",
+                "output": "Rex\nTypeError: __str__ returned non-string (type NoneType)",
+                "caption": "Only the last line of the error is shown."
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Printing inside __str__ instead of returning the text. __str__ must return a string; if it returns nothing, you get a TypeError."
+              }
+            ]
+          },
+          {
+            "title": "Why use classes?",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"deposit must be positive\")\n        self.balance += amount\n\n    def __str__(self):\n        return f\"{self.owner}: Rs {self.balance}\"\n\naccounts = [BankAccount(\"Asha\", 300), BankAccount(\"Ravi\")]\naccounts[1].deposit(120)\nfor acc in accounts:\n    print(acc)",
+                "output": "Asha: Rs 300\nRavi: Rs 120"
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "Data and actions stay together: the balance lives with deposit().",
+                  "Rules live in one place: every deposit is checked.",
+                  "Code reads like English: acc.deposit(120).",
+                  "Making many objects is easy."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "Use a class when you have several things of the same kind, each with its own data and actions."
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Classes can do much more, but you now know enough to organise real programs with them."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l11s5q1",
+            "prompt": "What does this print?",
+            "options": [
+              "mango",
+              "Fruit",
+              "Fruit: mango",
+              "<__main__.Fruit object>"
+            ],
+            "correctIndex": 2,
+            "explanation": "print(f) uses __str__, which returns \"Fruit: \" + self.name.",
+            "code": "class Fruit:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        return \"Fruit: \" + self.name\n\nf = Fruit(\"mango\")\nprint(f)",
+            "hint": "Printing an object uses the text that one special method returns.",
+            "optionFeedback": [
+              "__str__ adds Fruit: in front of the name.",
+              "__str__ includes the name as well.",
+              "Right: __str__ chooses the text.",
+              "Because there is a __str__, Python uses it instead of the default text."
+            ]
+          },
+          {
+            "id": "l11s5q2",
+            "prompt": "When does Python call __str__?",
+            "options": [
+              "When the object is printed or turned into text with str()",
+              "When the object is created",
+              "Every time an attribute changes",
+              "Only when you write obj.__str__() yourself"
+            ],
+            "correctIndex": 0,
+            "explanation": "print(), str() and f-strings call __str__ to get the object's text.",
+            "hint": "Think about the three lines in the lesson that all showed the same text.",
+            "optionFeedback": [
+              "Right: whenever text is needed.",
+              "Creating an object runs __init__, not __str__.",
+              "Changing attributes doesn't print anything.",
+              "Python calls it for you, for example inside print()."
+            ]
+          },
+          {
+            "id": "l11s5q3",
+            "prompt": "Why does this code fail?",
+            "options": [
+              "__str__ needs a parameter called text",
+              "Objects can never be printed",
+              "print(rex) should be print(Dog)",
+              "__str__ must return the text instead of printing it"
+            ],
+            "correctIndex": 3,
+            "explanation": "This __str__ prints and returns nothing (None), so Python raises a TypeError.",
+            "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        print(self.name)\n\nrex = Dog(\"Rex\")\nprint(rex)",
+            "hint": "Look at what the special method gives back to Python.",
+            "optionFeedback": [
+              "__str__ only needs self.",
+              "Objects can be printed, especially with a working __str__.",
+              "Printing the class wouldn't print the dog.",
+              "Right: replace print with return."
+            ]
+          },
+          {
+            "id": "l11s5q4",
+            "prompt": "Which word fills the blank?",
+            "options": [
+              "return",
+              "print",
+              "self.str =",
+              "str"
+            ],
+            "correctIndex": 0,
+            "explanation": "__str__ must give back a string with return.",
+            "code": "class Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def __str__(self):\n        ____ f\"{self.title} by {self.author}\"",
+            "hint": "The special method has to hand a string back to Python.",
+            "optionFeedback": [
+              "Right: return the text.",
+              "print shows text but gives back None, which causes a TypeError.",
+              "Storing it in an attribute doesn't give it back.",
+              "str on its own does nothing with the text."
+            ]
+          },
+          {
+            "id": "l11s5q5",
+            "prompt": "What does this print?",
+            "options": [
+              "Winner: {p}",
+              "Winner: Asha=7",
+              "Winner: p",
+              "Winner: Asha"
+            ],
+            "correctIndex": 1,
+            "explanation": "The f-string puts p in the text using its __str__, which returns Asha=7.",
+            "code": "class Player:\n    def __init__(self, name, score):\n        self.name = name\n        self.score = score\n\n    def __str__(self):\n        return f\"{self.name}={self.score}\"\n\np = Player(\"Asha\", 7)\nprint(f\"Winner: {p}\")",
+            "hint": "An f-string turns the object into text the same way print() does.",
+            "optionFeedback": [
+              "The f in front fills in {p}.",
+              "Right: the f-string uses __str__.",
+              "{p} is replaced with the object's text, not its name.",
+              "__str__ includes the score too."
+            ]
+          },
+          {
+            "id": "l11s5q6",
+            "prompt": "Which is a good reason to use a class?",
+            "options": [
+              "It makes programs run without any errors",
+              "It keeps related data and the actions that use it together",
+              "Every Python program must use a class",
+              "Classes are needed to use lists and dictionaries"
+            ],
+            "correctIndex": 1,
+            "explanation": "A class bundles data (attributes) and actions (methods), like balance and deposit().",
+            "hint": "Think about what the BankAccount class kept in one place.",
+            "optionFeedback": [
+              "Classes can still have errors, like a missing self.",
+              "Right: data and actions together.",
+              "Most of this course worked without classes.",
+              "You used lists and dictionaries long before classes."
+            ]
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "cheatSheet": {
+    "title": "Classes and Objects",
+    "sections": [
+      {
+        "heading": "Class, __init__ and attributes",
+        "items": [
+          {
+            "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nrex = Dog(\"Rex\", 3)\nprint(rex.name, rex.age)",
+            "note": "__init__ sets up each new object; self is that object.",
+            "output": "Rex 3"
+          }
+        ]
+      },
+      {
+        "heading": "Methods",
+        "items": [
+          {
+            "code": "class Account:\n    def __init__(self, balance=0):\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n\nacc = Account()\nacc.deposit(50)\nprint(acc.balance)",
+            "note": "Methods take self first and use self.attribute.",
+            "output": "50"
+          }
+        ]
+      },
+      {
+        "heading": "__str__",
+        "items": [
+          {
+            "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        return \"Dog \" + self.name\n\nprint(Dog(\"Rex\"))",
+            "note": "__str__ returns the text that print() shows.",
+            "output": "Dog Rex"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "Write Dog() with brackets to make an object.",
+      "Every method needs self.",
+      "b = a gives the same object a second name; it doesn't copy it."
+    ]
+  }
+}

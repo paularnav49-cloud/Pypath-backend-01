@@ -1,0 +1,102 @@
+PyPath - PyPath-BACKEND-INTEGRATION-COMPLETE.zip
+=================================================
+
+WHAT THIS ZIP IS
+----------------
+A COMPLETE REPOSITORY SNAPSHOT of the "backend-integration" branch. It is NOT a patch and NOT a
+"changed files only" package.
+
+It contains every file of the backend-integration branch (base commit
+25403e7341b9efd177ff7bc14a71f5b9e4392bd2, "Add files via upload"), unchanged files included, plus all
+modified and new files of the authentication / guest-isolation / privacy-consent / account-deletion
+update. You do not need to merge, rename or delete anything by hand.
+
+Top level of the ZIP (no wrapper folder, no nested project copy):
+  .github/                  unchanged copies of the branch's workflow files
+  PyPath/                   the Android project (Gradle root)
+  supabase/                 migrations, Edge Functions and SQL tests
+  UPLOAD-INSTRUCTIONS.txt   this file
+
+Not included on purpose: .git, build outputs and caches, APKs, local.properties, keystores,
+passwords, Supabase service-role keys, OAuth client secrets or any other credentials.
+
+TARGET BRANCH
+-------------
+backend-integration  ONLY.
+Do NOT upload this ZIP to "main". "main" (the frontend baseline, commit 80f84a7) needs no change.
+
+No file has to be deleted: compared with the current backend-integration branch, this snapshot only
+modifies and adds files. Extracting it over the branch (overwriting) therefore gives exactly this
+snapshot.
+
+PROCEDURE A - GitHub website + the repo's existing "Unzip update" workflow (works from a phone)
+--------------------------------------------------------------------------------------------
+1. Open the repository on GitHub and switch the branch selector to  backend-integration.
+2. Add file > Upload files > select PyPath-BACKEND-INTEGRATION-COMPLETE.zip (keep the file name).
+   Choose "Commit directly to the backend-integration branch" and commit.
+3. Actions > "Unzip update" > Run workflow:
+     Use workflow from:  backend-integration     (important: NOT main)
+     zip_path:           PyPath-BACKEND-INTEGRATION-COMPLETE.zip
+     delete_zip:         true (ticked)
+   The workflow extracts the ZIP over the branch (overwrite, never delete), removes the ZIP and
+   commits. Files in .github/ are skipped by that workflow by design; they are identical to the
+   branch's current files, so nothing is lost.
+4. Check the commit: it should touch only files under PyPath/ and supabase/ plus
+   UPLOAD-INSTRUCTIONS.txt.
+
+PROCEDURE B - local Git
+-----------------------
+  git fetch origin
+  git checkout backend-integration
+  git pull
+  # extract the ZIP into the repository root, overwriting existing files, e.g.:
+  unzip -o PyPath-BACKEND-INTEGRATION-COMPLETE.zip -d .
+  git add -A
+  git status            # only PyPath/, supabase/ and UPLOAD-INSTRUCTIONS.txt should change
+  git commit -m "Auth, guest isolation, privacy consent (12+ audience) and account deletion"
+  git push origin backend-integration
+
+If an earlier partial PyPath ZIP was uploaded before: this snapshot overwrites all of its files. Only
+the old root file PYPATH-AUTH-PRIVACY-UPLOAD.md (replaced by this file) may be left over; delete it if
+it exists. (On 13 Nov 2026 it was not on the branch.)
+
+AFTER UPLOADING - SUPABASE (Dashboard, manual)
+---------------------------------------------
+1. SQL Editor > New query > paste the whole file > Run, in this order:
+   a. REQUIRED  supabase/migrations/20261113000000_pypath_privacy_consent_and_account_check.sql
+                (skip if it was already applied)
+   b. REQUIRED  supabase/migrations/20261114000000_pypath_consent_withdrawal_and_age.sql
+                (consent withdrawal + self-declared age confirmation column; safe to run twice)
+   c. OPTIONAL  supabase/migrations/20261113000100_pypath_optional_signup_guard_hook.sql
+                then Authentication > Hooks > Before User Created > Postgres >
+                public.pypath_before_user_created (only after the new app is live)
+   None of them drops data or changes public.user_cloud_state or its policies.
+2. Edge Functions, both with JWT verification OFF (they verify the caller themselves):
+     supabase functions deploy google-account-check --no-verify-jwt
+     supabase functions deploy delete-account --no-verify-jwt
+   Without the CLI: Edge Functions > Deploy a new function > Via Editor, exact name, paste index.ts,
+   then turn "Verify JWT" off.
+3. Edge Function secrets: GOOGLE_WEB_CLIENT_ID = the Web client ID below; optional RATE_LIMIT_SALT =
+   any long random string. SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase
+   automatically - never put them in the app or the repository.
+
+GOOGLE WEB CLIENT ID (compare character by character)
+----------------------------------------------------
+  366083223668-ghnav157lrq95l3cucvsejkd8l3qv4h3.apps.googleusercontent.com
+  (lowercase letter "l" in "...q95l3..." and "...kd8l3...", not the digit "1")
+This is the value in PyPath/app/src/main/res/values/google_auth.xml. It must be identical in:
+  - Google Cloud Console > APIs & Services > Credentials > the "Web application" OAuth client
+  - Supabase > Authentication > Sign In / Providers > Google > Client IDs
+  - Edge Function secret GOOGLE_WEB_CLIENT_ID (copy and paste, do not retype)
+The Android OAuth client (package com.pypath.app + SHA-1) is unchanged.
+
+BEFORE RELEASE
+--------------
+- Fill in every "[... to be filled in by the app owner]" placeholder in
+  PyPath/app/src/main/assets/legal/privacy_policy.txt and PyPath/docs/privacy-policy.md.
+- PyPath is designed for ages 12+. The age statement on the consent screen is self-declared; PyPath
+  does not verify age or parental consent. Have the 12-17 account flow and the policy reviewed by a
+  lawyer (India DPDP Act 2023 / DPDP Rules 2025).
+- Determine the Google Play content rating through the official IARC questionnaire and complete the
+  Target audience and content section in Play Console; this code does not set or imply a rating.
+- Test on a real device against the real Supabase project (not done by the automated tests).

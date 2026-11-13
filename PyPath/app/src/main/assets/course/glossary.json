@@ -1,0 +1,744 @@
+{
+  "terms": [
+    {
+      "term": "Python",
+      "subLevelId": "l1s1",
+      "definition": "A popular programming language that is easy to read. PyPath teaches Python 3.",
+      "level": 1
+    },
+    {
+      "term": "print()",
+      "subLevelId": "l1s1",
+      "definition": "A built-in function that shows values on the screen.",
+      "example": "print(\"Hi\", 5)",
+      "output": "Hi 5",
+      "aliases": [
+        "output",
+        "display"
+      ],
+      "level": 1
+    },
+    {
+      "term": "String",
+      "subLevelId": "l1s3",
+      "definition": "Text: letters, digits or symbols inside quotes. Its type is str.",
+      "example": "word = \"hello\"\nprint(type(word))",
+      "output": "<class 'str'>",
+      "aliases": [
+        "str",
+        "text"
+      ],
+      "level": 1
+    },
+    {
+      "term": "Comment",
+      "subLevelId": "l1s1",
+      "definition": "A note for humans that starts with #. Python ignores it.",
+      "example": "# This line is ignored",
+      "aliases": [
+        "#"
+      ],
+      "level": 1
+    },
+    {
+      "term": "Variable",
+      "subLevelId": "l1s2",
+      "definition": "A name that stores a value so you can use it later.",
+      "example": "score = 10\nprint(score)",
+      "output": "10",
+      "level": 1
+    },
+    {
+      "term": "Assignment",
+      "subLevelId": "l1s2",
+      "definition": "Storing a value in a variable with =.",
+      "example": "x = 5\nx = x + 1\nprint(x)",
+      "output": "6",
+      "aliases": [
+        "="
+      ],
+      "level": 1
+    },
+    {
+      "term": "Integer",
+      "subLevelId": "l1s3",
+      "definition": "A whole number, such as 7 or -3. Its type is int.",
+      "example": "print(type(7))",
+      "output": "<class 'int'>",
+      "aliases": [
+        "int"
+      ],
+      "level": 1
+    },
+    {
+      "term": "Float",
+      "subLevelId": "l1s3",
+      "definition": "A number with a decimal point, such as 2.5. Its type is float.",
+      "example": "print(7 / 2)",
+      "output": "3.5",
+      "aliases": [
+        "decimal"
+      ],
+      "level": 1
+    },
+    {
+      "term": "Boolean",
+      "subLevelId": "l1s3",
+      "definition": "A value that is either True or False. Its type is bool.",
+      "example": "print(5 > 3)",
+      "output": "True",
+      "aliases": [
+        "bool",
+        "True",
+        "False"
+      ],
+      "level": 1
+    },
+    {
+      "term": "Type conversion",
+      "subLevelId": "l1s3",
+      "definition": "Changing a value from one type to another with int(), float() or str().",
+      "example": "print(int(\"4\") + 1)",
+      "output": "5",
+      "aliases": [
+        "casting",
+        "int()",
+        "str()",
+        "float()"
+      ],
+      "level": 1
+    },
+    {
+      "term": "input()",
+      "subLevelId": "l1s4",
+      "definition": "Pauses the program, shows a question and returns what the user typed, always as a string.",
+      "example": "name = input(\"Name? \")",
+      "level": 1
+    },
+    {
+      "term": "f-string",
+      "subLevelId": "l1s4",
+      "definition": "Text with f before the quotes; values in { } are filled in.",
+      "example": "n = 3\nprint(f\"{n} cats\")",
+      "output": "3 cats",
+      "aliases": [
+        "format",
+        "formatted string"
+      ],
+      "level": 1
+    },
+    {
+      "term": "Comparison operator",
+      "subLevelId": "l2s1",
+      "definition": "== != < > <= >= compare two values and give True or False.",
+      "example": "print(3 == 3, 3 != 4)",
+      "output": "True True",
+      "aliases": [
+        "==",
+        "!="
+      ],
+      "level": 2
+    },
+    {
+      "term": "Condition",
+      "subLevelId": "l2s2",
+      "definition": "An expression that is True or False, used by if, elif and while.",
+      "example": "age = 20\nprint(age >= 18)",
+      "output": "True",
+      "level": 2
+    },
+    {
+      "term": "if statement",
+      "subLevelId": "l2s2",
+      "definition": "Runs its indented block only when the condition is True.",
+      "example": "if 2 > 1:\n    print(\"yes\")",
+      "output": "yes",
+      "aliases": [
+        "if"
+      ],
+      "level": 2
+    },
+    {
+      "term": "else",
+      "subLevelId": "l2s2",
+      "definition": "The block that runs when the if condition is False.",
+      "level": 2
+    },
+    {
+      "term": "elif",
+      "subLevelId": "l2s3",
+      "definition": "Short for else if: checks another condition when the ones above were False.",
+      "level": 2
+    },
+    {
+      "term": "Indentation",
+      "subLevelId": "l2s2",
+      "definition": "Spaces at the start of a line. They show which lines belong to an if, loop or function.",
+      "aliases": [
+        "indent",
+        "IndentationError"
+      ],
+      "level": 2
+    },
+    {
+      "term": "Loop",
+      "subLevelId": "l3s1",
+      "definition": "Code that repeats. Python has for loops and while loops.",
+      "aliases": [
+        "iteration",
+        "repeat"
+      ],
+      "level": 3
+    },
+    {
+      "term": "for loop",
+      "subLevelId": "l3s1",
+      "definition": "Repeats once for each value in a sequence, such as range() or a list.",
+      "example": "for i in range(2):\n    print(i)",
+      "output": "0\n1",
+      "aliases": [
+        "for"
+      ],
+      "level": 3
+    },
+    {
+      "term": "range()",
+      "subLevelId": "l3s1",
+      "definition": "Makes a sequence of whole numbers: range(stop), range(start, stop) or range(start, stop, step).",
+      "example": "print(list(range(1, 4)))",
+      "output": "[1, 2, 3]",
+      "level": 3
+    },
+    {
+      "term": "while loop",
+      "subLevelId": "l3s2",
+      "definition": "Repeats while its condition stays True.",
+      "example": "n = 2\nwhile n > 0:\n    print(n)\n    n -= 1",
+      "output": "2\n1",
+      "aliases": [
+        "while"
+      ],
+      "level": 3
+    },
+    {
+      "term": "Infinite loop",
+      "subLevelId": "l3s2",
+      "definition": "A loop that never ends because its condition never becomes False.",
+      "level": 3
+    },
+    {
+      "term": "break",
+      "subLevelId": "l3s3",
+      "definition": "Stops a loop immediately.",
+      "example": "for i in range(5):\n    if i == 2:\n        break\n    print(i)",
+      "output": "0\n1",
+      "level": 3
+    },
+    {
+      "term": "continue",
+      "subLevelId": "l3s3",
+      "definition": "Skips the rest of this repeat and goes on to the next one.",
+      "level": 3
+    },
+    {
+      "term": "Nested loop",
+      "subLevelId": "l3s4",
+      "definition": "A loop inside another loop. The inner loop runs fully for every outer repeat.",
+      "level": 3
+    },
+    {
+      "term": "Augmented assignment",
+      "subLevelId": "l3s1",
+      "definition": "A shortcut that updates a variable: += -= *= /=.",
+      "example": "total = 5\ntotal += 2\nprint(total)",
+      "output": "7",
+      "aliases": [
+        "+=",
+        "-="
+      ],
+      "level": 3
+    },
+    {
+      "term": "Function",
+      "subLevelId": "l4s1",
+      "definition": "A named block of code you can run (call) whenever you need it.",
+      "aliases": [
+        "def"
+      ],
+      "level": 4
+    },
+    {
+      "term": "def",
+      "subLevelId": "l4s1",
+      "definition": "The keyword that defines a function.",
+      "example": "def hi():\n    print(\"hi\")\nhi()",
+      "output": "hi",
+      "level": 4
+    },
+    {
+      "term": "Call",
+      "subLevelId": "l4s1",
+      "definition": "Running a function by writing its name followed by brackets.",
+      "aliases": [
+        "calling",
+        "invoke"
+      ],
+      "level": 4
+    },
+    {
+      "term": "Parameter",
+      "subLevelId": "l4s2",
+      "definition": "A name in the def line that receives a value when the function is called.",
+      "level": 4
+    },
+    {
+      "term": "Argument",
+      "subLevelId": "l4s2",
+      "definition": "The actual value you pass to a function when you call it.",
+      "level": 4
+    },
+    {
+      "term": "return",
+      "subLevelId": "l4s3",
+      "definition": "Sends a value back from a function and ends it.",
+      "example": "def sq(n):\n    return n * n\nprint(sq(4))",
+      "output": "16",
+      "aliases": [
+        "return value"
+      ],
+      "level": 4
+    },
+    {
+      "term": "None",
+      "subLevelId": "l4s3",
+      "definition": "Python's 'nothing' value. A function without return gives back None.",
+      "level": 4
+    },
+    {
+      "term": "Default argument",
+      "subLevelId": "l4s4",
+      "definition": "A parameter with a value used when no argument is passed.",
+      "example": "def hi(name=\"friend\"):\n    print(\"Hi\", name)\nhi()",
+      "output": "Hi friend",
+      "level": 4
+    },
+    {
+      "term": "Keyword argument",
+      "subLevelId": "l4s4",
+      "definition": "An argument passed by name, like greet(name=\"Ravi\").",
+      "level": 4
+    },
+    {
+      "term": "Scope",
+      "subLevelId": "l4s5",
+      "definition": "Where a variable can be used. Variables made inside a function are local to it.",
+      "aliases": [
+        "local",
+        "global"
+      ],
+      "level": 4
+    },
+    {
+      "term": "List",
+      "subLevelId": "l5s1",
+      "definition": "An ordered collection of items in square brackets.",
+      "example": "nums = [1, 2, 3]\nprint(len(nums))",
+      "output": "3",
+      "aliases": [
+        "[]",
+        "array"
+      ],
+      "level": 5
+    },
+    {
+      "term": "len()",
+      "subLevelId": "l5s1",
+      "definition": "Gives the number of items in a list, or characters in a string.",
+      "example": "print(len(\"hey\"))",
+      "output": "3",
+      "aliases": [
+        "length"
+      ],
+      "level": 5
+    },
+    {
+      "term": "Index",
+      "subLevelId": "l5s2",
+      "definition": "The position of an item. The first item is at index 0; -1 is the last.",
+      "example": "x = [\"a\", \"b\"]\nprint(x[0], x[-1])",
+      "output": "a b",
+      "aliases": [
+        "position"
+      ],
+      "level": 5
+    },
+    {
+      "term": "Slice",
+      "subLevelId": "l5s2",
+      "definition": "A part of a list or string: list[start:stop].",
+      "example": "print([1, 2, 3, 4][1:3])",
+      "output": "[2, 3]",
+      "aliases": [
+        "slicing"
+      ],
+      "level": 5
+    },
+    {
+      "term": "IndexError",
+      "subLevelId": "l5s2",
+      "definition": "The error you get when you use a position that doesn't exist.",
+      "level": 5
+    },
+    {
+      "term": "Method",
+      "subLevelId": "l5s3",
+      "definition": "A function that belongs to a value, called with a dot: nums.append(4).",
+      "aliases": [
+        "dot"
+      ],
+      "level": 5
+    },
+    {
+      "term": "append()",
+      "subLevelId": "l5s3",
+      "definition": "Adds one item to the end of a list.",
+      "example": "x = [1]\nx.append(2)\nprint(x)",
+      "output": "[1, 2]",
+      "level": 5
+    },
+    {
+      "term": "pop()",
+      "subLevelId": "l5s3",
+      "definition": "Removes an item by position (the last by default) and returns it.",
+      "level": 5
+    },
+    {
+      "term": "sort()",
+      "subLevelId": "l5s3",
+      "definition": "Puts a list in order, changing the list itself.",
+      "example": "x = [3, 1, 2]\nx.sort()\nprint(x)",
+      "output": "[1, 2, 3]",
+      "level": 5
+    },
+    {
+      "term": "List comprehension",
+      "subLevelId": "l5s5",
+      "definition": "A one-line way to build a list: [value for item in list if condition].",
+      "example": "print([n * 2 for n in [1, 2, 3]])",
+      "output": "[2, 4, 6]",
+      "level": 5
+    },
+    {
+      "term": "String method",
+      "subLevelId": "l6s1",
+      "definition": "Methods like upper(), lower(), strip(), replace() and find() that return a new string.",
+      "example": "print(\"Hi\".upper())",
+      "output": "HI",
+      "level": 6
+    },
+    {
+      "term": "split()",
+      "subLevelId": "l6s1",
+      "definition": "Breaks a string into a list of words or parts.",
+      "example": "print(\"a b c\".split())",
+      "output": "['a', 'b', 'c']",
+      "level": 6
+    },
+    {
+      "term": "join()",
+      "subLevelId": "l6s1",
+      "definition": "Joins a list of strings into one string, with a separator between.",
+      "example": "print(\", \".join([\"a\", \"b\"]))",
+      "output": "a, b",
+      "level": 6
+    },
+    {
+      "term": "Format specifier",
+      "subLevelId": "l6s2",
+      "definition": "The part after : in an f-string's braces, like :.2f or :>5.",
+      "example": "print(f\"{2/3:.2f}\")",
+      "output": "0.67",
+      "aliases": [
+        ":.2f",
+        "alignment"
+      ],
+      "level": 6
+    },
+    {
+      "term": "Dictionary",
+      "subLevelId": "l6s3",
+      "definition": "A collection of key: value pairs in curly braces.",
+      "example": "d = {\"a\": 1}\nprint(d[\"a\"])",
+      "output": "1",
+      "aliases": [
+        "dict",
+        "{}"
+      ],
+      "level": 6
+    },
+    {
+      "term": "Key",
+      "subLevelId": "l6s3",
+      "definition": "The label used to look up a value in a dictionary. Keys are unique.",
+      "level": 6
+    },
+    {
+      "term": "get()",
+      "subLevelId": "l6s3",
+      "definition": "Looks up a key and returns a default (or None) if it's missing.",
+      "example": "d = {\"a\": 1}\nprint(d.get(\"b\", 0))",
+      "output": "0",
+      "level": 6
+    },
+    {
+      "term": "KeyError",
+      "subLevelId": "l6s3",
+      "definition": "The error you get when you look up a key that isn't in a dictionary.",
+      "level": 6
+    },
+    {
+      "term": "items()",
+      "subLevelId": "l6s4",
+      "definition": "Gives each key and value of a dictionary together, for looping.",
+      "example": "for k, v in {\"x\": 1}.items():\n    print(k, v)",
+      "output": "x 1",
+      "aliases": [
+        "keys()",
+        "values()"
+      ],
+      "level": 6
+    },
+    {
+      "term": "Program",
+      "subLevelId": "l7s1",
+      "definition": "A complete set of instructions that does a job, like the Expense Tracker.",
+      "level": 7
+    },
+    {
+      "term": "Bug",
+      "subLevelId": "l7s1",
+      "definition": "A mistake in a program. Finding and fixing bugs is called debugging.",
+      "aliases": [
+        "debugging",
+        "error"
+      ],
+      "level": 7
+    },
+    {
+      "term": "Exception",
+      "subLevelId": "l8s1",
+      "definition": "An error that happens while a program runs and stops it unless it is caught.",
+      "aliases": [
+        "error"
+      ],
+      "level": 8
+    },
+    {
+      "term": "Traceback",
+      "subLevelId": "l8s1",
+      "definition": "The error report Python prints: where the error happened and, on the last line, what it was.",
+      "level": 8
+    },
+    {
+      "term": "NameError",
+      "subLevelId": "l8s1",
+      "definition": "The error you get when you use a name that was never created.",
+      "example": "print(score)",
+      "level": 8
+    },
+    {
+      "term": "TypeError",
+      "subLevelId": "l8s1",
+      "definition": "The error you get when a value has the wrong type for the job, like text + a number.",
+      "level": 8
+    },
+    {
+      "term": "ValueError",
+      "subLevelId": "l8s1",
+      "definition": "The error you get when a value has the right type but can't be used, like int(\"ten\").",
+      "level": 8
+    },
+    {
+      "term": "ZeroDivisionError",
+      "subLevelId": "l8s1",
+      "definition": "The error you get when you divide by zero.",
+      "level": 8
+    },
+    {
+      "term": "try / except",
+      "subLevelId": "l8s2",
+      "definition": "Runs the code in try; if a named error happens, runs the except block instead of stopping.",
+      "example": "try:\n    int(\"x\")\nexcept ValueError:\n    print(\"bad\")",
+      "output": "bad",
+      "aliases": [
+        "try",
+        "except",
+        "catch"
+      ],
+      "level": 8
+    },
+    {
+      "term": "finally",
+      "subLevelId": "l8s3",
+      "definition": "A block after try that always runs, error or not.",
+      "level": 8
+    },
+    {
+      "term": "raise",
+      "subLevelId": "l8s3",
+      "definition": "Creates an error on purpose, like raise ValueError(\"too big\").",
+      "aliases": [
+        "throw"
+      ],
+      "level": 8
+    },
+    {
+      "term": "Input validation",
+      "subLevelId": "l8s4",
+      "definition": "Checking what the user typed and asking again until it is valid.",
+      "aliases": [
+        "validate"
+      ],
+      "level": 8
+    },
+    {
+      "term": "Module",
+      "subLevelId": "l9s1",
+      "definition": "A file of ready-made Python code you load with import.",
+      "aliases": [
+        "library",
+        "standard library"
+      ],
+      "level": 9
+    },
+    {
+      "term": "import",
+      "subLevelId": "l9s1",
+      "definition": "Loads a module: import math, from math import sqrt or import math as m.",
+      "example": "import math\nprint(math.sqrt(9))",
+      "output": "3.0",
+      "aliases": [
+        "from",
+        "as"
+      ],
+      "level": 9
+    },
+    {
+      "term": "random module",
+      "subLevelId": "l9s2",
+      "definition": "Tools for random numbers and choices: randint(), choice(), shuffle() and seed().",
+      "aliases": [
+        "randint",
+        "choice"
+      ],
+      "level": 9
+    },
+    {
+      "term": "datetime module",
+      "subLevelId": "l9s2",
+      "definition": "Tools for dates: date(year, month, day), date.today() and timedelta(days=n).",
+      "example": "from datetime import date\nprint(date(2026, 3, 15))",
+      "output": "2026-03-15",
+      "aliases": [
+        "date",
+        "timedelta"
+      ],
+      "level": 9
+    },
+    {
+      "term": "open()",
+      "subLevelId": "l10s1",
+      "definition": "Opens a file and returns a file object for reading or writing.",
+      "aliases": [
+        "file"
+      ],
+      "level": 10
+    },
+    {
+      "term": "File mode",
+      "subLevelId": "l10s1",
+      "definition": "The second argument of open(): \"r\" read, \"w\" write (wipes the file), \"a\" append.",
+      "aliases": [
+        "mode",
+        "append"
+      ],
+      "level": 10
+    },
+    {
+      "term": "with statement",
+      "subLevelId": "l10s2",
+      "definition": "Opens a file for an indented block and closes it automatically afterwards.",
+      "aliases": [
+        "with"
+      ],
+      "level": 10
+    },
+    {
+      "term": "readline()",
+      "subLevelId": "l10s2",
+      "definition": "Reads the next single line of a file, including its new line at the end.",
+      "level": 10
+    },
+    {
+      "term": "FileNotFoundError",
+      "subLevelId": "l10s3",
+      "definition": "The error you get when you try to read a file that doesn't exist.",
+      "level": 10
+    },
+    {
+      "term": "os.path.exists()",
+      "subLevelId": "l10s3",
+      "definition": "Gives True if a file exists and False if it doesn't.",
+      "example": "import os\nprint(os.path.exists(\"nothing.txt\"))",
+      "output": "False",
+      "level": 10
+    },
+    {
+      "term": "Class",
+      "subLevelId": "l11s1",
+      "definition": "A blueprint for making objects of your own type.",
+      "aliases": [
+        "class"
+      ],
+      "level": 11
+    },
+    {
+      "term": "Object",
+      "subLevelId": "l11s1",
+      "definition": "One thing made from a class, with its own attributes.",
+      "aliases": [
+        "instance"
+      ],
+      "level": 11
+    },
+    {
+      "term": "Attribute",
+      "subLevelId": "l11s1",
+      "definition": "A value stored on an object, read with a dot like rex.name.",
+      "level": 11
+    },
+    {
+      "term": "__init__",
+      "subLevelId": "l11s2",
+      "definition": "The method that runs automatically to set up each new object.",
+      "aliases": [
+        "constructor"
+      ],
+      "level": 11
+    },
+    {
+      "term": "self",
+      "subLevelId": "l11s2",
+      "definition": "Inside a method, the object the method is working on.",
+      "level": 11
+    },
+    {
+      "term": "__str__",
+      "subLevelId": "l11s5",
+      "definition": "A method that returns the text shown when an object is printed.",
+      "example": "class A:\n    def __str__(self):\n        return \"an A\"\n\nprint(A())",
+      "output": "an A",
+      "level": 11
+    }
+  ]
+}
