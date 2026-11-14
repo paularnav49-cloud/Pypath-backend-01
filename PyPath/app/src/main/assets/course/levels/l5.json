@@ -1,0 +1,1537 @@
+{
+  "id": "l5",
+  "number": 5,
+  "title": "Lists",
+  "description": "Store many values in one variable, pick them out, change them and loop over them.",
+  "subLevels": [
+    {
+      "id": "l5s1",
+      "code": "5.1",
+      "title": "Creating lists",
+      "summary": "Square brackets, items and len().",
+      "estimatedMinutes": 4,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Many values, one variable",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A list stores several values in order, inside square brackets [ ] and separated by commas."
+              },
+              {
+                "type": "code",
+                "code": "fruits = [\"apple\", \"banana\", \"mango\"]\nprint(fruits)",
+                "output": "['apple', 'banana', 'mango']",
+                "explanation": [
+                  "fruits is one variable holding three strings.",
+                  "Printing a list shows the brackets and quotes too."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Lists can hold anything",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A list can hold numbers, text, True/False — or be empty. len() tells you how many items it has."
+              },
+              {
+                "type": "code",
+                "code": "marks = [72, 95, 48]\nempty = []\nmixed = [\"Asha\", 21, True]\nprint(len(marks))\nprint(len(empty))\nprint(mixed)",
+                "output": "3\n0\n['Asha', 21, True]",
+                "explanation": [
+                  "marks has 3 items.",
+                  "[] is an empty list with 0 items.",
+                  "One list can mix different types."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Is it in the list?",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "The word in checks whether a value is somewhere in a list. The answer is True or False."
+              },
+              {
+                "type": "code",
+                "code": "colours = [\"red\", \"green\", \"blue\"]\nprint(\"green\" in colours)\nprint(\"pink\" in colours)",
+                "output": "True\nFalse"
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Forgetting a comma. [\"a\" \"b\"] is a list with ONE item, \"ab\", because Python joins strings that sit next to each other."
+              },
+              {
+                "type": "keypoint",
+                "text": "Lists keep items in the order you put them in."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l5s1q1",
+            "prompt": "Which line creates a list?",
+            "options": [
+              "nums = \"1, 2, 3\"",
+              "nums = [1, 2, 3]",
+              "nums = \"[1, 2, 3]\"",
+              "nums == [1, 2, 3]"
+            ],
+            "correctIndex": 1,
+            "explanation": "A list is written with square brackets and commas. Anything inside quotes is one string, even if it contains brackets, and == compares values instead of storing one.",
+            "hint": "Recall which kind of brackets wrap a list, and what quotes do to anything inside them.",
+            "optionFeedback": [
+              "The quotes make this one string of text, not a list of three numbers.",
+              "Right: square brackets with commas between the values make a list.",
+              "Even with brackets inside, the quotes turn everything into a single string.",
+              "== compares two values; a single = is needed to store the list."
+            ]
+          },
+          {
+            "id": "l5s1q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "3",
+              "27",
+              "15",
+              "2"
+            ],
+            "correctIndex": 0,
+            "explanation": "len() counts items, not their total. There are 3 numbers in the list.",
+            "code": "nums = [4, 8, 15]\nprint(len(nums))",
+            "hint": "Think about whether len() adds up the values or counts them.",
+            "optionFeedback": [
+              "Right: len() counts the items, and there are three of them.",
+              "27 is the total of the numbers, but len() counts items instead of adding them.",
+              "15 is the last value in the list; len() tells you how many items there are.",
+              "2 is the number of commas; len() counts the items, which is one more."
+            ]
+          },
+          {
+            "id": "l5s1q3",
+            "prompt": "What does this code print?",
+            "options": [
+              "True",
+              "cow",
+              "False",
+              "Error"
+            ],
+            "correctIndex": 2,
+            "explanation": "\"cow\" is not one of the items, so in gives False. It's not an error to check for a missing value.",
+            "code": "pets = [\"cat\", \"dog\"]\nprint(\"cow\" in pets)",
+            "hint": "Check whether \"cow\" is exactly one of the items in the list.",
+            "optionFeedback": [
+              "True would need \"cow\" to be in pets, but pets only holds \"cat\" and \"dog\".",
+              "in answers a yes/no question with True or False; it doesn't print the value.",
+              "Right: \"cow\" is not one of the items, so in gives False.",
+              "Checking for a value that isn't there is allowed; it simply gives False."
+            ]
+          },
+          {
+            "id": "l5s1q4",
+            "prompt": "This list has 2 items, not 3. Why?",
+            "options": [
+              "Lists can't hold names",
+              "Lists need round brackets",
+              "Strings in lists need single quotes",
+              "A comma is missing between \"Asha\" and \"Ravi\""
+            ],
+            "correctIndex": 3,
+            "explanation": "Without the comma Python joins the two strings into \"AshaRavi\". Both single and double quotes work in lists.",
+            "code": "names = [\"Asha\" \"Ravi\", \"Meera\"]",
+            "hint": "Look carefully at what sits between each pair of names in the brackets.",
+            "optionFeedback": [
+              "Lists can hold any values, including text like names.",
+              "Lists use square brackets, which this code already has.",
+              "Single and double quotes both work for strings in a list.",
+              "Right: without a comma, Python joins \"Asha\" and \"Ravi\" into one string."
+            ]
+          },
+          {
+            "id": "l5s1q5",
+            "type": "fill",
+            "prompt": "Fill the blanks so the program prints how many colours there are, then whether pink is one of them.",
+            "code": "colours = [\"red\", \"green\", \"blue\"]\nprint({{1}}(colours))\nprint(\"pink\" {{2}} colours)",
+            "blanks": [
+              "len",
+              "in"
+            ],
+            "distractors": [
+              "max",
+              "not"
+            ],
+            "output": "3\nFalse",
+            "explanation": "len(colours) counts the items (3). \"pink\" in colours checks membership and gives False.",
+            "hint": "One function counts the items, and one keyword checks whether a value is in the list."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l5s2",
+      "code": "5.2",
+      "title": "Indexing and slicing",
+      "summary": "Get, change and cut out items by position.",
+      "estimatedMinutes": 6,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Positions start at 0",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Every item has a position number called an index. The first index is 0, not 1."
+              },
+              {
+                "type": "code",
+                "code": "letters = [\"a\", \"b\", \"c\", \"d\"]\nprint(letters[0])\nprint(letters[2])",
+                "output": "a\nc",
+                "explanation": [
+                  "letters[0] is the first item.",
+                  "letters[2] is the third item."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Counting from the end",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Negative indexes count from the end: -1 is the last item, -2 the one before it."
+              },
+              {
+                "type": "code",
+                "code": "letters = [\"a\", \"b\", \"c\", \"d\"]\nprint(letters[-1])\nprint(letters[-2])",
+                "output": "d\nc"
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "letters[-1] always gives the last item, however long the list is."
+              }
+            ]
+          },
+          {
+            "title": "Changing an item",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "scores = [10, 20, 30]\nscores[1] = 25\nprint(scores)",
+                "output": "[10, 25, 30]",
+                "explanation": [
+                  "scores[1] is the second item.",
+                  "Assigning to it replaces 20 with 25."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "You can read AND change list items by index."
+              }
+            ]
+          },
+          {
+            "title": "Slicing",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A slice list[start:stop] gives a new list from start up to, but not including, stop. Leave out start to begin at 0; leave out stop to go to the end."
+              },
+              {
+                "type": "code",
+                "code": "nums = [10, 20, 30, 40, 50]\nprint(nums[1:3])\nprint(nums[:2])\nprint(nums[3:])",
+                "output": "[20, 30]\n[10, 20]\n[40, 50]",
+                "explanation": [
+                  "nums[1:3] takes index 1 and 2.",
+                  "nums[:2] takes the first two.",
+                  "nums[3:] takes everything from index 3 to the end."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Index out of range",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "days = [\"Mon\", \"Tue\", \"Wed\"]\nprint(days[3])",
+                "output": "IndexError: list index out of range",
+                "explanation": [
+                  "The list has 3 items, so the indexes are 0, 1 and 2.",
+                  "There is no index 3."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Using the length as an index. The last index is always len(list) - 1."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l5s2q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "green",
+              "red",
+              "blue",
+              "Error"
+            ],
+            "correctIndex": 0,
+            "explanation": "Indexes start at 0, so x[1] is the second item. red would be x[0].",
+            "code": "x = [\"red\", \"green\", \"blue\"]\nprint(x[1])",
+            "hint": "Remember which number the first position in a list starts at.",
+            "optionFeedback": [
+              "Right: indexes start at 0, so x[1] is the second item.",
+              "red is at index 0; x[1] is the item after it.",
+              "blue is at index 2, because counting starts at 0.",
+              "The list has 3 items, so index 1 exists and there is no error."
+            ]
+          },
+          {
+            "id": "l5s2q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "8",
+              "5",
+              "7",
+              "Error"
+            ],
+            "correctIndex": 0,
+            "explanation": "-1 means the last item. Negative indexes are allowed, so there is no error.",
+            "code": "x = [5, 6, 7, 8]\nprint(x[-1])",
+            "hint": "Recall where a negative index starts counting from.",
+            "optionFeedback": [
+              "Right: -1 is always the last item.",
+              "5 is the first item, x[0]; negative indexes count from the end.",
+              "7 is x[-2], the item just before the last one.",
+              "Negative indexes are allowed in Python, so there is no error."
+            ]
+          },
+          {
+            "id": "l5s2q3",
+            "prompt": "What does this code print?",
+            "options": [
+              "[1, 2, 3, 4]",
+              "[2, 3, 4]",
+              "[2, 3, 4, 5]",
+              "[1, 4]"
+            ],
+            "correctIndex": 1,
+            "explanation": "x[1:4] starts at index 1 (the value 2) and stops before index 4, so the 5 at index 4 is left out.",
+            "code": "x = [1, 2, 3, 4, 5]\nprint(x[1:4])",
+            "hint": "Find the value at index 1, then remember the slice stops before the stop index.",
+            "optionFeedback": [
+              "The slice starts at index 1, which is the value 2, not the first item.",
+              "Right: it starts at index 1 and stops before index 4.",
+              "The stop index 4 is not included, so the 5 at index 4 is left out.",
+              "A slice gives every item from start up to the stop, not just two values."
+            ]
+          },
+          {
+            "id": "l5s2q4",
+            "prompt": "What happens when this runs?",
+            "options": [
+              "It prints book",
+              "An IndexError",
+              "It prints pen",
+              "A NameError"
+            ],
+            "correctIndex": 1,
+            "explanation": "Two items means indexes 0 and 1, so items[2] goes past the end and Python raises an IndexError. book is items[1], the last item, and items does exist, so it is not a NameError.",
+            "code": "items = [\"pen\", \"book\"]\nprint(items[2])",
+            "hint": "List the indexes a two-item list has, then compare them with 2.",
+            "optionFeedback": [
+              "book is items[1]; index 2 would be a third item, which doesn't exist.",
+              "Right: the indexes are only 0 and 1, so items[2] goes past the end.",
+              "pen is items[0]; indexes don't wrap around to the start.",
+              "items exists, so this is not a NameError; the problem is the index."
+            ]
+          },
+          {
+            "id": "l5s2q5",
+            "prompt": "Fill in the blank to get the first three items: nums[____]",
+            "options": [
+              "1:3",
+              "0:2",
+              ":2",
+              ":3"
+            ],
+            "correctIndex": 3,
+            "explanation": "A slice stops before the stop index, so :3 gives indexes 0, 1, 2. 1:3 would skip the first item.",
+            "code": "nums = [4, 7, 1, 9, 3]\nfirst_three = nums[____]",
+            "hint": "Leaving out the start begins at 0; remember which index the slice stops before.",
+            "optionFeedback": [
+              "1:3 starts at index 1, so it skips the first item and only gives two items.",
+              "0:2 stops before index 2, so it gives only the first two items.",
+              ":2 also stops before index 2, giving only two items.",
+              "Right: :3 gives indexes 0, 1 and 2, the first three items."
+            ]
+          },
+          {
+            "id": "l5s2q6",
+            "prompt": "What does this code print?",
+            "options": [
+              "[1, 2, 3]",
+              "[9, 1, 2, 3]",
+              "[9, 2, 3]",
+              "[1, 9, 3]"
+            ],
+            "correctIndex": 2,
+            "explanation": "a[0] = 9 replaces the first item. It doesn't insert a new one, so the list still has 3 items.",
+            "code": "a = [1, 2, 3]\na[0] = 9\nprint(a)",
+            "hint": "Think about whether a[0] = 9 adds a new item or replaces one.",
+            "optionFeedback": [
+              "a[0] = 9 changes the list, so it doesn't stay the same.",
+              "Assigning to an index replaces that item; it doesn't insert a new one.",
+              "Right: a[0] = 9 replaces the first item, so the list is [9, 2, 3].",
+              "Index 0 is the first item, not the second."
+            ]
+          },
+          {
+            "id": "l5s2q7",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "nums = [10, 20, 30, 40]\nprint(nums[-1])\nprint(nums[1:3])",
+            "answer": "40\n[20, 30]",
+            "explanation": "Index -1 is the last item. The slice 1:3 takes index 1 and 2 and stops before index 3.",
+            "hint": "Negative indexes count from the end, and a slice stops before its second number."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l5s3",
+      "code": "5.3",
+      "title": "List methods",
+      "summary": "append, insert, remove, pop, sort — plus max, min and sum.",
+      "estimatedMinutes": 8,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Adding with append()",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A method is a function that belongs to a value. You call it with a dot: list.method()."
+              },
+              {
+                "type": "code",
+                "code": "cart = [\"milk\"]\ncart.append(\"bread\")\ncart.append(\"eggs\")\nprint(cart)",
+                "output": "['milk', 'bread', 'eggs']",
+                "explanation": [
+                  "append() adds one item to the end of the list.",
+                  "The list itself is changed."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Adding at a position with insert()",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "queue = [\"Asha\", \"Ravi\"]\nqueue.insert(0, \"Meera\")\nprint(queue)",
+                "output": "['Meera', 'Asha', 'Ravi']",
+                "explanation": [
+                  "insert(index, value) puts the value at that index.",
+                  "Everything after it moves one place along."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Removing items",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "tasks = [\"wash\", \"cook\", \"study\"]\ntasks.remove(\"cook\")\nprint(tasks)\nlast = tasks.pop()\nprint(last)\nprint(tasks)",
+                "output": "['wash', 'study']\nstudy\n['wash']",
+                "explanation": [
+                  "remove() deletes the first item equal to the value you give.",
+                  "pop() removes the last item AND gives it back, so you can store it."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Sorting",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "marks = [72, 95, 48, 66]\nmarks.sort()\nprint(marks)\nmarks.sort(reverse=True)\nprint(marks)",
+                "output": "[48, 66, 72, 95]\n[95, 72, 66, 48]",
+                "explanation": [
+                  "sort() puts the items in order, smallest first.",
+                  "reverse=True sorts largest first."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "max, min, sum and len",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "These built-in functions work on a whole list of numbers. Together they make quick statistics."
+              },
+              {
+                "type": "code",
+                "code": "marks = [72, 95, 48, 66, 81]\nmarks.append(73)\nprint(max(marks))\nprint(min(marks))\nprint(sum(marks) / len(marks))",
+                "output": "95\n48\n72.5",
+                "explanation": [
+                  "max() gives the biggest value, min() the smallest.",
+                  "sum() adds everything up: 435.",
+                  "Dividing by len() (6 marks) gives the average."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Methods change the list",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Methods like append() and sort() change the list itself. They don't give back a new list — they give back None."
+              },
+              {
+                "type": "code",
+                "code": "nums = [3, 1, 2]\nnums = nums.sort()\nprint(nums)",
+                "output": "None",
+                "explanation": [
+                  "nums.sort() sorts the list and returns None.",
+                  "nums = ... then replaces the sorted list with None."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Writing nums = nums.sort(). Just call nums.sort() on its own line."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "append(x) — add to the end",
+                  "insert(i, x) — add at index i",
+                  "remove(x) — delete the first x",
+                  "pop() — remove and return the last item",
+                  "sort() — put in order",
+                  "count(x) — how many times x appears"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l5s3q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "[1, 2, 3]",
+              "[3, 1, 2]",
+              "[1, 2]",
+              "[3]"
+            ],
+            "correctIndex": 0,
+            "explanation": "append() adds the value to the end of the list and keeps the items already there. It does not put 3 at the start or replace the list.",
+            "code": "a = [1, 2]\na.append(3)\nprint(a)",
+            "hint": "Recall where append() puts the new value and whether the old items stay.",
+            "optionFeedback": [
+              "Right: append() adds 3 to the end and keeps 1 and 2.",
+              "append() adds to the end; adding at the front is a job for insert(0, ...).",
+              "append() changes the list itself, so 3 is added.",
+              "append() keeps the items already in the list; it doesn't replace them."
+            ]
+          },
+          {
+            "id": "l5s3q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "[9, 5, 2]",
+              "[5, 2, 9]",
+              "[2, 5, 9]",
+              "None"
+            ],
+            "correctIndex": 2,
+            "explanation": "sort() orders the list smallest first. Here the list is printed after sorting, so it isn't None.",
+            "code": "n = [5, 2, 9]\nn.sort()\nprint(n)",
+            "hint": "Think about which order sort() uses when you give it nothing in the brackets.",
+            "optionFeedback": [
+              "Largest first needs sort(reverse=True); plain sort() puts the smallest first.",
+              "sort() changes the list itself, so the order is not the same afterwards.",
+              "Right: sort() puts the numbers in order, smallest first.",
+              "sort() returns None, but here n itself is printed, and n was sorted."
+            ]
+          },
+          {
+            "id": "l5s3q3",
+            "prompt": "What does pop() do?",
+            "options": [
+              "Removes the first item and returns it",
+              "Adds a new item at the end of the list",
+              "Removes the last item and returns None",
+              "Removes the last item and returns it"
+            ],
+            "correctIndex": 3,
+            "explanation": "pop() takes the last item and hands it back, so you can store it. It doesn't take the first item, and unlike append() and sort() it does not give back None.",
+            "hint": "Look at the Removing items example and what the variable last ended up holding.",
+            "optionFeedback": [
+              "pop() takes from the end of the list, not the start.",
+              "Adding to the end is append(); pop() removes.",
+              "Unlike append() and sort(), pop() gives the removed item back, so it isn't None.",
+              "Right: pop() removes the last item and hands it back so you can store it."
+            ]
+          },
+          {
+            "id": "l5s3q4",
+            "prompt": "Why does this print None?",
+            "options": [
+              "sort() changes the list itself and returns None",
+              "Lists of numbers can't be sorted with sort()",
+              "print can't show a list after sorting",
+              "sort() only works if reverse=True is given"
+            ],
+            "correctIndex": 0,
+            "explanation": "x = x.sort() stores sort()'s return value, which is None. Numbers sort fine and reverse=True is optional — just call x.sort() on its own line.",
+            "code": "x = [4, 1, 3]\nx = x.sort()\nprint(x)",
+            "hint": "Remember the \"Methods change the list\" page and what sort() gives back.",
+            "optionFeedback": [
+              "Right: sort() sorts x in place and returns None, which x = then stores.",
+              "Numbers sort fine with sort(), as the marks example showed.",
+              "print can show any list; the problem is that x now holds None.",
+              "reverse=True is optional; plain sort() works too."
+            ]
+          },
+          {
+            "id": "l5s3q5",
+            "prompt": "What does this code print?",
+            "options": [
+              "['b', 'c', 'a']",
+              "['a', 'b', 'c']",
+              "['a', 'c']",
+              "['b', 'a', 'c']"
+            ],
+            "correctIndex": 1,
+            "explanation": "insert(0, \"a\") puts \"a\" at index 0, the front, and the other items move one place along. It does not add to the end like append(), and it does not replace \"b\".",
+            "code": "letters = [\"b\", \"c\"]\nletters.insert(0, \"a\")\nprint(letters)",
+            "hint": "Think about what index 0 means and what happens to the items already there.",
+            "optionFeedback": [
+              "Adding to the end is what append() does; insert(0, ...) puts the item at the front.",
+              "Right: \"a\" goes to index 0 and the others move one place along.",
+              "insert() adds a new item; it doesn't replace \"b\".",
+              "Index 0 is the front of the list, not the middle."
+            ]
+          },
+          {
+            "id": "l5s3q6",
+            "type": "order",
+            "prompt": "Put the lines in order so the program prints study.",
+            "lines": [
+              "tasks = [\"wash\", \"cook\"]",
+              "tasks.append(\"study\")",
+              "last = tasks.pop()",
+              "print(last)"
+            ],
+            "output": "study",
+            "explanation": "append adds \"study\" to the end, and pop() then removes and returns the last item, which is \"study\".",
+            "hint": "pop takes the item that is at the end of the list at that moment."
+          },
+          {
+            "id": "l5s3q7",
+            "type": "fill",
+            "prompt": "Fill the blanks so the marks are sorted and then 48 is taken out.",
+            "code": "marks = [72, 95, 48]\nmarks.{{1}}()\nprint(marks)\nmarks.{{2}}(48)\nprint(marks)",
+            "blanks": [
+              "sort",
+              "remove"
+            ],
+            "distractors": [
+              "pop"
+            ],
+            "output": "[48, 72, 95]\n[72, 95]",
+            "explanation": "sort() puts the list in order. remove(48) deletes the value 48; pop(48) would look for index 48 and fail.",
+            "hint": "One method orders the list, and the other deletes an item by its value."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l5s4",
+      "code": "5.4",
+      "title": "Looping over lists",
+      "summary": "Visit every item with a for loop.",
+      "estimatedMinutes": 5,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "for item in list",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "A for loop can walk through a list directly. The loop variable takes each item in turn."
+              },
+              {
+                "type": "code",
+                "code": "fruits = [\"apple\", \"banana\", \"mango\"]\nfor fruit in fruits:\n    print(f\"I like {fruit}\")",
+                "output": "I like apple\nI like banana\nI like mango"
+              },
+              {
+                "type": "code",
+                "code": "prices = [40, 25, 60]\ntotal = 0\nfor price in prices:\n    total += price\nprint(total)",
+                "output": "125",
+                "explanation": [
+                  "price is 40, then 25, then 60.",
+                  "The same add-up pattern you used with range()."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Building a new list",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Combine a loop, an if and append() to pick out the items you want."
+              },
+              {
+                "type": "code",
+                "code": "marks = [35, 80, 52, 91]\npassed = []\nfor m in marks:\n    if m >= 50:\n        passed.append(m)\nprint(passed)",
+                "output": "[80, 52, 91]",
+                "explanation": [
+                  "passed starts empty.",
+                  "Only marks of 50 or more are added."
+                ]
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Writing for m in range(marks). range() needs a number, not a list — loop over the list itself with for m in marks."
+              },
+              {
+                "type": "keypoint",
+                "text": "for x in my_list visits every item, in order."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l5s4q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "x\ny",
+              "['x', 'y']",
+              "xy",
+              "0\n1"
+            ],
+            "correctIndex": 0,
+            "explanation": "The loop prints each item on its own line. It loops over the items, not their index numbers.",
+            "code": "for c in [\"x\", \"y\"]:\n    print(c)",
+            "hint": "The loop variable takes each item in turn, and print runs once per item.",
+            "optionFeedback": [
+              "Right: c is \"x\" then \"y\", and each print starts a new line.",
+              "The loop prints each item on its own, not the whole list.",
+              "Each print() starts on a new line, so the letters aren't joined.",
+              "The loop goes over the items themselves, not their index numbers."
+            ]
+          },
+          {
+            "id": "l5s4q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "6",
+              "12",
+              "246",
+              "3"
+            ],
+            "correctIndex": 1,
+            "explanation": "The numbers are added: 2 + 4 + 6 = 12. They are numbers, not strings, so they aren't joined into 246.",
+            "code": "total = 0\nfor n in [2, 4, 6]:\n    total += n\nprint(total)",
+            "hint": "These are numbers without quotes, so think about what += does with each one.",
+            "optionFeedback": [
+              "6 is just the last number; total adds every number in the list.",
+              "Right: 2 + 4 + 6 is 12.",
+              "These are numbers, not strings, so += adds them instead of joining.",
+              "3 is how many items there are; the loop adds up their values."
+            ]
+          },
+          {
+            "id": "l5s4q3",
+            "prompt": "Which is a correct way to loop over the list names?",
+            "options": [
+              "for name in range(names):",
+              "for names[] in name:",
+              "for name in names:",
+              "for name of names:"
+            ],
+            "correctIndex": 2,
+            "explanation": "Loop over the list directly. range() needs a number, so range(names) is a TypeError.",
+            "code": "names = [\"Asha\", \"Ravi\"]\n____\n    print(name)",
+            "hint": "Recall the common mistake tip about looping over a list.",
+            "optionFeedback": [
+              "range() needs a number, not a list, so range(names) is an error.",
+              "The loop variable comes after for and the list after in; this has them mixed up.",
+              "Right: loop over the list directly, and name takes each item in turn.",
+              "Python uses in, not of, in a for loop."
+            ]
+          },
+          {
+            "id": "l5s4q4",
+            "prompt": "What does this code print?",
+            "options": [
+              "[1]",
+              "[1, 5, 8]",
+              "2",
+              "[5, 8]"
+            ],
+            "correctIndex": 3,
+            "explanation": "Only numbers greater than 4 are appended. The new list is printed, not how many items it has.",
+            "code": "nums = [1, 5, 8]\nbig = []\nfor n in nums:\n    if n > 4:\n        big.append(n)\nprint(big)",
+            "hint": "Check each number against n > 4 and keep only those that pass.",
+            "optionFeedback": [
+              "1 is not greater than 4, so it is the one number left out.",
+              "The if only appends numbers greater than 4, so not every number is kept.",
+              "print(big) shows the list itself, not how many items it has.",
+              "Right: only 5 and 8 are greater than 4, so they are appended."
+            ]
+          },
+          {
+            "id": "l5s4q5",
+            "type": "order",
+            "prompt": "Put the lines in order so the program prints the total of all prices.",
+            "lines": [
+              "prices = [40, 25, 60]",
+              "total = 0",
+              "for price in prices:",
+              "    total += price",
+              "print(total)"
+            ],
+            "output": "125",
+            "alternativeOrders": [
+              [
+                1,
+                0,
+                2,
+                3,
+                4
+              ]
+            ],
+            "explanation": "The list and the running total both exist before the loop, each price is added inside it, and the total is printed after it. The first two lines can go either way round.",
+            "hint": "Prepare everything the loop needs before it starts, and print the result once at the end."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l5s5",
+      "code": "5.5",
+      "title": "List comprehensions",
+      "summary": "Build a new list in one line (the simple way).",
+      "estimatedMinutes": 8,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "A shortcut for building lists",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Here is the loop-and-append pattern you already know:"
+              },
+              {
+                "type": "code",
+                "code": "squares = []\nfor n in range(1, 5):\n    squares.append(n * n)\nprint(squares)",
+                "output": "[1, 4, 9, 16]"
+              },
+              {
+                "type": "text",
+                "text": "A list comprehension does the same thing in one line:"
+              },
+              {
+                "type": "code",
+                "code": "squares = [n * n for n in range(1, 5)]\nprint(squares)",
+                "output": "[1, 4, 9, 16]",
+                "explanation": [
+                  "Read it as: \"n * n for each n in range(1, 5)\".",
+                  "The result is a brand-new list."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Reading a comprehension",
+            "blocks": [
+              {
+                "type": "bullets",
+                "items": [
+                  "[ what_to_keep  for  name  in  source ]",
+                  "what_to_keep — the value that goes into the new list",
+                  "for name in source — the same as a normal for loop"
+                ]
+              },
+              {
+                "type": "code",
+                "code": "names = [\"asha\", \"ravi\"]\nloud = [name + \"!\" for name in names]\nprint(loud)",
+                "output": "['asha!', 'ravi!']"
+              }
+            ]
+          },
+          {
+            "title": "Adding a filter",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Put an if at the end to keep only some items."
+              },
+              {
+                "type": "code",
+                "code": "marks = [35, 80, 52, 91]\npassed = [m for m in marks if m >= 50]\nprint(passed)",
+                "output": "[80, 52, 91]",
+                "explanation": [
+                  "Same result as the loop in 5.4, in one line.",
+                  "Only items where the if is True are kept."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "A list comprehension always makes a new list. The original list is not changed."
+              }
+            ]
+          },
+          {
+            "title": "Keep it simple",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "prices = [100, 250, 80]\nwith_tax = [p + 10 for p in prices]\nprint(with_tax)\nprint(prices)",
+                "output": "[110, 260, 90]\n[100, 250, 80]"
+              },
+              {
+                "type": "tip",
+                "title": "Common mistake",
+                "text": "Putting the parts in the wrong order, like [for p in prices p + 10]. The value always comes first, then for."
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "If a comprehension gets hard to read, use a normal loop. Both are correct."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l5s5q1",
+            "prompt": "What does this code print?",
+            "options": [
+              "[2, 4, 6]",
+              "[0, 2, 4]",
+              "[0, 1, 2]",
+              "[0, 2, 4, 6]"
+            ],
+            "correctIndex": 1,
+            "explanation": "range(3) gives 0, 1, 2, and each is doubled. It starts at 0, so the first value is 0, not 2.",
+            "code": "print([n * 2 for n in range(3)])",
+            "hint": "List the numbers range(3) gives first, then double each one.",
+            "optionFeedback": [
+              "range(3) starts at 0, so the first value is 0 * 2, which is 0.",
+              "Right: range(3) gives 0, 1, 2, and each is doubled.",
+              "These are the numbers from range(3) before doubling; n * 2 changes each one.",
+              "range(3) stops before 3, so there are only three values."
+            ]
+          },
+          {
+            "id": "l5s5q2",
+            "prompt": "What does this code print?",
+            "options": [
+              "[3, 4]",
+              "[1, 2]",
+              "[2, 3, 4]",
+              "[False, False, True, True]"
+            ],
+            "correctIndex": 0,
+            "explanation": "Only items where x > 2 is True are kept, and the items themselves go in the list, not True/False.",
+            "code": "print([x for x in [1, 2, 3, 4] if x > 2])",
+            "hint": "The if at the end decides which items are kept, so test each one.",
+            "optionFeedback": [
+              "Right: only 3 and 4 are greater than 2.",
+              "These are the items that fail x > 2; the filter keeps the ones that pass.",
+              "2 > 2 is False, so 2 is not kept.",
+              "The value at the front is x, so the items themselves go in, not True or False."
+            ]
+          },
+          {
+            "id": "l5s5q3",
+            "prompt": "Which loop does [w + \"s\" for w in words] replace?",
+            "options": [
+              "A for loop that appends w + \"s\" to a new list",
+              "A for loop that prints w + \"s\" for each word",
+              "A while loop that removes each w from words",
+              "A for loop that adds \"s\" to the words list itself"
+            ],
+            "correctIndex": 0,
+            "explanation": "A comprehension builds a brand-new list, like a loop that appends to an empty list. It doesn't print anything and doesn't change the original words list.",
+            "hint": "Remember the key point about what a list comprehension always makes.",
+            "optionFeedback": [
+              "Right: it's the same as looping and appending w + \"s\" to a new, empty list.",
+              "A comprehension builds a list; it doesn't print anything.",
+              "Nothing is removed, and no while loop is involved; it's a for loop that builds a list.",
+              "The original words list is not changed; a brand-new list is made."
+            ]
+          },
+          {
+            "id": "l5s5q4",
+            "prompt": "Find the bug.",
+            "options": [
+              "Comprehensions need round brackets ( )",
+              "nums must be replaced by a range()",
+              "The colon should be a semicolon ;",
+              "The value must come before for, with no colon"
+            ],
+            "correctIndex": 3,
+            "explanation": "A comprehension is written [value for name in source], so the fix is [n * 2 for n in nums] with no colon. Square brackets are correct, and any list can be the source.",
+            "code": "doubled = [for n in nums: n * 2]",
+            "hint": "Recall the common mistake tip about the order of the parts.",
+            "optionFeedback": [
+              "List comprehensions use square brackets, which this code already has.",
+              "Any list can be the source; it doesn't have to be range().",
+              "No colon or semicolon belongs here; comprehensions have neither.",
+              "Right: write [n * 2 for n in nums] with the value first and no colon."
+            ]
+          },
+          {
+            "id": "l5s5q5",
+            "prompt": "What does this code print?",
+            "options": [
+              "['hi', 'yo', 'hi', 'yo']",
+              "hihiyoyo",
+              "['hihi', 'yoyo']",
+              "['hiyo']"
+            ],
+            "correctIndex": 2,
+            "explanation": "Each word is joined with itself, giving one new item per word in a list.",
+            "code": "words = [\"hi\", \"yo\"]\nprint([w + w for w in words])",
+            "hint": "For each word, work out w + w, then remember the result is a list.",
+            "optionFeedback": [
+              "w + w joins each word with itself into one item; it doesn't add extra items.",
+              "A comprehension makes a list, so the result is shown in square brackets with separate items.",
+              "Right: each word is joined with itself, giving one new item per word.",
+              "w is one word at a time, so the two words are never joined together."
+            ]
+          },
+          {
+            "id": "l5s5q6",
+            "prompt": "Fill in the blank to keep only even numbers.",
+            "options": [
+              "if n % 2 == 1",
+              "if n % 2 == 0",
+              "while n % 2 == 0",
+              "for n % 2 == 0"
+            ],
+            "correctIndex": 1,
+            "explanation": "A filter is an if at the end. n % 2 == 1 would keep the odd numbers instead, and while or for can't be used as a filter.",
+            "code": "evens = [n for n in nums ____]",
+            "hint": "Recall what the remainder is when an even number is divided by 2.",
+            "optionFeedback": [
+              "n % 2 == 1 keeps numbers with a remainder of 1, which are the odd ones.",
+              "Right: even numbers have no remainder when divided by 2.",
+              "A filter in a comprehension uses if, not while.",
+              "for is already used once; the filter at the end must start with if."
+            ]
+          },
+          {
+            "id": "l5s5q7",
+            "prompt": "Which statement is true?",
+            "options": [
+              "A list comprehension changes the original list",
+              "A list comprehension can only use range()",
+              "A list comprehension prints each item",
+              "A list comprehension always creates a new list"
+            ],
+            "correctIndex": 3,
+            "explanation": "The source list stays the same. You can loop over any list, not just range().",
+            "hint": "Look at the \"Keep it simple\" example: what happened to prices afterwards?",
+            "optionFeedback": [
+              "The original list stays the same; prices was unchanged after with_tax was made.",
+              "Any list can be the source, like marks or names in the lesson.",
+              "A comprehension builds a list; it only shows something if you print the result.",
+              "Right: a list comprehension always makes a brand-new list."
+            ]
+          },
+          {
+            "id": "l5s5q8",
+            "prompt": "What does this code print?",
+            "options": [
+              "[10, 20, 30]",
+              "[20]",
+              "[10, 30]",
+              "[1, 3]"
+            ],
+            "correctIndex": 2,
+            "explanation": "2 is skipped by the filter, and the kept numbers are multiplied by 10.",
+            "code": "nums = [1, 2, 3]\nresult = [n * 10 for n in nums if n != 2]\nprint(result)",
+            "hint": "Apply the filter first, then multiply only the numbers that are kept.",
+            "optionFeedback": [
+              "The filter n != 2 removes 2, so 20 is not in the result.",
+              "n != 2 means \"not equal to 2\", so 2 is the one number left out.",
+              "Right: 2 is skipped, and 1 and 3 become 10 and 30.",
+              "The value at the front is n * 10, so the kept numbers are multiplied."
+            ]
+          },
+          {
+            "id": "l5s5q9",
+            "type": "fill",
+            "prompt": "Fill the blanks so the program keeps the numbers above 2 and multiplies them by 10.",
+            "code": "nums = [1, 2, 3, 4]\nbig = [n * 10 {{1}} n in nums {{2}} n > 2]\nprint(big)",
+            "blanks": [
+              "for",
+              "if"
+            ],
+            "distractors": [
+              "in",
+              "while"
+            ],
+            "output": "[30, 40]",
+            "explanation": "A comprehension reads: expression, for each item in the list, if a condition. Only 3 and 4 pass n > 2.",
+            "hint": "A comprehension has the loop part first and the filter at the end."
+          },
+          {
+            "id": "l5s5q10",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "words = [\"hi\", \"yo\"]\nloud = [w + \"!\" for w in words]\nprint(loud)\nprint(words)",
+            "answer": "['hi!', 'yo!']\n['hi', 'yo']",
+            "explanation": "The comprehension builds a new list; the original words list is not changed.",
+            "hint": "A comprehension makes a brand new list and leaves the original one alone."
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "available": true,
+  "projects": [
+    {
+      "id": "l5p1",
+      "code": "5.P",
+      "title": "To-Do List",
+      "summary": "Add, number, finish, remove and sort tasks using list methods.",
+      "estimatedMinutes": 12,
+      "type": "project",
+      "steps": [
+        "project"
+      ],
+      "briefing": {
+        "title": "Build a To-Do List",
+        "text": [
+          "You'll manage a to-do list: add tasks, show them with numbers, tick some off, sort the rest and find the quick ones.",
+          "Every step uses a list method you met in Level 5."
+        ],
+        "why": [
+          "To-do apps are lists underneath",
+          "It practises append, insert, pop, remove, sort, loops and a list comprehension"
+        ],
+        "concepts": [
+          {
+            "subLevelId": "l3s1",
+            "label": "range()"
+          },
+          {
+            "subLevelId": "l5s1",
+            "label": "Creating lists"
+          },
+          {
+            "subLevelId": "l5s2",
+            "label": "Indexing"
+          },
+          {
+            "subLevelId": "l5s3",
+            "label": "List methods"
+          },
+          {
+            "subLevelId": "l5s4",
+            "label": "Looping over lists"
+          },
+          {
+            "subLevelId": "l5s5",
+            "label": "List comprehensions"
+          }
+        ],
+        "sampleOutput": "You have 4 tasks.\n1. Drink water\n2. Finish Python homework\n3. Buy milk\n4. Call grandma\n--- Still to do ---\n[ ] Call grandma\n[ ] Drink water\n--- Done ---\n[x] Finish Python homework\n[x] Buy milk\nQuick tasks: ['Drink water']",
+        "usesInput": false,
+        "fileName": "todo_list.py"
+      },
+      "finalCode": [
+        "# To-Do List",
+        "todos = []",
+        "done = []",
+        "todos.append(\"Finish Python homework\")",
+        "todos.append(\"Buy milk\")",
+        "todos.append(\"Call grandma\")",
+        "todos.insert(0, \"Drink water\")",
+        "print(f\"You have {len(todos)} tasks.\")",
+        "for i in range(len(todos)):",
+        "    print(f\"{i + 1}. {todos[i]}\")",
+        "finished = todos.pop(1)",
+        "done.append(finished)",
+        "todos.remove(\"Buy milk\")",
+        "done.append(\"Buy milk\")",
+        "todos.sort()",
+        "print(\"--- Still to do ---\")",
+        "for task in todos:",
+        "    print(\"[ ] \" + task)",
+        "print(\"--- Done ---\")",
+        "for task in done:",
+        "    print(\"[x] \" + task)",
+        "short = [t for t in todos if len(t) < 12]",
+        "print(f\"Quick tasks: {short}\")"
+      ],
+      "stages": [
+        {
+          "id": "l5p1st1",
+          "title": "Two empty lists",
+          "instruction": "One list holds the tasks still to do and another the finished ones. Both start empty.",
+          "revealsLines": [
+            1,
+            2,
+            3
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st1q",
+            "prompt": "Which line creates the empty to-do list?",
+            "options": [
+              "todos = {}",
+              "todos = [\"\"]",
+              "todos = []",
+              "todos = \"\""
+            ],
+            "correctIndex": 2,
+            "explanation": "[] is an empty list, ready for append() (5.1)."
+          },
+          "optionFeedback": [
+            "{} is an empty dictionary, not a list.",
+            "This list already holds one empty task.",
+            "[] is an empty list, ready for append() (5.1).",
+            "That's an empty string. Strings don't have append()."
+          ]
+        },
+        {
+          "id": "l5p1st2",
+          "title": "Add tasks",
+          "instruction": "Add three tasks to the end of the list, one after another.",
+          "revealsLines": [
+            4,
+            5,
+            6
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st2q",
+            "prompt": "Which line adds a task to the end?",
+            "options": [
+              "todos.append(\"Buy milk\")",
+              "todos = \"Buy milk\"",
+              "todos.append[\"Buy milk\"]",
+              "append(todos, \"Buy milk\")"
+            ],
+            "correctIndex": 0,
+            "explanation": "append() adds one item to the end of a list (5.3)."
+          },
+          "optionFeedback": [
+            "append() adds one item to the end of a list (5.3).",
+            "This replaces the whole list with one piece of text.",
+            "Methods are called with round brackets. Square brackets are a TypeError.",
+            "append is a list method, not a function on its own. This is a NameError."
+          ]
+        },
+        {
+          "id": "l5p1st3",
+          "title": "Put one task first",
+          "instruction": "Drinking water is the most important task, so put it at the very start of the list.",
+          "revealsLines": [
+            7
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st3q",
+            "prompt": "Which line puts the task first?",
+            "options": [
+              "todos.insert(\"Drink water\", 0)",
+              "todos.insert(1, \"Drink water\")",
+              "todos.append(0, \"Drink water\")",
+              "todos.insert(0, \"Drink water\")"
+            ],
+            "correctIndex": 3,
+            "explanation": "insert(position, item). Position 0 is the start (5.2, 5.3)."
+          },
+          "optionFeedback": [
+            "The position comes first, then the item. This is a TypeError.",
+            "Position 1 is the second place, not the first.",
+            "append() takes one item, not a position. This is a TypeError.",
+            "insert(position, item). Position 0 is the start (5.2, 5.3)."
+          ]
+        },
+        {
+          "id": "l5p1st4",
+          "title": "Number the tasks",
+          "instruction": "Print how many tasks there are, then each task with a number starting from 1.",
+          "revealsLines": [
+            8,
+            9,
+            10
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st4q",
+            "prompt": "Which line prints each numbered task?",
+            "options": [
+              "    print(f\"{i + 1}. {todos[i]}\")",
+              "    print(f\"{i}. {todos[i]}\")",
+              "    print(f\"{i + 1}. {todos}\")",
+              "    print(f\"{i + 1}. {todos[i + 1]}\")"
+            ],
+            "correctIndex": 0,
+            "explanation": "Positions start at 0, so i + 1 gives the human numbering 1, 2, 3, 4 (5.2)."
+          },
+          "optionFeedback": [
+            "Positions start at 0, so i + 1 gives the human numbering 1, 2, 3, 4 (5.2).",
+            "The numbering would start at 0.",
+            "This prints the whole list on every line.",
+            "This skips the first task and the last i + 1 is out of range: an IndexError."
+          ]
+        },
+        {
+          "id": "l5p1st5",
+          "title": "Finish a task",
+          "instruction": "The homework is done. Take the task at position 1 out of the list and keep it.",
+          "revealsLines": [
+            11,
+            12
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st5q",
+            "prompt": "Which line removes position 1 and keeps the task?",
+            "options": [
+              "finished = todos.pop()",
+              "finished = todos[1]",
+              "finished = todos.pop(1)",
+              "finished = todos.remove(1)"
+            ],
+            "correctIndex": 2,
+            "explanation": "pop(1) removes the item at position 1 and gives it back (5.3)."
+          },
+          "optionFeedback": [
+            "pop() with no position removes the last task, Call grandma.",
+            "This reads the task but leaves it in the list.",
+            "pop(1) removes the item at position 1 and gives it back (5.3).",
+            "remove() looks for the value 1, which isn't in the list: a ValueError."
+          ]
+        },
+        {
+          "id": "l5p1st6",
+          "title": "Remove by name and sort",
+          "instruction": "Milk is bought too. Remove it by its name, then sort what's left.",
+          "revealsLines": [
+            13,
+            14,
+            15
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st6q",
+            "prompt": "Which line removes \"Buy milk\" by its value?",
+            "options": [
+              "todos.pop(\"Buy milk\")",
+              "todos - \"Buy milk\"",
+              "todos.remove(todos)",
+              "todos.remove(\"Buy milk\")"
+            ],
+            "correctIndex": 3,
+            "explanation": "remove() deletes the first item equal to the value (5.3)."
+          },
+          "optionFeedback": [
+            "pop() needs a position number, not text. This is a TypeError.",
+            "Lists can't be subtracted from. This is a TypeError.",
+            "The list isn't inside itself, so this is a ValueError.",
+            "remove() deletes the first item equal to the value (5.3)."
+          ]
+        },
+        {
+          "id": "l5p1st7",
+          "title": "Print both lists",
+          "instruction": "Show the tasks still to do with [ ] and the finished ones with [x].",
+          "revealsLines": [
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st7q",
+            "prompt": "Which line prints a task still to do?",
+            "options": [
+              "    print(\"[ ] \" + todos)",
+              "    print(\"[ ] \" + task)",
+              "    print(\"[ ] \" + todos[task])",
+              "    print(\"[ ] \" + task[0])"
+            ],
+            "correctIndex": 1,
+            "explanation": "for task in todos gives one task at a time, ready to print (5.4)."
+          },
+          "optionFeedback": [
+            "You can't + text and a list. This is a TypeError.",
+            "for task in todos gives one task at a time, ready to print (5.4).",
+            "task is text, not a position. List indices must be numbers: a TypeError.",
+            "task[0] is just the first letter of the task."
+          ]
+        },
+        {
+          "id": "l5p1st8",
+          "title": "Find quick tasks",
+          "instruction": "Build a new list of the tasks with fewer than 12 characters and print it.",
+          "revealsLines": [
+            22,
+            23
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l5p1st8q",
+            "prompt": "Which line builds the list of quick tasks?",
+            "options": [
+              "short = [t for t in todos if t < 12]",
+              "short = [t for t in todos if len(t) < 12]",
+              "short = [len(t) for t in todos if len(t) < 12]",
+              "short = [for t in todos if len(t) < 12]"
+            ],
+            "correctIndex": 1,
+            "explanation": "Value, then for, then the filter: a list comprehension (5.5)."
+          },
+          "optionFeedback": [
+            "You can't compare text with a number. This is a TypeError.",
+            "Value, then for, then the filter: a list comprehension (5.5).",
+            "This keeps the lengths, like [11], not the task names.",
+            "The value must come before for. This is a SyntaxError."
+          ]
+        }
+      ],
+      "walkthrough": [
+        "append() adds to the end; insert(0, ...) puts Drink water first.",
+        "range(len(todos)) gives the positions 0-3; i + 1 prints them as 1-4.",
+        "pop(1) removes and returns the homework; remove() deletes Buy milk by value.",
+        "sort() puts the remaining tasks in alphabetical order.",
+        "The comprehension keeps only tasks shorter than 12 characters."
+      ]
+    }
+  ],
+  "cheatSheet": {
+    "title": "Lists",
+    "sections": [
+      {
+        "heading": "Creating and reading",
+        "items": [
+          {
+            "code": "fruits = [\"apple\", \"mango\", \"kiwi\"]\nprint(len(fruits), fruits[0], fruits[-1])",
+            "note": "Positions start at 0; -1 is the last item.",
+            "output": "3 apple kiwi"
+          },
+          {
+            "code": "nums = [10, 20, 30, 40]\nprint(nums[1:3])",
+            "note": "Slices stop before the end position.",
+            "output": "[20, 30]"
+          },
+          {
+            "code": "print(\"kiwi\" in [\"apple\", \"kiwi\"])",
+            "note": "in checks whether an item is in the list.",
+            "output": "True"
+          }
+        ]
+      },
+      {
+        "heading": "Changing lists",
+        "items": [
+          {
+            "code": "nums = [3, 1]\nnums.append(2)\nnums.insert(0, 5)\nprint(nums)",
+            "note": "append() adds to the end; insert() at a position.",
+            "output": "[5, 3, 1, 2]"
+          },
+          {
+            "code": "nums = [5, 3, 1, 2]\nnums.remove(3)\nlast = nums.pop()\nprint(nums, last)",
+            "note": "remove() by value; pop() by position (last by default).",
+            "output": "[5, 1] 2"
+          },
+          {
+            "code": "nums = [4, 1, 3]\nnums.sort()\nprint(nums, max(nums), sum(nums))",
+            "note": "sort() changes the list; max, min, sum, len help.",
+            "output": "[1, 3, 4] 4 8"
+          }
+        ]
+      },
+      {
+        "heading": "Looping and comprehensions",
+        "items": [
+          {
+            "code": "for n in [1, 2, 3]:\n    print(n * 10)",
+            "note": "Visit every item.",
+            "output": "10\n20\n30"
+          },
+          {
+            "code": "nums = [1, 2, 3, 4]\nprint([n * n for n in nums if n % 2 == 0])",
+            "note": "[value for item in list if condition]",
+            "output": "[4, 16]"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "The last position is len(list) - 1.",
+      "List methods change the list and return None (except pop).",
+      "Keep comprehensions short and simple."
+    ]
+  }
+}

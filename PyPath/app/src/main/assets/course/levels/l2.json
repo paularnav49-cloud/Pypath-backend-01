@@ -1,0 +1,750 @@
+{
+  "id": "l2",
+  "number": 2,
+  "title": "Conditions",
+  "description": "Teach your programs to make decisions with if, else and elif.",
+  "subLevels": [
+    {
+      "id": "l2s1",
+      "code": "2.1",
+      "title": "Comparisons",
+      "summary": "Compare values and get True or False.",
+      "estimatedMinutes": 4,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "Asking questions",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Comparison operators compare two values. The answer is always True or False."
+              },
+              {
+                "type": "bullets",
+                "items": [
+                  "==  equal to",
+                  "!=  not equal to",
+                  ">  greater than",
+                  "<  less than",
+                  ">=  greater or equal",
+                  "<=  less or equal"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Try them",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "print(5 > 3)\nprint(4 == 5)\nprint(\"a\" != \"b\")",
+                "output": "True\nFalse\nTrue",
+                "explanation": [
+                  "5 is greater than 3, so True.",
+                  "4 is not equal to 5, so False."
+                ]
+              },
+              {
+                "type": "keypoint",
+                "text": "== compares. A single = stores a value."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l2s1q1",
+            "prompt": "What does 7 >= 7 give?",
+            "options": [
+              "True",
+              "False",
+              "7",
+              "Error"
+            ],
+            "correctIndex": 0,
+            "explanation": ">= is True when the left side is greater than OR equal to the right.",
+            "hint": "Read >= aloud as \"greater than or equal to\", then test the two numbers.",
+            "optionFeedback": [
+              "Right: 7 is equal to 7, and >= allows equal values, so the answer is True.",
+              "False would be right for 7 > 7, but >= also counts values that are equal.",
+              "A comparison always answers True or False; it never gives back one of the numbers.",
+              ">= is a valid comparison operator, so this works without an error."
+            ]
+          },
+          {
+            "id": "l2s1q2",
+            "prompt": "Which operator checks if two values are equal?",
+            "options": [
+              "=",
+              "==",
+              "!=",
+              "=>"
+            ],
+            "correctIndex": 1,
+            "explanation": "== compares values; = assigns a value to a variable.",
+            "hint": "Remember the key point: one symbol stores a value, another one compares.",
+            "optionFeedback": [
+              "A single = stores a value in a variable; it does not compare.",
+              "Right: == asks whether two values are equal and gives True or False.",
+              "!= checks the opposite: it is True when the values are not equal.",
+              "=> is not a Python operator; \"greater or equal\" is written >= instead."
+            ]
+          },
+          {
+            "id": "l2s1q3",
+            "prompt": "What is printed?",
+            "options": [
+              "True",
+              "10",
+              "False",
+              "Error"
+            ],
+            "correctIndex": 2,
+            "explanation": "10 is not less than 3, so the comparison is False.",
+            "code": "print(10 < 3)",
+            "hint": "Ask yourself whether ten is smaller than three.",
+            "optionFeedback": [
+              "True would mean 10 is less than 3, but 10 is the bigger number.",
+              "A comparison prints True or False, not one of the numbers being compared.",
+              "Right: 10 is not less than 3, so the comparison is False.",
+              "Comparing two numbers with < is valid code, so there is no error."
+            ]
+          },
+          {
+            "id": "l2s1q4",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "print(7 >= 7)\nprint(3 != 3)\nprint(\"cat\" == \"Cat\")",
+            "answer": "True\nFalse\nFalse",
+            "explanation": "7 >= 7 is True because 7 equals 7. 3 != 3 is False. \"cat\" and \"Cat\" differ because capital letters count.",
+            "hint": "Check each comparison on its own, and remember that capital letters make text different."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l2s2",
+      "code": "2.2",
+      "title": "if and else",
+      "summary": "Run code only when a condition is True.",
+      "estimatedMinutes": 5,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "The if statement",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "age = 20\nif age >= 18:\n    print(\"You can vote\")",
+                "output": "You can vote",
+                "explanation": [
+                  "The condition age >= 18 is True.",
+                  "So the indented line underneath runs.",
+                  "Notice the colon : at the end of the if line."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Indentation matters",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "Python uses indentation (4 spaces) to know which lines belong to the if."
+              },
+              {
+                "type": "tip",
+                "title": "Watch out",
+                "text": "Forgetting the colon or the indentation is the most common beginner error."
+              }
+            ]
+          },
+          {
+            "title": "Adding else",
+            "blocks": [
+              {
+                "type": "code",
+                "code": "temp = 15\nif temp > 25:\n    print(\"It's hot\")\nelse:\n    print(\"It's cool\")",
+                "output": "It's cool",
+                "explanation": [
+                  "15 > 25 is False, so the if block is skipped.",
+                  "The else block runs instead."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l2s2q1",
+            "prompt": "What must end an if line?",
+            "options": [
+              "A colon :",
+              "A semicolon ;",
+              "A period .",
+              "Nothing"
+            ],
+            "correctIndex": 0,
+            "explanation": "Every if line, and every else line, ends with a colon :. Leaving it out is an error, and Python does not use ; or . here.",
+            "hint": "Look at the very end of the if age >= 18 line in the first example.",
+            "optionFeedback": [
+              "Right: an if line always ends with a colon, and the indented lines follow.",
+              "Python does not end if lines with a semicolon; that habit comes from other languages.",
+              "A full stop at the end of an if line is an error; Python expects a different symbol.",
+              "Leaving the end empty causes an error; the lesson warns this is the most common mistake."
+            ]
+          },
+          {
+            "id": "l2s2q2",
+            "prompt": "What is printed?",
+            "options": [
+              "Big",
+              "Small",
+              "Big and Small",
+              "Nothing"
+            ],
+            "correctIndex": 1,
+            "explanation": "3 > 10 is False, so the else branch runs.",
+            "code": "n = 3\nif n > 10:\n    print(\"Big\")\nelse:\n    print(\"Small\")",
+            "hint": "Work out whether 3 > 10 is True or False first.",
+            "optionFeedback": [
+              "Big prints only when n > 10 is True, but 3 is not greater than 10.",
+              "Right: 3 > 10 is False, so the else branch runs.",
+              "With if and else, exactly one of the two branches runs, never both.",
+              "When the if condition is False, the else branch runs, so something is always printed here."
+            ]
+          },
+          {
+            "id": "l2s2q3",
+            "prompt": "How does Python know which lines belong to an if?",
+            "options": [
+              "Curly braces { }",
+              "The word end",
+              "Indentation",
+              "Line numbers"
+            ],
+            "correctIndex": 2,
+            "explanation": "Python groups the lines of an if by indentation, usually 4 spaces. It does not use curly braces, an end word or line numbers for this.",
+            "hint": "Look at how the print line sits further to the right than the if line.",
+            "optionFeedback": [
+              "Curly braces are used in some other languages, but Python does not use them for this.",
+              "Python has no end word to close an if; it uses something you can see at the start of each line.",
+              "Right: lines indented under the if (usually 4 spaces) belong to it.",
+              "Line numbers only help you find lines; they don't group code."
+            ]
+          },
+          {
+            "id": "l2s2q4",
+            "type": "fill",
+            "prompt": "Fill the blanks so the program prints \"It's hot\".",
+            "code": "temp = 30\nif temp {{1}} 25:\n    print(\"It's hot\")\n{{2}}:\n    print(\"It's cool\")",
+            "blanks": [
+              ">",
+              "else"
+            ],
+            "distractors": [
+              "<",
+              "elif"
+            ],
+            "output": "It's hot",
+            "explanation": "30 > 25 is True, so the if block runs. else needs no condition; elif would need one.",
+            "hint": "Think about which comparison is true for 30 and which keyword needs no condition."
+          },
+          {
+            "id": "l2s2q5",
+            "type": "order",
+            "prompt": "Put the lines in order so the program prints \"Not yet\".",
+            "lines": [
+              "age = 16",
+              "if age >= 18:",
+              "    print(\"Adult\")",
+              "else:",
+              "    print(\"Not yet\")"
+            ],
+            "output": "Not yet",
+            "explanation": "age must be set before the if checks it. 16 >= 18 is False, so the indented line under else runs.",
+            "hint": "The variable comes first, then the condition, with each indented line under the part it belongs to."
+          }
+        ],
+        "passPercent": 60
+      }
+    },
+    {
+      "id": "l2s3",
+      "code": "2.3",
+      "title": "elif",
+      "summary": "Check several conditions in order.",
+      "estimatedMinutes": 5,
+      "steps": [
+        "learn",
+        "quiz"
+      ],
+      "lesson": {
+        "pages": [
+          {
+            "title": "More than two choices",
+            "blocks": [
+              {
+                "type": "text",
+                "text": "elif (short for else if) lets you test another condition when the first one is False."
+              },
+              {
+                "type": "code",
+                "code": "marks = 72\nif marks >= 90:\n    print(\"Grade A\")\nelif marks >= 60:\n    print(\"Grade B\")\nelse:\n    print(\"Keep practising\")",
+                "output": "Grade B",
+                "explanation": [
+                  "72 >= 90 is False, so Python moves on.",
+                  "72 >= 60 is True — Grade B is printed.",
+                  "Once a branch runs, the rest are skipped."
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Order matters",
+            "blocks": [
+              {
+                "type": "keypoint",
+                "text": "Python checks conditions from top to bottom and runs only the first one that is True."
+              },
+              {
+                "type": "tip",
+                "title": "Tip",
+                "text": "Put the most specific condition first."
+              }
+            ]
+          }
+        ]
+      },
+      "quiz": {
+        "questions": [
+          {
+            "id": "l2s3q1",
+            "prompt": "What does elif mean?",
+            "options": [
+              "else if",
+              "end if",
+              "exit if",
+              "either if"
+            ],
+            "correctIndex": 0,
+            "explanation": "elif is short for else if: when the condition above is False, Python tries this one. It does not end or exit the if.",
+            "hint": "Recall the start of the lesson, where elif is explained as a short form.",
+            "optionFeedback": [
+              "Right: elif is short for else if, so it is tried only when the conditions above are False.",
+              "elif does not end anything; the chain ends where the indented lines stop.",
+              "elif doesn't leave the program; it tests another condition.",
+              "There is no \"either if\" in Python; elif joins the words else and if."
+            ]
+          },
+          {
+            "id": "l2s3q2",
+            "prompt": "What is printed?",
+            "options": [
+              "High",
+              "Medium",
+              "Low",
+              "High and Medium"
+            ],
+            "correctIndex": 1,
+            "explanation": "50 > 80 is False; 50 > 30 is True, so Medium prints and the rest are skipped.",
+            "code": "x = 50\nif x > 80:\n    print(\"High\")\nelif x > 30:\n    print(\"Medium\")\nelse:\n    print(\"Low\")",
+            "hint": "Check the conditions one at a time from the top, stopping at the first True one.",
+            "optionFeedback": [
+              "High needs x > 80, and 50 is not greater than 80.",
+              "Right: 50 > 80 is False but 50 > 30 is True, so Medium prints.",
+              "else only runs when every condition above is False, but 50 > 30 is True.",
+              "Only the first True branch runs, so you never see two messages from one chain."
+            ]
+          },
+          {
+            "id": "l2s3q3",
+            "prompt": "In one if / elif / else chain, how many of the branches run?",
+            "options": [
+              "Every branch that is True",
+              "Two",
+              "Exactly one",
+              "None of them"
+            ],
+            "correctIndex": 2,
+            "explanation": "Python checks the conditions from top to bottom and runs only the first branch that is True, or the else if none are. Later branches are skipped even if their condition is also True.",
+            "hint": "Remember the key point about how Python checks the conditions from top to bottom.",
+            "optionFeedback": [
+              "Python stops at the first True branch, so later True conditions are skipped.",
+              "Two branches never run together; once one runs, the rest of the chain is skipped.",
+              "Right: Python runs the first True branch, or the else if none are True.",
+              "With an else at the end, one branch always runs, even when every condition is False."
+            ]
+          },
+          {
+            "id": "l2s3q4",
+            "type": "predict",
+            "prompt": "What does this program print?",
+            "code": "marks = 65\nif marks >= 90:\n    print(\"A\")\nelif marks >= 60:\n    print(\"B\")\nelse:\n    print(\"C\")\nprint(\"done\")",
+            "answer": "B\ndone",
+            "explanation": "65 >= 90 is False, 65 >= 60 is True, so only the elif block runs. The last line is not indented, so it always runs.",
+            "hint": "Python checks the conditions from the top and runs only the first one that is true."
+          },
+          {
+            "id": "l2s3q5",
+            "type": "fill",
+            "prompt": "Fill the blanks so this grade checker prints only \"A\" for 95 marks.",
+            "code": "marks = 95\nif marks >= 90:\n    print(\"A\")\n{{1}} marks >= 60:\n    print(\"B\")\n{{2}}:\n    print(\"C\")",
+            "blanks": [
+              "elif",
+              "else"
+            ],
+            "distractors": [
+              "if"
+            ],
+            "output": "A",
+            "explanation": "elif and else belong to the same chain as the first if, so only one block runs. A second if would start a new check and also print B.",
+            "hint": "Only one block of a single chain runs, and a fresh check would run separately."
+          }
+        ],
+        "passPercent": 60
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "l2p1",
+      "code": "2.P",
+      "title": "Movie Ticket Pricer",
+      "summary": "Work out a cinema ticket price from age and day using if, elif and else.",
+      "estimatedMinutes": 10,
+      "type": "project",
+      "steps": [
+        "project"
+      ],
+      "briefing": {
+        "title": "Build a Movie Ticket Pricer",
+        "text": [
+          "A cinema charges different prices for children, students, adults and seniors, with Rs 50 off on Tuesdays. Your program works out the price.",
+          "Pick the right line at each stage and watch the program grow."
+        ],
+        "why": [
+          "Shops, buses and apps all use rules like these to set prices",
+          "It practises comparisons and choosing between several options with elif"
+        ],
+        "concepts": [
+          {
+            "subLevelId": "l1s4",
+            "label": "Input"
+          },
+          {
+            "subLevelId": "l2s1",
+            "label": "Comparisons"
+          },
+          {
+            "subLevelId": "l2s2",
+            "label": "if and else"
+          },
+          {
+            "subLevelId": "l2s3",
+            "label": "elif"
+          }
+        ],
+        "sampleOutput": "=== Movie Tickets ===\nYour age: 15\nDay (e.g. Tue): Tue\nTicket price: Rs 70\nEnjoy the movie!",
+        "usesInput": true,
+        "fileName": "ticket_pricer.py",
+        "sampleInputs": [
+          "15",
+          "Tue"
+        ]
+      },
+      "finalCode": [
+        "# Movie Ticket Pricer",
+        "print(\"=== Movie Tickets ===\")",
+        "age = int(input(\"Your age: \"))",
+        "day = input(\"Day (e.g. Tue): \")",
+        "if age < 5:",
+        "    price = 0",
+        "elif age < 18:",
+        "    price = 120",
+        "elif age >= 60:",
+        "    price = 100",
+        "else:",
+        "    price = 200",
+        "if day == \"Tue\":",
+        "    price = price - 50",
+        "if price < 0:",
+        "    price = 0",
+        "print(f\"Ticket price: Rs {price}\")",
+        "if price == 0:",
+        "    print(\"Enjoy the movie for free!\")",
+        "else:",
+        "    print(\"Enjoy the movie!\")"
+      ],
+      "stages": [
+        {
+          "id": "l2p1st1",
+          "title": "Ask for the age",
+          "instruction": "Print a title, then ask for the user's age. We'll compare it with numbers, so it must be a number.",
+          "revealsLines": [
+            1,
+            2,
+            3
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l2p1st1q",
+            "prompt": "Which line reads the age as a number?",
+            "options": [
+              "age = input(\"Your age: \")",
+              "age = int(input(\"Your age: \"))",
+              "age = int(\"Your age: \")",
+              "int(age) = input(\"Your age: \")"
+            ],
+            "correctIndex": 1,
+            "explanation": "int() turns the typed text into a whole number, so age < 5 works (1.4)."
+          },
+          "optionFeedback": [
+            "age would be text, and comparing text with 5 is a TypeError.",
+            "int() turns the typed text into a whole number, so age < 5 works (1.4).",
+            "This tries to turn the question into a number: a ValueError.",
+            "You can't assign to int(age). This is a SyntaxError."
+          ]
+        },
+        {
+          "id": "l2p1st2",
+          "title": "Ask for the day",
+          "instruction": "Ask which day it is. Days are words like Tue, so keep the answer as text.",
+          "revealsLines": [
+            4
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l2p1st2q",
+            "prompt": "Which line reads the day?",
+            "options": [
+              "day = int(input(\"Day (e.g. Tue): \"))",
+              "day == input(\"Day (e.g. Tue): \")",
+              "day = input(\"Day (e.g. Tue): \")",
+              "input(\"Day (e.g. Tue): \") = day"
+            ],
+            "correctIndex": 2,
+            "explanation": "Words stay as text, so plain input() is right (1.4)."
+          },
+          "optionFeedback": [
+            "int() can't turn Tue into a number. This is a ValueError.",
+            "== compares instead of storing. day doesn't exist yet: a NameError.",
+            "Words stay as text, so plain input() is right (1.4).",
+            "The variable must be on the left of =. This is a SyntaxError."
+          ]
+        },
+        {
+          "id": "l2p1st3",
+          "title": "Free for small children",
+          "instruction": "Children under 5 go free. Start the price rules with this check.",
+          "revealsLines": [
+            5,
+            6
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l2p1st3q",
+            "prompt": "Which line starts the check for small children?",
+            "options": [
+              "if age < 5",
+              "if age = 5:",
+              "if age <= 5:",
+              "if age < 5:"
+            ],
+            "correctIndex": 3,
+            "explanation": "if, a comparison, then a colon. The indented line below runs only when it's True (2.2)."
+          },
+          "optionFeedback": [
+            "The colon at the end is missing. This is a SyntaxError.",
+            "= stores a value; comparisons use ==. This is a SyntaxError.",
+            "<= 5 would let 5-year-olds in free too. The rule is under 5.",
+            "if, a comparison, then a colon. The indented line below runs only when it's True (2.2)."
+          ]
+        },
+        {
+          "id": "l2p1st4",
+          "title": "More age groups",
+          "instruction": "Under 18 pays Rs 120 and 60 or over pays Rs 100. These checks should only happen if the earlier ones were False.",
+          "revealsLines": [
+            7,
+            8,
+            9,
+            10
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l2p1st4q",
+            "prompt": "Which line checks the next age group?",
+            "options": [
+              "elif age < 18:",
+              "if age < 18:",
+              "else age < 18:",
+              "elif age < 18"
+            ],
+            "correctIndex": 0,
+            "explanation": "elif is checked only when everything above it was False, so a 3-year-old stays free (2.3)."
+          },
+          "optionFeedback": [
+            "elif is checked only when everything above it was False, so a 3-year-old stays free (2.3).",
+            "A new if is checked again: a 3-year-old would be set to 120 after getting 0.",
+            "else never takes a condition. This is a SyntaxError.",
+            "The colon is missing. This is a SyntaxError."
+          ]
+        },
+        {
+          "id": "l2p1st5",
+          "title": "Everyone else",
+          "instruction": "Anyone who didn't match a rule above is an adult and pays Rs 200.",
+          "revealsLines": [
+            11,
+            12
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l2p1st5q",
+            "prompt": "Which line catches everyone else?",
+            "options": [
+              "else",
+              "else:",
+              "elif:",
+              "else age >= 18:"
+            ],
+            "correctIndex": 1,
+            "explanation": "else needs no condition: it runs when every check above was False (2.2)."
+          },
+          "optionFeedback": [
+            "The colon is missing. This is a SyntaxError.",
+            "else needs no condition: it runs when every check above was False (2.2).",
+            "elif must have a condition. This is a SyntaxError.",
+            "else never takes a condition. This is a SyntaxError."
+          ]
+        },
+        {
+          "id": "l2p1st6",
+          "title": "Tuesday discount",
+          "instruction": "On Tuesdays every ticket is Rs 50 cheaper, but a price can never go below 0.",
+          "revealsLines": [
+            13,
+            14,
+            15,
+            16
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l2p1st6q",
+            "prompt": "Which line gives the Tuesday discount?",
+            "options": [
+              "    price = price - 50",
+              "    price - 50",
+              "    price = 50",
+              "    price == price - 50"
+            ],
+            "correctIndex": 0,
+            "explanation": "Work out price - 50 and store it back in price (1.2). The next check stops it going below 0."
+          },
+          "optionFeedback": [
+            "Work out price - 50 and store it back in price (1.2). The next check stops it going below 0.",
+            "This works out the answer but throws it away. The price doesn't change.",
+            "This sets every Tuesday ticket to Rs 50 instead of taking 50 off.",
+            "== only compares. The price doesn't change."
+          ]
+        },
+        {
+          "id": "l2p1st7",
+          "title": "Show the price",
+          "instruction": "Print the price, then a special message when the ticket is free.",
+          "revealsLines": [
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "optionsAreCode": true,
+          "question": {
+            "id": "l2p1st7q",
+            "prompt": "Which line checks for a free ticket?",
+            "options": [
+              "if price = 0:",
+              "if price == \"0\":",
+              "if price == 0:",
+              "if price < 0:"
+            ],
+            "correctIndex": 2,
+            "explanation": "== checks whether two values are equal (2.1)."
+          },
+          "optionFeedback": [
+            "= stores; it can't be used in a condition. This is a SyntaxError.",
+            "price is the number 0, not the text \"0\", so this is never True.",
+            "== checks whether two values are equal (2.1).",
+            "The line above already stops the price going below 0, so this is never True."
+          ]
+        }
+      ],
+      "walkthrough": [
+        "int() turns the age into a number; the day stays as text.",
+        "if / elif / elif / else picks exactly one price. Order matters: the first True check wins.",
+        "On Tuesday, 50 is taken off. If that makes the price negative, it is set back to 0.",
+        "A 15-year-old pays 120, minus 50 on Tuesday: Rs 70."
+      ]
+    }
+  ],
+  "cheatSheet": {
+    "title": "Conditions",
+    "sections": [
+      {
+        "heading": "Comparisons",
+        "items": [
+          {
+            "code": "print(5 > 3, 5 == 3, 5 != 3)",
+            "note": "== equal, != not equal, <, >, <=, >=.",
+            "output": "True False True"
+          },
+          {
+            "code": "print(\"a\" == \"A\")",
+            "note": "Text comparisons are case-sensitive.",
+            "output": "False"
+          }
+        ]
+      },
+      {
+        "heading": "if and else",
+        "items": [
+          {
+            "code": "age = 20\nif age >= 18:\n    print(\"Adult\")\nelse:\n    print(\"Minor\")",
+            "note": "End with a colon and indent the lines that belong to it.",
+            "output": "Adult"
+          }
+        ]
+      },
+      {
+        "heading": "elif",
+        "items": [
+          {
+            "code": "marks = 72\nif marks >= 90:\n    print(\"A\")\nelif marks >= 60:\n    print(\"B\")\nelse:\n    print(\"C\")",
+            "note": "Checked from top to bottom; only the first True branch runs.",
+            "output": "B"
+          }
+        ]
+      }
+    ],
+    "remember": [
+      "= stores, == compares.",
+      "Every if, elif and else line ends with a colon.",
+      "Put the most specific check first."
+    ]
+  }
+}

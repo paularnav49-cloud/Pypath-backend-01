@@ -1,0 +1,12 @@
+# PyPath — Supabase CLI settings used by `supabase functions deploy`.
+# Only the Edge Function settings are set here; everything else keeps the CLI defaults.
+project_id = "pypath"
+
+# Both functions check the caller themselves (Google ID token / the user's Supabase token).
+# The platform "Verify JWT" check must be OFF: with it ON, the Supabase gateway rejects user tokens
+# signed with the new JWT signing keys (and the publishable key) with HTTP 401 before the code runs.
+[functions.google-account-check]
+verify_jwt = false
+
+[functions.delete-account]
+verify_jwt = false
